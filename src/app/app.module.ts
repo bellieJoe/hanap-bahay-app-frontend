@@ -27,7 +27,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   entryComponents: [],
   imports: [
@@ -38,7 +38,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     ImageCropperModule,
     IonicStorageModule.forRoot(), 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-
   ],
   providers: [
     StatusBar,

@@ -25,10 +25,6 @@ export class ImgupldPage implements OnInit {
     private alertController: AlertController
   ) { }
 
-  ngOnInit() {
-    this.initCropper()
-  }
-
   @ViewChild("imageSelect" ) imageSelect : IonInput;
   @ViewChild("cropper") cropper : ImageCropperComponent;
 
@@ -211,6 +207,9 @@ export class ImgupldPage implements OnInit {
     this.part = "Living Room"
     this.chevron_icon = "chevron-down"
   }
-
+  
+  ngOnInit() {
+    this.initCropper()
+  }
 
 }

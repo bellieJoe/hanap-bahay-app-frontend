@@ -11,7 +11,7 @@
   <br>
   <!-- loaders -->
   <div class="wrapper" *ngIf="isLoading">
-    <center><ion-spinner name="dots" style="transform: scale(2)"></ion-spinner></center>
+    <ion-spinner name="dots" style="transform: scale(2)"></ion-spinner>
   </div>
 
   <div class="wrapper" *ngIf="!isLoading">
@@ -173,7 +173,7 @@
             </ion-text>
         </div>
         <div class="cons" *ngIf="!user_Profile.School_Address && !user_Profile.School_Name && !user_Profile.Highest_Education && !user_Profile.Work_Address && !user_Profile.Occupation">
-          <center>No work and school</center>
+          <h6 class="text-center">No work and school</h6>
         </div>
         <ion-button expand = 'block' #edit3  (click)="editProfile(2)" slot="end" color="primary" *ngIf="enabled">
           <ion-icon slot="start" name="create-outline"></ion-icon>
@@ -217,7 +217,7 @@
         </div>
         <div class="cons" *ngIf="!user_Profile.Address && !user_Profile.Relationship && !user_Profile.Contact_Number && !user_Profile.Guardian_Name">
           <ion-text >
-            <center>No parents or guardians provided</center>
+            <h6 class="text-center">No parents or guardians provided</h6>
           </ion-text>
         </div>
         <ion-button expand = 'block' #edit4  (click)="editProfile(3)" slot="end" color="primary" *ngIf="enabled">

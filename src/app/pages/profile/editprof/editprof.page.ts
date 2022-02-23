@@ -63,7 +63,7 @@ export class EditprofPage {
       Address : null,
     }
 
-    errors = {}
+    errors : any = {}
     constraints = {
       Firstname : {
         presence : {
