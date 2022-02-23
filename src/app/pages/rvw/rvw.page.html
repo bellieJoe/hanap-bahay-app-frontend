@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <div class="titles">
+      <ion-label color="primary" class="name">{{RRP_Name}}</ion-label>
+      <ion-label>Reviews</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item *ngFor="let i of RH_Ratings">
+      <div>
+        <ion-label class="uname" color="primary">user • <span>rated {{i.Rating_Value}} star/s</span></ion-label>
+        <ion-label class="ion-text-wrap contents">{{i.Review_Content}}</ion-label>
+        <ion-label class="date">{{i.Date_Rated | date:'longDate'}}</ion-label>
+      </div>
+    </ion-item>
+  </div>
+
+</ion-content>

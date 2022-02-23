@@ -1,0 +1,69 @@
+<ion-header class="ion-no-border" mode="md">
+  <ion-toolbar>
+    
+    <ion-item lines="none" details="none" mode="ios">
+      <ion-icon slot="start" name="image-outline"></ion-icon>
+      <ion-label>Upload</ion-label>
+    </ion-item>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="md">
+
+  <div class="wrapper" id="wrapper">
+
+    <ion-slides #slider class="swiper-no-swiping">
+      <ion-slide>
+        <ion-input type="file" #imageSelect accept="image/*" (ionInput) ="fileChangeEvent()" id="input" style="display: none;"></ion-input>
+        <ion-img src="../../../assets/image/image-background.svg" class="img-background"></ion-img>
+        <ion-button  expand="block" class="image-select" color="tertiary" (click)="pickImage()">
+          Select Image
+          <ion-icon slot="start" name="image-outline"></ion-icon>
+        </ion-button>
+
+        <ion-button  expand="block" fill="clear" shape="round" color="medium" class="back" (click)="nextSwipe()" *ngIf="assigned">
+          next
+          <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-slide>
+
+      <ion-slide>
+
+        <img-cropper [image]="data" [settings]="cropperSettings" #cropper></img-cropper>
+        <ion-button  expand="block" fill="clear" shape="round" color="medium" class="back" (click)="backSwipe()">
+          back
+          <ion-icon slot="start" name="chevron-back"></ion-icon>
+        </ion-button>
+        <ion-button  expand="block" color="tertiary" class="apply-crop" (click)="nextSwipe()">
+          View cropped image
+          <ion-icon slot="start" name="crop"></ion-icon>
+        </ion-button>
+
+      </ion-slide>
+          
+      <ion-slide>
+        <div class="img-con">
+          <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight" />
+        </div>
+        <ion-button  expand="block" fill="clear" shape="round" color="medium" class="back" (click)="backSwipe()">
+          back
+          <ion-icon slot="start" name="chevron-back"></ion-icon>
+        </ion-button>
+        <ion-button  expand="block" color="tertiary" class="apply-crop" (click)="upload()">
+          Upload
+        <ion-icon slot="start" name="cloud-upload"></ion-icon>
+        </ion-button>
+      </ion-slide>
+      
+    </ion-slides>
+
+  </div>
+
+  <!-- <input type="file" #newfile (change)="loadfile(newfile)">
+  <img [src]="imgsrc" > -->
+
+</ion-content>

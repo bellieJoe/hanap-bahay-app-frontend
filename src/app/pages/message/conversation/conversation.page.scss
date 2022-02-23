@@ -1,0 +1,109 @@
+
+
+
+ion-content{
+    --background: rgb(243, 243, 243);
+   .wrapper{
+       margin: auto;
+       max-width: 700px;
+       width: 100%;
+       height: calc(100vh - 56px);
+       background-color: white;
+
+       .item-send{
+           position: fixed;
+           bottom: 0px;
+           width: inherit;
+           max-width: 700px;
+           ion-textarea{
+            white-space: pre-wrap;
+           }
+           ion-icon{
+               cursor: pointer;
+               &:hover{
+                   opacity: 50%;
+                   transition: .4s;
+               }
+           }
+       }
+       .conv-view{
+            overflow-y: scroll;
+           height: calc(100vh - 104px);
+           scroll-behavior: smooth;
+           padding-bottom: 4em;
+            .you{
+                width: 100%;
+                padding-right: .5em;
+                padding-left: 50%;
+                div{
+                    height: fit-content;
+                    // background-color: green;
+                    margin-top: .3em;
+                    margin-bottom: .3em;
+                    align-content: center;
+                    text-align: left;
+                    display: flex;
+                    justify-content: flex-end;
+                    .mess-con{
+                        white-space: pre-wrap;
+                    }
+                    ion-label{
+                        position: relative;
+                        padding: .5em;
+                        max-width: 100%;
+                        border-radius: 1em;
+                        background-color: rgb(34, 127, 214);
+                        color: white;
+                        font-weight: normal;
+                        span{
+                            opacity: 50%;
+                            font-size: 12px;
+                        }
+                    }
+                }
+                
+            }
+            // .him{
+            //     background-color: rgb(204, 202, 200);
+            //     padding: .5em;
+            //     border-radius: 1em;
+            //     max-width: 50%;
+            //     margin: 1em;
+            // }
+            .him{
+                width: 100%;
+                padding-left: .5em;
+                padding-right: 50%;
+                div{
+                    height: fit-content;
+                    // background-color: green;
+                    margin-top: .3em;
+                    margin-bottom: .3em;
+                    align-content: center;
+                    text-align: left;
+                    display: flex;
+                    justify-content: flex-start;
+                    .mess-con{
+                        white-space: pre-wrap;
+                    }
+                    ion-label{
+                        position: relative;
+                        padding: .5em;
+                        max-width: 100%;
+                        border-radius: 1em;
+                        background-color: rgb(146, 157, 167);
+                        color: white;
+                        font-weight: normal;
+                        
+                        span{
+                            opacity: 50%;
+                            font-size: 12px;
+                        }
+                    }
+                }
+                
+            }
+       }
+
+   }
+}

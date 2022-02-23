@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode = "ios">
+      <ion-label position='stacked' class="name-label" color="primary">{{BH_Name}}</ion-label>
+      <ion-input disabled>Rent Payment History</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+
+    <div class="payment_table">
+      <div class="list_header">
+        <h4>My Payment History</h4>
+      </div>
+
+      <label class="year-label">Select Year</label>
+        <select placeholder="0000" [(ngModel)]="selectedYear" class="year-select" (change)="filterYear()">
+          <option *ngFor="let i of years" (value)="i" class="year-option">{{i}}</option>
+        </select>
+
+      <div class="table_container" *ngIf="paymentRecords.length > 0">
+        <table>
+          <tr>
+            <th class="tenant_column">Month</th>
+            <th >Date Paid</th>
+            <th class="status">Status</th>
+            <th class="amount_paid">Amount Paid</th>
+          </tr>
+          <tr *ngFor="let i of paymentRecords">
+            <td>{{i.Date_Paid | date:"MMMM"}}</td>
+            <td class="due_date_column">
+              <label for="">{{i.Date_Paid | date:"longDate"}}</label> 
+            </td>
+            <td>{{i.Status}}</td>
+            <td>Php {{i.Amount_Paid}}</td>
+          </tr>
+        </table>
+
+        
+      </div>
+      <h6 *ngIf="paymentRecords.length < 1" class="no-records"> No Records to show this {{selectedYear}}</h6>
+      <div class="summary" *ngIf="paymentRecords.length > 0">
+        <label>Total Amount Paid in {{selectedYear}}:</label>
+        <h4> Php {{totalPayment}}</h4> 
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>

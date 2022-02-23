@@ -1,0 +1,199 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title *ngIf="toEdit == 0">Personal Information</ion-title>
+    <ion-title *ngIf="toEdit == 1">Contact Information</ion-title>
+    <ion-title *ngIf="toEdit == 2">Work & Education Information</ion-title>
+    <ion-title *ngIf="toEdit == 3">Guardians Information</ion-title>
+    <ion-button slot="end" fill="clear" shape="round" (click)="close()">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- personal information -->
+  <ion-list *ngIf="toEdit == 0">
+    <form action="/" method="POST">
+      <div class="mb-2" >
+        <ion-item>
+          <ion-label position="stacked">Firstname :</ion-label>
+          <ion-input placeholder="eg. Juan" required type = "text"   [(ngModel)]="user_details_inputs.Firstname" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="errors.Firstname">
+          <h6 class="input-error">{{ errors.Firstname }}</h6>
+        </ion-text>
+      </div>
+
+      <div class="mb-2">
+        <ion-item>
+          <ion-label position="stacked" >Middlename :</ion-label>
+          <ion-input placeholder="eg. Magistrado" required type = "text"  [(ngModel)]="user_details_inputs.Middlename" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="errors.Middlename">
+          <h6 class="input-error">{{ errors.Middlename }}</h6>
+        </ion-text>
+      </div>
+
+      <div class="mb-2">
+        <ion-item>
+          <ion-label position="stacked" >Lastname :</ion-label>
+          <ion-input placeholder="eg. Dela Cruz" required type = "text"  [(ngModel)]="user_details_inputs.Lastname" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="errors.Lastname">
+          <h6 class="input-error">{{ errors.Lastname }}</h6>
+        </ion-text>
+      </div>
+
+      <div class="mb-2">
+        <ion-item>
+          <ion-label position="stacked" >Birthdate :</ion-label>
+          <ion-input required type = "date"  [(ngModel)]="user_details_inputs.Birthdate" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="errors.Birthdate">
+          <h6 class="input-error">{{ errors.Birthdate }}</h6>
+        </ion-text>
+      </div>
+      <div class="mb-2">
+        <ion-item>
+          <ion-label position="stacked" >Address :</ion-label>
+          <ion-input placeholder="eg. Mercado, Boac, Marinduqu" required type = "text"  [(ngModel)]="user_details_inputs.Address" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="errors.Address">
+          <h6 class="input-error">{{ errors.Address }}</h6>
+        </ion-text>
+      </div>
+      <ion-button expand="block" (click)="update(0)">
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Update
+      </ion-button>
+    </form>
+  </ion-list>
+
+  <!-- contact information -->
+  <ion-list *ngIf="toEdit == 1">
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Contact Number :</ion-label>
+        <ion-input placeholder=" eg. 9878564799" type = "tel"  [(ngModel)]="user_details_inputs.Contact_Number" [ngModelOptions]="{standalone: true}" maxlength = "10">+63</ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Contact_Number">
+        <h6 class="input-error">{{ errors.Contact_Number }}</h6>
+      </ion-text>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked" >Email Address :</ion-label>
+      <ion-input type = "text"  [(ngModel)]="user_details_inputs.Email" [ngModelOptions]="{standalone: true}" disabled></ion-input>
+    </ion-item><br>
+    <ion-button expand="block" (click)="update(1)">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Update
+    </ion-button>
+  </ion-list>
+
+  <!-- Work and Education -->
+  <ion-list *ngIf="toEdit == 2">
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Occupation :</ion-label>
+        <ion-input placeholder=" eg. Web Programmer" required spellcheck="true" type = "text"  [(ngModel)]="user_profile_inputs.Occupation" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Occupation">
+        <h6 class="input-error">{{ errors.Occupation }}</h6>
+      </ion-text>
+    </div>
+    
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Work Address :</ion-label>
+        <ion-input placeholder=" eg. Tanza, Boac, Marinduque" required type = "text" [(ngModel)]="user_profile_inputs.Work_Address" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Work_Address">
+        <h6 class="input-error">{{ errors.Work_Address }}</h6>
+      </ion-text>
+    </div>
+    
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Highest Education Achieve :</ion-label>
+        <ion-input placeholder=" eg. College Education" required type = "text"  [(ngModel)]="user_profile_inputs.Highest_Education" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Highest_Education">
+        <h6 class="input-error">{{ errors.Highest_Education }}</h6>
+      </ion-text>
+    </div>
+
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >School Name :</ion-label>
+        <ion-input placeholder=" eg. Marinduque State College" required type = "text"  [(ngModel)]="user_profile_inputs.School_Name" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.School_Name">
+        <h6 class="input-error">{{ errors.School_Name }}</h6>
+      </ion-text>
+    </div>
+
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >School Address :</ion-label>
+        <ion-input placeholder=" eg. Tanza, Boac, Marinduque" required type = "text"  [(ngModel)]="user_profile_inputs.School_Address" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.School_Address">
+        <h6 class="input-error">{{ errors.School_Address }}</h6>
+      </ion-text>
+    </div>
+
+    <ion-button expand="block" (click)="update(2)">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Update
+    </ion-button>
+  </ion-list>
+
+  <!-- parent/guardian -->
+  <ion-list *ngIf="toEdit == 3">
+    <br><br>
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Guardian Name :</ion-label>
+        <ion-input placeholder="eg. Juan Dela Cruz" requried type = "text"  [(ngModel)]="user_profile_inputs.Guardian_Name" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Guardian_Name">
+        <h6 class="input-error">{{ errors.Guardian_Name }}</h6>
+      </ion-text>
+    </div>
+
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Contact Number :</ion-label>
+        <ion-input placeholder=" eg. 9456789965" required type = "tel"  [(ngModel)]="user_profile_inputs.Contact_Number" [ngModelOptions]="{standalone: true}">+63</ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Contact_Number">
+        <h6 class="input-error">{{ errors.Contact_Number }}</h6>
+      </ion-text>
+    </div>
+    
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Relationship :</ion-label>
+        <ion-input placeholder="eg. Father" required type = "text"  [(ngModel)]="user_profile_inputs.Relationship" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Relationship">
+        <h6 class="input-error">{{ errors.Relationship }}</h6>
+      </ion-text>
+    </div>
+
+    <div class="mb-4">
+      <ion-item>
+        <ion-label position="stacked" >Address :</ion-label>
+        <ion-input placeholder="eg. Mercado, Boac, Marinduque" required type = "text"  [(ngModel)]="user_profile_inputs.Address" [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="errors.Address">
+        <h6 class="input-error">{{ errors.Address }}</h6>
+      </ion-text>
+    </div>
+    <ion-button expand="block" (click)="update(3)">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Update
+    </ion-button>
+  </ion-list>
+</ion-content>

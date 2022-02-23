@@ -1,0 +1,33 @@
+ion-header{
+    ion-toolbar{
+        max-width: 1350px;
+        margin: auto;
+    }
+}
+
+ion-content{
+    .wrapper{
+        max-width: 600px;
+        margin: auto;
+        ion-card{
+            ion-card-header{
+                ion-card-title{
+                    font-weight: bold;
+                    text-align: center;
+                }
+            }
+            h5{
+                text-align: center;
+                margin: 2em auto 1em auto;
+            }
+            ion-button{
+                width: 200px;
+                margin: 1em auto;
+            }
+            ion-item{
+                width: 90%;
+                margin: auto;
+            }
+        }
+    }
+}

@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="end" (click)="createAnnouncement()" class="add_announcement">
+      <ion-icon slot="start" name="megaphone"></ion-icon>
+      Create Announcement
+    </ion-button>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="md">
+      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Announcements</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header >
+  <ion-toolbar mode="md">
+    <ion-segment value = "{{segmentValue}}" id="segment" mode="md">
+      <ion-segment-button value="all" (click)="filter('all')">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="important" (click)="filter('important')">
+        <ion-label>Important</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Normal" (click)="filter('normal')">
+        <ion-label>Normal</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <h6 *ngIf="announcement_count == 0" class="no-ann">You havent created any announcement yet. Make sure to create an announcement so your Tenants are always updated.</h6>
+    <ng-container *ngFor="let i of announceDets">
+      <ion-card  *ngIf="segmentValue == i.Announcement_Tag || segmentValue == 'all'"> 
+        <ion-card-header>
+          <h5 class = "aTitle">{{i.Annoucement_Title}}</h5>
+          <ion-label color="tertiary">{{i.Announcement_Tag}} </ion-label>
+          <ion-label>• {{i.Date_Created | date:"longDate"}} {{i.Date_Time | date:"h:mm a"}}</ion-label>
+        </ion-card-header>
+        <ion-card-content>
+          
+          <h5 class="aContent" [innerHtml]="">{{i.Announcement_Content}}</h5>
+
+        </ion-card-content>
+        <ion-button (click)="deleteAnnouncement(i.Announcement_ID)" color="danger">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Delete
+        </ion-button>
+      </ion-card>
+    </ng-container>  
+  
+  </div>
+    
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createAnnouncement()">
+      <ion-icon name="megaphone-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+

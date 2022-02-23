@@ -1,0 +1,51 @@
+
+ion-header{
+    ion-toolbar{
+        .name-label{
+            opacity: 100%;
+        }
+    }
+}
+ion-content{
+    --background: rgb(243, 243, 243);
+    .wrapper{
+        max-width: 900px;
+        margin: auto;
+        .complain_form{
+            background-color: white;
+            border-radius: 1em;
+            border: 1px solid lightgrey;
+            width: 90%;
+            margin: 2em auto;
+            &:hover{
+                box-shadow: 0em 0em 10px lightgrey;
+            }
+            .form_header{
+                background-color:  rgb(209, 123, 12);
+                border-top-left-radius: 1em;
+                border-top-right-radius: 1em;
+                padding: .5em 1em;
+                color: white;
+                h4{
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    font-weight: bold;
+                }
+            }
+            .el1, .el2, .el3{
+                width: 90%;
+                margin: 2em auto;
+                span{
+                    color:  rgb(209, 123, 12);
+                }
+            }
+            .el3{
+                width: 100px;
+                --background: #0078EE;
+                &:hover{
+                    --background: grey;
+                }
+            }
+        }
+    }
+    
+}

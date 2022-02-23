@@ -1,0 +1,18 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>resexp</ion-title> -->
+    <ion-button (click)="dismiss()" expand="block" fill="clear" color="danger" slot="end">
+      Cancel
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <h6>This will set all your reservations to expire within your desired number of days if not approved or entertained.</h6>
+    <ion-item>
+      <ion-label position="floating">Enter your preferred number of days</ion-label>
+      <ion-input type="number" placeholder="eg 5"></ion-input>
+    </ion-item>
+  </div>
+</ion-content>

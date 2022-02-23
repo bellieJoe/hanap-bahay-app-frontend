@@ -1,0 +1,151 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="md">
+      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Inquiries</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header >
+  <ion-toolbar mode="ios">
+    <ion-segment  id="segment" mode="md" [(ngModel)]="segmentValue" scrollable="true">
+      <ion-segment-button value="all" (click)="filter('all')">
+        <ion-label>
+          All
+        <ion-badge color="primary" mode="ios" class="badge" *ngIf="badge_values.all > 0">{{badge_values.all}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pending" (click)="filter('pending')">
+        <ion-label>
+          Pending 
+        <ion-badge color="primary" mode="ios"  color="secondary" *ngIf="badge_values.pending > 0">{{badge_values.pending}}</ion-badge>
+
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="approved" (click)="filter('approved')">
+        <ion-label>
+          Approved 
+        <ion-badge color="primary" mode="ios"  color="success" *ngIf="badge_values.approved > 0">{{badge_values.approved}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="declined" (click)="filter('declined')">
+        <ion-label>
+          Declined 
+        <ion-badge color="primary" mode="ios"  color="danger" *ngIf="badge_values.declined > 0">{{badge_values.declined}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="canceled" (click)="filter('canceled')">
+        <ion-label>
+          Canceled 
+        <ion-badge color="primary" mode="ios"  color="warning" *ngIf="badge_values.canceled > 0">{{badge_values.canceled}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ng-container *ngFor="let i of Reservations">
+      <div class="reserve_card"  *ngIf="segmentValue == 'all' || segmentValue == i.Status">
+        <ion-list>
+  
+          <ion-item lines='none'>
+            <ion-icon slot="start" name="person"></ion-icon>
+            <div>
+              <ion-label class="label" color="primary">Reservation by</ion-label>
+              <ion-label class="con">{{i.name}}</ion-label>
+            </div>
+          </ion-item>
+  
+          <ion-item lines='none'>
+            <ion-icon slot="start" name="call"></ion-icon>
+            <div>
+              <ion-label class="label" color="primary">Contact Number</ion-label>
+              <ion-label class="con">{{i.Contact_Number}}</ion-label>
+            </div>
+          </ion-item>
+  
+          <ion-item lines='none'>
+            <ion-icon slot="start" name="calendar"></ion-icon>
+            <div>
+              <ion-label class="label" color="primary">Date reserved</ion-label>
+              <ion-label class="con">{{i.Date_Reserve | date:"longDate"}}</ion-label>
+            </div>
+          </ion-item>
+  
+          <ion-item lines='none'>
+            <ion-icon slot="start" name="bed"></ion-icon>
+            <div>
+              <ion-label class="label" color="primary">Requested Capacity</ion-label>
+              <ion-label class="con">{{i.Reservation}}</ion-label>
+            </div>
+          </ion-item>
+
+          <ng-container *ngIf="i.Status == 'approved' && i.Date_Scheduled">
+            <ion-item-divider mode="md" (click)="reveal()">
+              <ion-icon slot="end" [name]="reveal_icon"></ion-icon>
+              <ion-label>Meeting Details</ion-label>
+            </ion-item-divider>
+            <ion-item lines='none' *ngIf="reveal_icon == 'chevron-up'">
+              <ion-icon slot="start" name="calendar"></ion-icon>
+              <div>
+                <ion-label class="label" color="primary">Meeting Date</ion-label>
+                <ion-label class="con">{{i.Date_Scheduled | date:'longDate'}}</ion-label>
+              </div>
+            </ion-item>
+            <ion-item lines='none' *ngIf="reveal_icon == 'chevron-up'">
+              <ion-icon slot="start" name="time"></ion-icon>
+              <div>
+                <ion-label class="label" color="primary">Meeting Time</ion-label>
+                <ion-label class="con">{{i.Date_Scheduled | date:'hh:mm a'}}</ion-label>
+              </div>
+            </ion-item>
+            <ion-item lines='none' *ngIf="reveal_icon == 'chevron-up'">
+              <ion-icon slot="start" name="document-text"></ion-icon>
+              <div>
+                <ion-label class="label" color="primary">Notes Attached</ion-label>
+                <ion-label class="con ion-text-wrap">{{i.Confirmation_Note}}</ion-label>
+              </div>
+            </ion-item>
+          </ng-container>
+  
+          <h1 class="declined" *ngIf="i.Status == 'declined'">You have declined this reservation</h1>
+  
+          <ion-button  expand='block' (click)="showEditForm(i.Reservation_ID)" class ="c" *ngIf="i.Status == 'approved'" color="tertiary">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Edit meeting details
+          </ion-button>
+          <!-- <br> -->
+          <div class="buttones" *ngIf="i.Status == 'pending'">
+            <ion-button  expand='block' class="a"(click)="decline(i.Reservation_ID)" color="danger">
+              <ion-icon slot="start" name="thumbs-down"></ion-icon>
+              Decline
+            </ion-button>
+            <ion-button  expand='block' (click)="showApprovresForm(i.Reservation_ID)" class="b" color="success">
+              <ion-icon slot="start" name="thumbs-up"></ion-icon>
+              Approved
+            </ion-button>
+          </div>
+          
+          <ion-button (click)="delete(i.Reservation_ID)" expand ="block" color="danger" *ngIf="i.Status != 'pending'" class="cancel-button">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+        </ion-list>
+        
+      </div>
+    </ng-container>
+
+  </div>
+
+</ion-content>

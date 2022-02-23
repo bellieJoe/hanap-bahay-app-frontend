@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Add Payment Record</ion-title>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      Cancel
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-select  placeholder="not set" [(ngModel)]="paymentInputs.Tenant_ID">
+        <ion-select-option *ngFor="let i of tenantList" value="{{i.User_ID}}">{{i.Name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Date Paid: </ion-label>
+      <ion-input type="date" [(ngModel)]="paymentInputs.Date_Paid"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Amount Paid: </ion-label>
+      <ion-input type="number" [(ngModel)]="paymentInputs.Amount_Paid">&nbsp;Php&nbsp;</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Payment Status</ion-label>
+      <ion-select  placeholder="not set" [(ngModel)]="paymentInputs.Status">
+        <ion-select-option value="paid" >Paid</ion-select-option>
+        <ion-select-option value="unpaid" >Unpaid</ion-select-option>
+        <ion-select-option value="incomplete" >Incomplete</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button (click)="addPayment()">
+      Add
+    </ion-button>
+  </div>
+
+</ion-content>

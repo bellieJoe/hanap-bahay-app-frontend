@@ -1,0 +1,26 @@
+ion-content{
+    .wrapper{
+        max-width: 700px;
+        width: 95%;
+        margin: 1em auto;
+        ion-card{
+            ion-card-header{
+                ion-card-title{
+                    text-align: center;
+                    font-weight: bold;
+                }
+            }
+            ion-card-content{
+                ion-button{
+                    margin: 1em auto;
+                    width: 200px;
+                }
+                ion-item{
+                    width: 95%;
+                    margin: auto;
+                    // color: rgb(18, 130, 235);
+                }
+            }
+        }
+    }
+}

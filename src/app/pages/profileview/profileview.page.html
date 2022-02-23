@@ -1,0 +1,90 @@
+<ion-header class = "ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="reset()"></ion-back-button>
+    </ion-buttons>
+    <!-- <ion-title>Bellie Joe M. Jandusay • Profile</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-content>
+        <ion-item lines='none'>
+          <ion-avatar slot="start" *ngIf="img_src">
+            <img [src]="img_src" />
+          </ion-avatar>
+          <ion-icon slot="start" name="person" *ngIf="!img_src"></ion-icon>
+          <ion-label>{{UserDetails.Name}}</ion-label>
+          <ion-button expand="block" fill="clear" shape="round" (click)="message()">
+            <ion-icon slot="icon-only" name="chatbox-ellipses-sharp"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-card>
+      <ion-card-content >
+        <ng-container *ngIf="Privacy_Copy != '000000'">
+          <ion-item lines='none' class="ion-text-wrap" details="none" *ngIf="Privacy[0]">
+            <ion-icon slot="start" name="gift"></ion-icon>
+            <div>
+              <h6>Birthdate</h6>
+              <h5>{{UserDetails.Birthdate | date:"longDate"}}</h5>
+            </div>
+          </ion-item>
+          <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[1]">
+            <ion-icon slot="start" name="mail"></ion-icon>
+            <div>
+              <h6>Email Address</h6>
+              <h5>{{UserDetails.Email}}</h5>
+            </div>
+          </ion-item>
+          <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[2]">
+            <ion-icon slot="start" name="call"></ion-icon>
+            <div>
+              <h6>Contact Number</h6>
+              <h5>+63{{UserDetails.Contact_Number}}</h5>
+            </div>
+          </ion-item>
+          <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[3]">
+            <ion-icon slot="start" name="location"></ion-icon>
+            <div>
+              <h6>Address</h6>
+              <h5>{{UserDetails.Address}}</h5>
+            </div>
+          </ion-item>
+          <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[4] && UserDetails.School_Went">
+            <ion-icon slot="start" name="school"></ion-icon>
+            <div>
+              <h6>School Went</h6>
+              <h5>{{UserDetails.School_Went}}</h5>
+            </div>
+          </ion-item>
+          <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[5] && UserDetails.Occupation">
+            <ion-icon slot="start" name="briefcase"></ion-icon>
+            <div>
+              <h6>Occupation</h6>
+              <h5>{{UserDetails.Occupation}}</h5>
+            </div>
+          </ion-item>
+        </ng-container>
+        <ion-item lines='none'  class="ion-text-wrap" details="none" *ngIf="Privacy[5] && UserDetails.Emergency_Contact">
+          <ion-icon slot="start" name="person"></ion-icon>
+          <div>
+            <h6>Guardian Contact_Number</h6>
+            <h5>{{UserDetails.Guardian_Name}} <br>+63{{UserDetails.Emergency_Contact}}</h5>
+          </div>
+        </ion-item>
+        <div class="private-img" *ngIf="Privacy_Copy == '000000'">
+          <ion-img src="../../assets/image/private.jpg"></ion-img>
+          <h4>This Users profile is private.</h4>
+        </div>
+        
+      </ion-card-content>
+    </ion-card>
+  </div>
+ 
+</ion-content>

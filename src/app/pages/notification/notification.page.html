@@ -1,0 +1,33 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Notification</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item-sliding  *ngFor="let i of NotifDetails">
+      <ion-item  detail='false'
+      details='none' mode="md" 
+      class="{{i.Is_Read == 0 ? 'unread' : 'read'}}"
+      (click)="markRead(i.Notification_ID)">
+        <div>
+          <ion-label class="ion-text-wrap type" color="primary">{{i.Type | titlecase}}</ion-label>
+          <ion-label class = "content ion-text-wrap">{{i.Notification_Content}}</ion-label>
+          <ion-label slot="start" class="notif-date">{{i.Date_Notified | date:'longDate'}} {{i.Date_Notified | date:'h:mm a'}}</ion-label>
+        </div>
+        <ion-icon slot="end" name="chevron-back" class="last-icon"></ion-icon>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="delete(i.Notification_ID)">
+          <ion-icon slot="start" name="trash-sharp"></ion-icon>
+          Delete
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+    <h6 *ngIf="!NotifDetails" class="noNotif">You dont have any notifications...</h6>
+  </div>
+</ion-content>

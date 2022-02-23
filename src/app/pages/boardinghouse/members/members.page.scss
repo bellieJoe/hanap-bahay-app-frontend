@@ -1,0 +1,88 @@
+ion-header{
+    ion-toolbar{
+        .add_tenant{
+            margin-right: 2em;
+            --background: #0078EE;
+            &:hover{
+                --background: grey;
+            }
+        }
+        .BH_Name{
+            opacity: 100%;
+            font-size: 18px;
+        }
+    }
+}
+
+ion-content {
+    --background: rgb(243, 243, 243);
+    .add_tenant{
+        display: none;
+        // --background: #0078EE;
+        // color: white;
+        //     &:hover{
+        //         --background: grey;
+        //     }
+    }
+    
+   .wrapper{
+       border: solid 1px rgb(218, 218, 218);
+       background: white;
+       height: auto;
+       max-width: 700px;
+       width: 100%;
+       margin: 1em auto;
+       padding: 1em;
+       .no-mem{
+           opacity: 50%;
+           text-align: center;
+            width: 90%;
+            margin: auto;
+       }
+    .list{
+        ion-item-divider {
+            --background: #ffffff;
+        }
+        ion-item{
+            div{
+                
+                .since{
+                    font-size: 13px;
+                    opacity: 70%;
+                }
+            }
+        }
+        ion-item-options{
+            ion-item-option{
+                text-transform: initial;
+            }
+        }
+
+    }
+    .add_room{
+         margin: 1em auto;
+         width: 200px;
+         --background: #FF4C0B;
+         color: white;
+         &:hover{
+             --background: grey;
+         }
+    }
+   }
+}
+
+
+@media screen and(max-width: 630px){
+    ion-header{
+        .add_tenant{
+            display: none;
+            
+        }
+    }
+    ion-content{
+        .add_tenant{
+            display: flex;
+            
+        }
+    }
+}

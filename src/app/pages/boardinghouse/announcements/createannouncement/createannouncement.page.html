@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Create Announcement</ion-title>
+    <ion-button slot="end" fill="clear" shape="round" (click)="close()">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item>
+      <ion-label>Tag</ion-label>
+      <ion-select  multiple="false" interface="popover" [(ngModel)]="announcementDets.Announcement_Tag" [ngModelOptions]="{standalone:true}">
+        <ion-select-option value="normal">Normal</ion-select-option>
+        <ion-select-option value="important">Important</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position='floating'>Title</ion-label>
+      <ion-input type="text" [(ngModel)]="announcementDets.Announcement_Title" [ngModelOptions]="{standalone:true}"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label position='floating'>Content</ion-label>
+      <ion-textarea auto-grow [(ngModel)]="announcementDets.Announcement_Content" [ngModelOptions]="{standalone:true}"></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="full" color="tertiary" (click)="postAnnouncement()">
+      Post
+    </ion-button>
+  </div>
+</ion-content>

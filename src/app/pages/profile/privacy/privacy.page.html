@@ -1,0 +1,96 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" fill="clear" color="dark" [routerLink]="['/profile']" slot="start">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Personal Information Privacy</ion-card-title>
+        <ion-card-subtitle>Decide what to show on your private profile</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item >
+          <ion-icon slot="start" name="person"></ion-icon>
+          <div>
+            <h6>Name</h6>
+            <h5>{{User_Details.Name}}</h5>
+          </div>
+          <!-- <ion-toggle slot="end"></ion-toggle> -->
+        </ion-item>
+        <ion-item >
+          <ion-icon slot="start" name="gift" ></ion-icon>
+          <div>
+            <h6>Birthdate</h6>
+            <h5>{{User_Details.Birthdate | date:'longDate'}}</h5>
+          </div>
+          <ion-toggle slot="end" checked="{{Privacy_Input[0]}}" #toggle0 (ionChange)="toggle()"> </ion-toggle>
+        </ion-item>
+        <ion-item >
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <div>
+            <h6>Email Address</h6>
+            <h5>{{User_Details.Email}}</h5>
+          </div>
+          <ion-toggle slot="end"  checked="{{Privacy_Input[1]}}" #toggle1 (ionChange)="toggle()"></ion-toggle>
+        </ion-item>
+        <ion-item >
+          <ion-icon slot="start" name="call"></ion-icon>
+          <div>
+            <h6>Contact Number</h6>
+            <h5>+63{{User_Details.Contact_Number}}</h5>
+          </div>
+          <ion-toggle slot="end"  checked="{{Privacy_Input[2]}}" #toggle2 (ionChange)="toggle()"></ion-toggle>
+        </ion-item>
+        <ion-item >
+          <ion-icon slot="start" name="location"></ion-icon>
+          <div>
+            <h6>Address</h6>
+            <h5>{{User_Details.Address}}</h5>
+          </div>
+          <ion-toggle slot="end"  checked="{{Privacy_Input[3]}}" #toggle3 (ionChange)="toggle()"></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="User_Details.School_Went">
+          <ion-icon slot="start" name="school"></ion-icon>
+          <div>
+            <h6>School went</h6>
+            <h5>{{User_Details.School_Went}}</h5>
+          </div>
+          <ion-toggle slot="end"  checked="{{Privacy_Input[4]}}" #toggle4 (ionChange)="toggle()"></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="User_Details.Occupation">
+          <ion-icon slot="start" name="briefcase"></ion-icon>
+          <div>
+            <h6>Occupation</h6>
+            <h5>{{User_Details.Occupation}}</h5>
+          </div>
+          <ion-toggle slot="end"  checked="{{Privacy_Input[5]}}" #toggle5 (ionChange)="toggle()"></ion-toggle>
+        </ion-item>
+        <ion-item *ngIf="User_Details.Emergency_Contact">
+          <ion-icon slot="start" name="people"></ion-icon>
+          <div>
+            <h6>Emergency Contact</h6>
+            <h5>{{User_Details.Emergency_Contact}}</h5>
+          </div>
+          <!-- <ion-toggle slot="end"></ion-toggle> -->
+        </ion-item>
+        <ion-button expand="block" (click)="saveChanges()" [disabled]="allowSave">
+          <ng-container *ngIf="!saving">
+            <ion-icon slot="start" name="save"></ion-icon>
+            Save Changes
+          </ng-container>
+          <ng-container *ngIf="saving">
+            <ion-spinner name="bubbles"></ion-spinner>
+            Saving
+          </ng-container>
+          
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

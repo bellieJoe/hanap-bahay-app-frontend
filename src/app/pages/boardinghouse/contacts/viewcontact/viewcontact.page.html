@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="dismiss()" slot="end" fill="clear">
+      close
+    </ion-button>
+    <ion-title>Edit Contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item>
+      <ion-label position="floating">Contact Name</ion-label>
+      <ion-input type="text" [(ngModel)]="contactDetails.Contact_Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contact Number</ion-label>
+      <ion-input type="number" [(ngModel)]="contactDetails.Contact_Number">+63</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contact Purpose</ion-label>
+      <ion-input type="text" [(ngModel)]="contactDetails.Contact_Type"></ion-input>
+    </ion-item>
+    <ion-button (click)="updateContact()" color="primary">
+      Update Contact
+    </ion-button>
+  </div>
+  
+  
+</ion-content>

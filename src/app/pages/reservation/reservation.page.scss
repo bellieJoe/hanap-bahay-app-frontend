@@ -1,0 +1,89 @@
+ion-header{
+    ion-toolbar{
+        ion-segment{
+            margin: auto;
+            ion-segment-button{
+                text-transform: none;
+            }
+        }
+    }
+}
+ion-content{
+    .wrapper{
+        max-width: 700px;
+        margin: auto;
+        ion-card {
+            width: 95%;
+            max-width: 600px;
+            margin: 1em auto;
+            .buttons{
+                grid-template-columns: 50% 50%;
+                display: grid;
+                width: 95%;
+                margin: 0em auto 1em auto;
+                .butt{
+                    padding: .5em;
+                    margin: .5em .3em;
+                    font-size: medium;
+                    border-radius: .5em;
+                    border : none;
+                    outline: none;
+                    &:hover{
+                        opacity: 70%;
+                    }
+                    // &:active{
+                    //     opacity: 70%;
+                    // }
+                }
+                .view{
+                    background-color: #0790cf;
+                    color: white;
+                }
+            }
+            
+            ion-card-title {
+                font-size: 16px;
+            }
+            ion-card-content{
+                ion-item{
+                    .cont{
+                        line-height: 1;
+                        .label{
+                            font-size: 13px;
+                            margin-bottom: auto;
+                                        
+                        }
+                        .con{
+                            padding: 0px;
+                            
+                            margin-top: 0px;
+                        }
+                    }
+                }
+                ion-button{
+                    margin-bottom: .5em;
+                }
+                .canceled, .approved, .declined{
+                    text-align: center;
+                    font-size: medium;
+                    padding: .5em;
+                    // font-weight: bold;
+                    margin-top: 1em;
+                }
+                .canceled{
+                    // background: rgb(165, 165, 165);
+                    color: rgb(165, 165, 165);
+                }
+                .approved{
+                    // background: rgb(7, 187, 76);
+                    color: rgb(7, 187, 76);
+                }
+                .declined{
+                    // background: rgb(185, 41, 72);
+                    color: rgb(185, 41, 72);
+                }
+            }
+        }
+    }
+    
+}

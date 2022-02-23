@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reservation</ion-title>
+    <ion-button (click)="close()" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-item lines='none'>
+        <ion-icon slot="start" name="home-sharp"></ion-icon>
+        <ion-label>{{rrp_name}}</ion-label>
+      </ion-item>
+      <div class="itemcon">
+        <ion-item class="amount"> 
+          <ion-label position="floating">Enter the number of person to reserve</ion-label>
+          <ion-input type="number" [(ngModel)]="amountShit" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-label class="shit">{{rrp_unit}}</ion-label>
+      </div>
+      <ion-button  expand="block" color="tertiary" class="res" (click)="reserve()">
+        <ion-icon slot="start" name="bookmark"></ion-icon>
+        Reserve
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar> 
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none'>
+      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Payment Records</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+
+    <div class="payment_table">
+      <div class="list_header">
+        <h4>Tenant Payment List</h4>
+      </div>
+      <div class="form1">
+          <label >Select Month</label>
+          <select placeholder="January" [(ngModel)]="filterInput.month" [ngModelOptions]="{standalone: true}" (change)="filter()">
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+        <label for="">Select&nbsp;Year</label>
+        <select placeholder="0000" [(ngModel)]="filterInput.year" (change)="filter()">
+          <option *ngFor="let a of yearLoop" [value]="a">{{a}}</option>
+        </select>
+        <!-- <button>
+          Show
+        </button> -->
+      </div>
+      <div class="table_container">
+        <table>
+          <tr>
+            <th class="tenant_column">Tenants</th>
+            <th >Date Paid</th>
+            <th class="status">Status</th>
+            <th class="amount_paid">Amount Paid</th>
+          </tr>
+          <tr *ngFor="let i of updatedPayments">
+            <td>{{i.Tenant_Name | titlecase}}</td>
+            <td class="due_date_column">
+              <label for="">{{i.Date_Paid | date: "longDate"}}</label> 
+            </td>
+            <td>{{i.Status}}</td>
+            <td>Php {{i.Amount_Paid}}</td>
+            <td class="tab_button_upd" (click)="presentModal(i.Payment_ID)">edit</td>
+            <td class="tab_button_del" (click)="deletePayment(i.Payment_ID)">delete</td>
+          </tr>
+        </table>
+      </div>
+      <ion-button expand="block" class="add_button" (click)="addPayment()">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Add Record
+      </ion-button>
+      <div class="summary">
+        <ion-label class="label" color="primary">Total amount collected ({{filterInput.month | date:"MMMM"}} {{filterInput.year}})</ion-label>
+        <ion-label>Php {{total | number:'1.0-2'}}</ion-label>
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>

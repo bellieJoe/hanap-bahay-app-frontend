@@ -1,0 +1,50 @@
+ion-header{
+    ion-toolbar{
+        ion-searchbar{
+            margin: .5em auto;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            left: -2%;
+           --box-shadow: 0px 0px 3px  lightgrey;
+           &:hover{
+               transition: .5s;
+            --box-shadow: 0px 0px 10px  rgb(182, 181, 181);
+           }
+        }
+        .grid_view{
+            &:hover{
+                --color:  #0078EE;
+            }
+        }
+    }
+}
+
+ion-content{
+    --background: rgb(243, 243, 243);
+    .house_card{
+        display: inline-block;
+        margin: 1em;
+        background-color: white;
+        width: 300px;
+        border-radius: 1em;
+        border: 1px solid lightgrey;
+        .bhpic{
+            border-top-left-radius: 1em;
+            border-top-right-radius: 1em;
+            height: 200px;
+        }
+        ion-list{
+            border-radius: 1em;
+
+        }
+        .view_button{
+            width: 100px;
+            margin:.5em  auto;
+            --background:  #0078EE;
+            &:hover{
+                --background: grey;
+            }
+        }
+    }
+}

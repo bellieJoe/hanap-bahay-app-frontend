@@ -1,0 +1,23 @@
+ion-header{
+    ion-button{
+        --color: red;
+    }
+}
+ion-content{
+    ion-list{
+        .name_label{
+            opacity: 100%;
+        }
+        .name{
+            opacity: 100%;
+        }
+        ion-item{
+            
+            margin: 1em;
+        }
+        ion-button{
+            margin: 3em auto;
+            width: 200px;
+        }
+    }
+}

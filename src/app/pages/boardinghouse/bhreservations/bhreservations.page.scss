@@ -1,0 +1,108 @@
+ion-toolbar{
+    .BH_Name{
+        opacity: 100%;
+        font-size: 18px;
+    }
+    ion-segment{
+        margin: auto;
+        ion-segment-button{
+            ion-label{
+                text-transform: none;
+            }
+        }
+    }
+}
+
+ion-content{
+    --background: rgb(243, 243, 243);
+    .wrapper{
+        max-width: 700px;
+        margin: 1em auto;
+        .reserve_card{
+            background-color: white;
+            border-radius: 1em;
+            border: solid rgb(212, 212, 212) 1px;
+            width: 95%;
+            margin: 1em auto;
+            transition: .4s;
+            &:hover{
+                box-shadow: 0px 0px 10px 5px rgb(228, 228, 228);
+            }
+            .cancel-button{
+                width: 100%;
+                margin: auto;
+            }
+            ion-list{
+                border-radius: 1em;
+                width: 90%;
+                margin: auto;
+                :first-child{
+                    margin-top: .5em;
+                }
+                :last-child{
+                    margin-bottom: .5em;
+                }
+                .cancel-button{
+                    width: 95%;
+                    margin: auto auto inherit auto;
+                }
+                
+                ion-item{
+                    transition: .4s;
+                    div{
+                        line-height: 1;
+                        .label{
+                            font-size: 13px;
+                            // opacity: 70%;
+                        }
+                        .con{
+                            margin-bottom: 6px;
+                        }   
+                    }
+                }
+                ion-item-divider{
+                    cursor: pointer;
+                    &:hover{
+                        opacity: 50%;
+                    }
+                }
+                .c{
+                    margin: 1em auto 1em auto;
+                    width: 95%;
+                    // max-width: 300px;
+                }
+                .declined{
+                    text-align: center;
+                    font-size: 14px;
+                    padding: 1em;
+                    background-color: rgb(230, 230, 230);
+                    margin: 1em;
+                }
+                .buttones{
+                    grid-template-columns: 50% 50%;
+                    display: grid;
+                    margin: 1em;
+                    background: none;
+                    box-shadow: none;
+                    .a, .b{
+                        &:hover{
+                            --background: grey;
+                        }
+                    }
+                    .a{
+                        --background: rgb(192, 15, 74);
+                    }
+                    .b{
+                        --background: #07b94e;
+                        
+                    }
+                    
+                    ion-button{
+                        margin: auto;
+                        width: 95%;
+                    }
+                }
+            }
+        }
+    }
+}

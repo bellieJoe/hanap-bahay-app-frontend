@@ -1,0 +1,144 @@
+<ion-header class="ion-no-border" >
+  <ion-toolbar color="primary">
+    <ion-title>Admin Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="md">
+
+  <div class="wrapper-counts">
+    <div class="top-dets">
+
+      <ion-card class="prof">
+        <ion-card-content>
+          <ion-item lines="none">
+            <ion-label>{{AdminName}}</ion-label>
+            <ion-icon slot="start" name="person-sharp"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="at-sharp" color="primary"></ion-icon>
+            <ion-label color="primary">{{Username}}</ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="summary" #total_user id="tot_user" (click)="loadUsers()">
+        <ion-card-content>
+          <ion-item aria-details="none" lines="none" class="title">
+            <ion-label color="primary">Total number of users</ion-label>
+            <ion-icon slot="start" name="people-sharp" color="primary"></ion-icon>
+          </ion-item>
+
+          <div class="card-content">
+            <ion-label>{{UserCount}}</ion-label>
+          </div>
+        </ion-card-content>
+      </ion-card>
+  
+      <ion-card class="summary" #total_house (click)="loadHouses()">
+        <ion-card-content>
+          <ion-item aria-details="none" lines="none" class="title">
+            <ion-label color="primary">Total number of Rental House</ion-label>
+            <ion-icon slot="start" name="home-sharp" color="primary"></ion-icon>
+          </ion-item>
+          <div class="card-content">
+            <ion-label>{{RHCount}}</ion-label>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <div class="bottom-dets">
+      <ion-card class="menu">
+        <ion-item  [routerLink]="['/tagapangasiwa/cu']" button>
+          <ion-label >Change Username</ion-label>
+          <ion-icon slot="start" name="at-outline"></ion-icon>
+        </ion-item>
+        <ion-item [routerLink]="['/tagapangasiwa/cp']" button>
+          <ion-label>Change Password</ion-label>
+          <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Payments</ion-label>
+          <ion-icon slot="start" name="cash-outline"></ion-icon>
+        </ion-item>
+        <ion-item button [routerLink]="['/tagapangasiwa/bi']">
+          <ion-label>Bugs & Issues</ion-label>
+          <ion-icon slot="start" name="bug-outline"></ion-icon>
+        </ion-item>
+        <ion-item button *ngIf="Admin_Type == 'master admin'" [routerLink]="['/tagapangasiwa/add-a']">
+          <ion-label>Add new Admin</ion-label>
+          <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        </ion-item>
+        <ion-item (click)="logout()" button>
+          <ion-label>Logout</ion-label>
+          <ion-icon slot="start" name="exit-outline"></ion-icon>
+        </ion-item>
+
+        <!-- <ion-searchbar placeholder="Search Name"[debounce]="250" showCancelButton="focus" mode="ios" animated></ion-searchbar> -->
+
+      </ion-card>
+
+      <div class="list">
+        <div class="user-tbl" *ngIf="ShowContent == 'users'">
+          <table >
+            <tr class="table-header">
+              <th class="user-id">User ID</th>
+              <th class="fullname">Fullname</th>
+              <th class="birthdate">Birthdate</th>
+              <th class="email">Email</th>
+              <th class="address">Address</th>
+              <th class="contact-number">Contact Number</th>
+              <th class="contact-number">User Type</th>
+            </tr>
+            <tr *ngFor="let i of Users">
+              <td>{{i.User_List_ID}}</td>
+              <td>{{i.Firstname | titlecase}} {{i.Middlename | titlecase}} {{i.Lastname | titlecase}}</td>
+              <td>{{i.Birthdate | date:"longDate"}}</td>
+              <td>{{i.Email}}</td>
+              <td>{{i.Address}}</td>
+              <td>{{i.Contact_number}}</td>
+              <td>{{i.User_type}}</td>
+            </tr>
+
+          </table>
+        </div>
+
+        <div class="house_tbl" *ngIf="ShowContent == 'houses'">
+          <table >
+            <tr class="table-header">
+              <th>RRP ID</th>
+              <th>Name</th>
+              <th>Capacity</th>
+              <th>Type</th>
+              <th>Address</th>
+              <th>Rent Rate</th>
+              <th>Owner ID</th>
+              <th>Cpontact Number</th>
+
+            </tr>
+            <tr *ngFor="let i of Houses">
+              <td>{{i.RRP_ID}}</td>
+              <td>{{i.RRP_Name}}</td>
+              <td>{{i.RRP_Capacity}}</td>
+              <td>{{i.RRP_Type}}</td>
+              <td>{{i.RRP_Address}}</td>
+              <td>{{i.RRP_Rent_Rate}}</td>
+              <td>{{i.Owner_ID}}</td>
+              <td>{{i.Contact_Number}}</td>
+            </tr>
+
+          </table>
+        </div>
+       
+      </div>
+
+    </div>
+    
+    
+    
+    
+  </div>
+
+</ion-content>

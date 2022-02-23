@@ -1,0 +1,34 @@
+ion-header{
+    ion-toolbar{
+        .wrapper{
+            max-width: 1300px;
+            margin: auto;
+        }
+        
+    }
+}
+
+ion-content{
+    .wrapper{
+        // overflow-x: scroll;
+        max-width: 1200px;
+        margin: auto;
+        table{
+            width: 100%;
+            
+            tr td, tr th{
+                padding: .5em;
+                font-size: 14px;
+            }
+            tr th{
+                text-align: left;
+                
+            }
+            tr{
+                &:nth-child(odd){
+                    background-color: rgb(136, 203, 241);
+                }
+            }
+        }
+    }
+}

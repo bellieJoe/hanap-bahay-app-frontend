@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="mylocation.svg"
+   xml:space="preserve"
+   style="enable-background:new 0 0 299.997 299.997;"
+   viewBox="0 0 299.997 299.997"
+   y="0px"
+   x="0px"
+   id="Layer_1"
+   version="1.1"><metadata
+   id="metadata47"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs45"><linearGradient
+     id="linearGradient898"
+     inkscape:collect="always"><stop
+       id="stop894"
+       offset="0"
+       style="stop-color:#0c80ff;stop-opacity:1;" /><stop
+       id="stop896"
+       offset="1"
+       style="stop-color:#0c80ff;stop-opacity:0;" /></linearGradient><linearGradient
+     id="linearGradient876"
+     inkscape:collect="always"><stop
+       id="stop872"
+       offset="0"
+       style="stop-color:#000000;stop-opacity:1;" /><stop
+       id="stop874"
+       offset="1"
+       style="stop-color:#000000;stop-opacity:0;" /></linearGradient><linearGradient
+     gradientUnits="userSpaceOnUse"
+     y2="149.9985"
+     x2="299.996"
+     y1="149.9985"
+     x1="0.001"
+     id="linearGradient880"
+     xlink:href="#linearGradient876"
+     inkscape:collect="always" /><radialGradient
+     gradientUnits="userSpaceOnUse"
+     r="149.45517"
+     fy="149.45517"
+     fx="149.45517"
+     cy="149.45517"
+     cx="149.45517"
+     id="radialGradient900"
+     xlink:href="#linearGradient898"
+     inkscape:collect="always" /></defs><sodipodi:namedview
+   inkscape:current-layer="Layer_1"
+   inkscape:window-maximized="1"
+   inkscape:window-y="-9"
+   inkscape:window-x="-9"
+   inkscape:cy="151.01908"
+   inkscape:cx="110.95895"
+   inkscape:zoom="2.0742006"
+   showgrid="false"
+   id="namedview43"
+   inkscape:window-height="1051"
+   inkscape:window-width="1920"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   inkscape:document-rotation="0" />
+<g
+   inkscape:groupmode="layer"
+   id="layer1"
+   inkscape:label="Layer 1"><g
+     inkscape:label="Layer 2"
+     id="layer2"
+     inkscape:groupmode="layer"><circle
+       r="149.45517"
+       cy="149.45517"
+       cx="149.45517"
+       id="path856"
+       style="opacity:1;fill:url(#radialGradient900);fill-opacity:1" /></g><ellipse
+     style="opacity:0.993;fill:#ffffff;fill-opacity:1;stroke-width:0.585378"
+     id="path854"
+     cx="149.96309"
+     cy="150.28024"
+     rx="51.081593"
+     ry="58.56039" /></g><g
+   transform="matrix(0.58537829,0,0,0.58537829,62.193049,57.853614)"
+   style="fill:#3e89cd;fill-opacity:1"
+   id="g10">
+	<g
+   style="fill:#3e89cd;fill-opacity:1"
+   id="g8">
+		<g
+   style="fill:#3e89cd;fill-opacity:1"
+   id="g6">
+			<circle
+   style="fill:#3e89cd;fill-opacity:1"
+   id="circle2"
+   r="24.149"
+   cy="110.572"
+   cx="150.437" />
+			<path
+   style="fill:#3e89cd;fill-opacity:1"
+   id="path4"
+   d="M 149.996,0 C 67.157,0 0.001,67.158 0.001,149.997 c 0,82.837 67.156,150 149.995,150 82.839,0 150,-67.163 150,-150 C 299.996,67.158 232.835,0 149.996,0 Z m -0.311,68.678 c 0.106,0 0.21,-0.005 0.314,-0.01 0.104,0.005 0.207,0.01 0.314,0.01 25.274,0.399 45.834,21.288 45.834,46.568 0,30.908 -33.024,62.205 -46.148,73.419 -0.877,-0.75 -1.849,-1.595 -2.889,-2.521 -0.018,-0.016 -0.034,-0.029 -0.049,-0.044 -14.524,-12.906 -43.209,-42.045 -43.209,-70.854 -0.001,-25.28 20.561,-46.168 45.833,-46.568 z m 0.965,163.572 c -27.663,0 -55.669,-7.936 -55.669,-23.098 0,-10.641 13.79,-17.717 31.569,-20.995 3.439,3.457 6.694,6.505 9.55,9.049 -19.366,2.163 -30.744,8.294 -30.744,11.943 0,4.484 17.195,12.724 45.294,12.724 28.099,0 45.297,-8.24 45.297,-12.724 0,-3.724 -11.858,-10.009 -31.927,-12.052 2.881,-2.573 6.162,-5.649 9.627,-9.142 18.313,3.188 32.674,10.335 32.674,21.197 0,15.162 -28.006,23.098 -55.671,23.098 z" />
+		</g>
+	</g>
+</g>
+<g
+   id="g12">
+</g>
+<g
+   id="g14">
+</g>
+<g
+   id="g16">
+</g>
+<g
+   id="g18">
+</g>
+<g
+   id="g20">
+</g>
+<g
+   id="g22">
+</g>
+<g
+   id="g24">
+</g>
+<g
+   id="g26">
+</g>
+<g
+   id="g28">
+</g>
+<g
+   id="g30">
+</g>
+<g
+   id="g32">
+</g>
+<g
+   id="g34">
+</g>
+<g
+   id="g36">
+</g>
+<g
+   id="g38">
+</g>
+<g
+   id="g40">
+</g>
+</svg>

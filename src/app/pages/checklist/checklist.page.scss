@@ -1,0 +1,12 @@
+ion-content{
+    .wrapper{
+        max-width: 800px;
+        width: 95%;
+        margin: auto;
+        .clear-all{
+            &:hover{
+                color: #e44632e0;
+            }
+        }
+    }
+}

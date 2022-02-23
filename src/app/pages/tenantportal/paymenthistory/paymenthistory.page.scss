@@ -1,0 +1,201 @@
+ion-header{
+    ion-toolbar{
+        .name-label{
+            opacity: 100%;
+        }
+    }
+}
+ion-content{
+    --background: rgb(243, 243, 243);
+    overflow-x: scroll !important;
+    .wrapper{
+            transition: .4s;
+            margin: 1em;
+        // grid-template-columns: 20% 80%;
+        // display: grid;
+        table, td, th{
+            background-color: rgb(255, 255, 255);
+            border: solid rgb(201, 199, 199) 1px;
+            padding: .5em 1em;
+        }       
+        .payment_table{
+            transition: .4s;
+            border: 1px solid lightgrey;
+            background-color: white;
+            padding: 1em;
+            margin: 2em auto;
+            // position: relative;
+            width: fit-content;
+            left: 23vw;
+            border-radius: 1em;
+            .list_header{
+                h4{
+                    font-weight: bolder;
+                }
+            }
+            .no-records{
+                text-align: center;
+                margin: 1em auto;
+                opacity: 50%;
+            }
+            .year-select{
+                margin: 1em;
+                padding: .5em;
+                border: none;
+                border-bottom: 1px rgb(5, 173, 70) solid;
+                outline : none;
+                cursor: pointer;
+                &:hover{
+                    transition: .4s;
+                    border-bottom: 2px rgb(5, 173, 70) solid;
+                }
+                .year-option{
+                    padding: .5em;
+                    border : none;
+                    &:hover{
+                        background-color: rgb(218, 218, 218);
+                        transition: .4s;
+                    }
+                }
+            }
+            .year-label{
+                margin:  1em 1em 1em 0em;
+            }
+            
+            &:hover{
+                transition: .5s;
+                box-shadow: 0em 0em 10px lightgrey;
+            }
+            .table_container{
+                table{
+                    th{
+                        background-color: rgb(21, 185, 131);
+                        color: white;
+                        
+                    }
+                    td{
+                        background-color: rgb(238, 245, 239);
+                    }
+                    .due_date_column{
+                        // grid-template-columns: 20% 60%;
+                        // display: grid;
+                        border: solid rgb(201, 199, 199) 1px;
+                        justify-content: center;
+                       label {
+                           margin-right: 1em;
+                       }
+                       button{
+                           width: 100px;
+                           padding: .5em;
+                           background-color:rgb(184, 185, 185) ;
+                           color: white;
+                           margin: auto;
+                           border-radius: .5em;
+                           &:hover{
+                               transition: .5s;
+                            background-color:rgb(73, 127, 177) ;
+                           }
+                       }
+                    }
+                }
+            }
+
+            .summary{
+                margin: 1em auto;
+                label{
+                    margin: auto;
+                    font-size: 14px;
+                    opacity: 50%;
+                }
+                h4{
+                    font-weight: bold;
+                    color: rgb(21, 185, 131);
+                    margin-top: 0px;
+                }
+            }
+            
+        }
+
+        .form_card{
+            width: 20%;
+            margin: 1em;
+            border: 1px solid lightgrey;
+            border-radius: 1em;
+            background-color: white;
+            position: fixed;
+            top: 70px;
+            &:hover{
+                transition: .5s;
+                box-shadow: 0em 0em 10px lightgrey;
+            }
+            ion-item{
+                width: 90%;
+                margin: 1em auto;
+            }
+            .form_header{
+                color: white;
+                background-color: rgb(76, 158, 94);
+                padding: .5em 1em;
+                border-top-left-radius: 1em;
+                border-top-right-radius: 1em;
+                h4{
+                    ion-icon{
+                        --height: 24px;
+                        --width: 24px;
+                        margin-right: .5em;
+                        vertical-align: middle;
+                    }
+                }
+            }
+                
+            .buttones{
+                ion-button{
+                    margin: 1em auto;
+                    margin-bottom: 2em;
+                    width: 90%;
+                }
+                .update{
+                    --background:  #0078EE;
+                }
+                .edit{
+                    --background:  #adafb6;
+                }
+            }
+            
+        }
+        
+    }
+}
+
+@media screen and(max-width: 574px){
+    .wrapper{
+        //overflow-x: scroll !important;
+        max-width: 900px !important;
+        margin: 1em auto !important;
+        width: 100%;
+        .form_card{
+            width: 95% !important;
+            max-width: 900px !important;
+            position: static !important;
+            margin: 1em auto !important;
+        }
+
+        .payment_table{
+            margin: 1em .5em !important;
+            width: 95% !important;
+            position: static !important;
+            .table_container{
+                width: 100% !important;
+                overflow-x: scroll !important;
+                table{
+                    width: max-content !important;
+                    overflow: hidden !important;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(max-width: 648px){
+
+}

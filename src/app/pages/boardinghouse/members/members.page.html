@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button slot="end" (click)="showAddTenant()" class="add_tenant">
+      <ion-icon slot="start" name="person-add"></ion-icon>
+      Add Tenant
+    </ion-button>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end" >
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="md">
+      <ion-label position='stacked' color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Tenants</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <div class = "wrapper">
+    <h6 class="no-mem" *ngIf="!memberListComplete">This Rental House dont have any Tenants yet, dont forget to add your tenants</h6>
+    <div class="list"  *ngIf="memberListComplete">
+    <ion-item-sliding *ngFor="let i of memberListComplete">
+      <ion-item button = "true" (click)="visitProfile(i.User_ID)" detail = 'false' class="ion-text-wrap">
+        <ion-avatar slot="start" *ngIf="i.image_src">
+          <img [src] = "i.image_src" />
+        </ion-avatar>
+        <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
+        <div>
+          <ion-label class="ion-text-wrap name">{{i.Firstname | titlecase}} {{(i.Middlename | titlecase) | slice:0:1}}. {{i.Lastname | titlecase}}</ion-label>
+          <ion-label class="ion-text-wrap since">Tenant since {{i.Date_Added | date : "longDate"}}</ion-label>
+        </div>
+        <ion-icon slot="end" name="chevron-back"></ion-icon>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option color="primary" (click)="removeTenant(i.User_ID, i.Firstname, i.Lastname)" color="danger">
+          <ion-icon slot="top" name = "trash"></ion-icon>
+          Remove
+        </ion-item-option>
+        <ion-item-option color="primary"  color="tertiary" (click)="message(i.User_ID)">
+          <ion-icon slot="top" name = "chatbox-ellipses"></ion-icon>
+          Message
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </div>
+
+  <div *ngIf="isSkeletonOn" >
+    <ion-list>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" color="tertiary" class="add_tenant" (click)="showAddTenant()">
+    <ion-fab-button color="tertiary" >
+        <ion-icon name="person-add" ></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+
+ 
+
+  
+
+</ion-content>

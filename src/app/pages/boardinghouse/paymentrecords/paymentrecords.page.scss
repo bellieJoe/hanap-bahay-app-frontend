@@ -1,0 +1,192 @@
+ion-header{
+    .BH_Name{
+        opacity: 100%;
+        font-size: 18px;
+    }
+}
+ion-content{
+    --background: rgb(243, 243, 243);
+    overflow-x: scroll !important;
+    .wrapper{
+        margin: 1em;
+        .add_button{
+            width: 100%;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+        table, td, th{
+            font-size: 14px;
+            background-color: rgb(255, 255, 255);
+            border: solid rgb(201, 199, 199) 1px;
+            padding: 1em;
+        }       
+        .payment_table{
+            border: 1px solid lightgrey;
+            background-color: white;
+            padding: 2em;
+            margin: 2em 2em;
+            position: relative;
+            width: fit-content;
+            left: 23vw;
+            border-radius: 1em;
+            .list_header{
+                color: rgb(16, 99, 43);
+            }
+            .form1{
+                label, button, select{
+                    margin-top: .5em;
+                    margin-bottom: .5em;
+                }
+            }
+            &:hover{
+                transition: .5s;
+                box-shadow: 0em 0em 10px lightgrey;
+            }
+            .table_container{
+                table{
+                    border : none;
+                    .tab_button_del, .tab_button_upd{
+                        border: none;
+                        color: white;
+                        cursor: pointer;
+                        border-top: solid white 8px;
+                        border-bottom: solid white 8px;
+
+                    }
+                    .tab_button_del{         
+                        color: red;     
+                        background-color: white; 
+                        
+                        &:hover{
+                            transition: .5s;
+                            color: rgb(230, 123, 123);    ;
+                        } 
+                    }
+                    .tab_button_upd{
+                        background-color: rgb(0, 94, 156);
+                        &:hover{
+                            transition: .5s;
+                            background-color: rgb(0, 114, 190);
+                        }
+                    }
+                    th{
+                        background-color: rgb(76, 158, 94);
+                        color: white;
+                        
+                    }
+                    td{
+                        background-color: rgb(238, 245, 239);
+                    }
+                    .due_date_column{
+                        // grid-template-columns: 20% 60%;
+                        // display: grid;
+                        border: solid rgb(201, 199, 199) 1px;
+                        justify-content: center;
+                       label {
+                           margin-right: 1em;
+                       }
+                       button{
+                           width: 100px;
+                           padding: .5em;
+                           background-color:rgb(184, 185, 185) ;
+                           color: white;
+                           margin: auto;
+                           border-radius: .5em;
+                           &:hover{
+                               transition: .5s;
+                            background-color:rgb(73, 127, 177) ;
+                           }
+                       }
+                    }
+                }
+            }
+            .form1{
+                margin-bottom: 1em;
+                .list_header{
+                    padding-top: 0px;
+                    
+                    h4{
+                        color:  rgb(70, 156, 88);
+                        font-weight: bolder;
+                    }
+                }
+                button{
+                    width: 100px;
+                    padding: .5em;
+                    background-color:rgb(32, 111, 185) ;
+                    color: white;
+                    margin: auto;
+                    border-radius: .5em;
+                    &:hover{
+                        transition: .5s;
+                     background-color:rgb(116, 149, 180) ;
+                    }
+                }
+                label{
+                    margin-right: 1em;
+                }
+                select{
+                    background: transparent;
+                    cursor: pointer;
+                    margin-right: 2em;
+                    border: none;
+                    border-bottom: solid rgb(32, 111, 185) 1px;
+                    outline: none;
+                    &:hover{
+                        border-bottom: solid rgb(40, 134, 221) 2px;
+                    }
+                }
+                
+            }
+            .summary{
+                margin: 3em auto 1em auto;
+                ion-label{
+                    display: block;
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+                .label{
+                    font-size: 13px;
+                    font-weight: normal;
+                }
+            }
+            
+        } 
+    }
+}
+
+@media screen and(max-width: 1400px){
+    .wrapper{
+        //overflow-x: scroll !important;
+        max-width: 700px !important;
+        margin: 1em auto !important;
+        width: 100%;
+        .form_card{
+            width: 95% !important;
+            max-width: 900px !important;
+            position: static !important;
+            margin: 1em auto !important;
+        }
+
+        .payment_table{
+            margin: 1em auto !important;
+            width: 95% !important;
+            position: static !important;
+            .table_container{
+                width: 100% !important;
+                overflow-x: scroll !important;
+                table{
+                    width: max-content !important;
+                    overflow: hidden !important;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(max-width: 648px){
+    .payment_table{
+        padding: 1em !important;
+    }
+
+}

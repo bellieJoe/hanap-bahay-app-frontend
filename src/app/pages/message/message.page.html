@@ -1,0 +1,60 @@
+<ion-header  >
+  <ion-toolbar>
+    <ion-buttons slot="start" >
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-searchbar *ngIf="conversations"
+    (ionChange)="search()"
+    debounce="500" 
+    animated='true' 
+    placeholder='search messages'
+    mode="ios"
+    showCancelButton="focus"
+    [(ngModel)]="searchInput"
+    ></ion-searchbar>
+    
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  
+  <div class="wrapper">
+    <ion-list class="suggest" *ngIf="searchResults.length != 0" >
+      <ion-item *ngFor="let i of searchResults" (click)="view(i.Conversation_ID)">
+        <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
+        <ion-avatar slot="start" *ngIf="i.image_src">
+          <img [src]="i.image_src" />
+        </ion-avatar>
+        <ion-label>{{i.name}}</ion-label>
+      </ion-item>
+    </ion-list>
+   
+    <h6 *ngIf="!conversations" class="no-msg">No messages</h6>
+    <ng-container *ngFor="let i of conversations" >
+      <ion-item-sliding *ngIf="i.Deleted_From != User_ID">
+        <ion-item details="none" (click)="view(i.Conversation_ID)">
+          <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
+          <ion-avatar slot="start" *ngIf="i.image_src">
+            <img [src]="i.image_src" />
+          </ion-avatar>
+          <div class="mess-con">
+            <ion-label class="name">{{i.name}}</ion-label>
+            <ion-label class="date">{{i.Last_Edited | date:"MMM dd yyy h:mm a"}}</ion-label>
+          </div>
+          <ion-badge color="primary" mode="ios" slot="end" *ngIf="i.badge_value > 0">{{i.badge_value}}</ion-badge>
+          <ion-icon slot="end" name="chevron-back-outline" ></ion-icon>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="delete(i.Conversation_ID)">
+            Delete
+            <ion-icon slot="top" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ng-container>
+    
+  </div>
+
+
+</ion-content>

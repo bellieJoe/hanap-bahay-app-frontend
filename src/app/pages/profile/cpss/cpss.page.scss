@@ -1,0 +1,28 @@
+ion-content{
+    .wrapper{
+        width: 90%;
+        margin: auto;
+        ion-slides{
+            height: 444px;
+            ion-slide{
+                height: 444px;
+                display: block;
+                ion-item{
+                    width: 100%;
+                    margin-top: 3em;
+                    .eye-icon{
+                        line-height: 55px;
+                        height: 55px;
+                        cursor: pointer;
+                    }
+                 }
+                 ion-button{
+                    width: 100px;
+                    margin: 1em auto;
+                 }
+            }
+            
+        
+        }
+    }
+}

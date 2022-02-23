@@ -1,0 +1,31 @@
+ion-content {
+    .nores{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        text-align: center;
+        color: rgb(197, 206, 206);
+    }
+    ion-item{
+        width: 90%;
+        margin: 1em auto;
+    }
+    .regtent{
+        margin-top: 0px;
+    }
+    ion-searchbar {
+        width: 90%;
+        margin: 1em auto 0em auto;
+
+    }
+    ion-button {
+        width: 200px;
+        margin: 1em auto;
+    }
+    .addTenant{
+        width: fit-content;
+        &:hover{
+            --background: rgb(224, 224, 224);
+            color: orange;
+        }
+    }
+}

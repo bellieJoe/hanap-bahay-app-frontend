@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button slot="start" [routerLink]="['/login']" color="dark" fill="clear">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper"> 
+    <ion-card>
+      <ng-container *ngIf="phase == 1">
+        <ion-card-header>
+          <ion-card-title>Email Verification</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Enter your email</ion-label>
+            <ion-input type="email" placeholder="eg delacruzjuan@gmail.com" [(ngModel)]="Email"></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="checkEmail()">
+            <ion-icon slot="end" name="chevron-forward"></ion-icon>
+            Next
+          </ion-button>
+        </ion-card-content>
+      </ng-container>
+
+      <ng-container *ngIf="phase == 2">
+        <ion-card-header>
+          <ion-card-title>Email Verification</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Enter the Verification Code we sent to your email. If you dont receive any verification code click <ion-label color="primary" (click)="sendCode()">Resend</ion-label>.</p>
+          <ion-item lines = "none" style="text-align: center;">
+            <ion-label>{{Email}}</ion-label>
+          </ion-item>
+          <div class="code-input">
+            <ion-input type="password" maxlength="6" [(ngModel)]="codeInput"></ion-input>
+            <h6>Enter the Verification code</h6>
+          </div>
+          <ion-button expand="block" (click)="verify()">
+            <ion-icon slot="start" name="shield-checkmark"></ion-icon>
+            Verify Account
+          </ion-button>
+        </ion-card-content>
+      </ng-container>
+
+      <ng-container *ngIf="phase == 3">
+        <ion-card-header>
+          <ion-card-title>Completing Registration</ion-card-title>
+          <ion-card-subtitle>Login Credentials</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Enter your desired username</ion-label>
+            <ion-input type="text" placeholder="eg anything02TY" [(ngModel)]="Username"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Enter your desired Password</ion-label>
+            <ion-input [type]="pass1" placeholder="write here" [(ngModel)]="Password" id="Password"> </ion-input>
+            <ion-icon slot="end" [name]="pass1_icon" class="eye-icon" (click)="eye_toggle('Password')"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Re-enter your Password</ion-label>
+            <ion-input [type]="pass2" placeholder="write here" [(ngModel)]="RePassword" id="RePassword"></ion-input>
+            <ion-icon slot="end" [name]="pass2_icon" class="eye-icon" (click)="eye_toggle('RePassword')"></ion-icon>
+          </ion-item>
+
+          <ion-button expand="block" (click)="checkLoginInfo()">
+            <ion-icon slot="end" name="chevron-forward"></ion-icon>
+            Next
+          </ion-button>
+        </ion-card-content>
+      </ng-container>
+
+      <ng-container *ngIf="phase == 4">
+        <ion-card-header>
+          <ion-card-title>Completing Registration</ion-card-title>
+          <ion-card-subtitle>Contact, Address and other Information</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Contact Number</ion-label>
+            <ion-input type="tel" placeholder="XXXXXXXXXX" maxlength = "10" [(ngModel)]="Contact_Number">+63 </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Address</ion-label>
+            <ion-input type="tel" placeholder="eg Poras, Boac, Marinduque" [(ngModel)]="Address"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Birthdate</ion-label>
+            <ion-input type="date" [(ngModel)]="Birthdate"></ion-input>
+          </ion-item>
+          
+          <ion-button expand="block" color="medium" (click)="back()">
+            <ion-icon slot="start" name="chevron-back"></ion-icon>
+            Back
+          </ion-button>
+          <ion-button expand="block" (click)="finish()">
+            <ion-icon slot="start" name="checkmark"></ion-icon>
+            Finish
+          </ion-button>
+        </ion-card-content>
+      </ng-container>
+    </ion-card>
+  </div>
+
+
+</ion-content>

@@ -1,0 +1,47 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+   <ion-button slot="start" fill="clear" [routerLink]="['/tagapangasiwa/dashboard']"  >
+     <ion-icon slot="start" name="chevron-back"></ion-icon>
+     <ion-label>Back</ion-label>
+   </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Change Username</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="!confirmed">
+        <h5>Enter your password to continue</h5>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="Password"></ion-input>
+        </ion-item>
+        <ion-button  expand="block" (click)="confirmPassword()">
+          
+          
+          <ng-container *ngIf="!passwordChecking"><ion-icon slot="start" name="lock-open-sharp"></ion-icon>Confirm</ng-container>
+          <ng-container *ngIf="passwordChecking"><ion-spinner name="lines" slot="start"></ion-spinner> Checking Password</ng-container>
+        </ion-button>
+      </ion-card-content>
+
+      <ion-card-content *ngIf="confirmed">
+        <h5>Enter your new username</h5>
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input type="text" [(ngModel)]="Username"></ion-input>
+        </ion-item>
+        <ion-button  expand="block" (click)="changeUsername()">
+          <ion-icon slot="start" name="checkmark-sharp"></ion-icon>
+          Save Changes
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  
+
+</ion-content>

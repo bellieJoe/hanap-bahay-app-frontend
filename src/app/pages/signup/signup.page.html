@@ -1,0 +1,141 @@
+<ion-header  class="ion-no-border" mode="md">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="md">
+  <br>
+  <form *ngIf="phase == 1">
+    <ion-item lines="none" aria-details="none" class="form-title">
+      <ion-label color="primary">Ceate account here</ion-label>
+      <ion-icon slot="start" name="reader-sharp" color="primary"></ion-icon>
+    </ion-item>
+    
+    <ion-slides pager="true" [options]="slideOpts" #slides  class="swiper-no-swiping">
+
+      <ion-slide><br>
+        <ion-item>
+          <ion-label position = "floating">Username<ion-text color="danger">*<span id='username_warning'>the username is taken</span></ion-text></ion-label>
+          <ion-input  type="text" [(ngModel)]="user_inputs.Username" [ngModelOptions]="{standalone: true}" (change)="validateUniqueInputs('Username')" placeholder="eg anything143"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input [type] = "showPassword1 ? 'text' : 'password'"  [(ngModel)]="user_inputs.Password" [ngModelOptions]="{standalone: true}" (ionChange)="checkMatch()" placeholder="write here"></ion-input>
+          <ion-icon (click)="togglePassword(1)" class="eye" slot="end" [name]="passwordToggleIcon1"></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Confirm Password <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input [type] = "showPassword2 ? 'text' : 'password'" [(ngModel)]="password_retype" [ngModelOptions]="{standalone: true}" (ionChange)="checkMatch()" placeholder="write here"></ion-input>
+          <ion-icon (click)="togglePassword(2)" class="eye" slot="end" [name]="passwordToggleIcon2"></ion-icon>
+        </ion-item>
+        <label id = 'pass_warning'>*password doesnt match*</label>
+        <br><br>
+      </ion-slide>
+
+      <ion-slide>
+        <br>
+        <ion-item>
+          <ion-label position = "floating">Firstname<ion-text color="danger" >*</ion-text></ion-label>
+          <ion-input  type="text" [(ngModel)]="user_inputs.Firstname" [ngModelOptions]="{standalone: true}" placeholder="Juan"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Lastname <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input  type = "text"[(ngModel)]="user_inputs.Lastname" [ngModelOptions]="{standalone: true}" placeholder="Dela Cruz"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Middlename <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input  type = "text" [(ngModel)]="user_inputs.Middlename" [ngModelOptions]="{standalone: true}"  placeholder="Hernadez"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Birthdate <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input  type = "date" [(ngModel)]="user_inputs.Birthdate" [ngModelOptions]="{standalone: true}" ></ion-input>
+        </ion-item><br><br>
+      </ion-slide>
+      
+
+      <ion-slide>
+        <br>
+        <ion-item>
+          <ion-label position = "floating">Email Address<ion-text color="danger">*<span id='email_warning'> the Email address is already used</span></ion-text></ion-label>
+          <ion-input  type="Email" [(ngModel)]="user_inputs.Email" [ngModelOptions]="{standalone: true}" (change)="validateUniqueInputs('Email')" placeholder="username@gmail.com"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Address <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input  type = "text" [(ngModel)]="user_inputs.Address" [ngModelOptions]="{standalone: true}"  placeholder="Poras, Boac. Marinduque"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Contact Number (e.g. 639502340784) <ion-text color="danger">*<span id='c_number_warning'> the contact number is already used</span></ion-text></ion-label>
+          <ion-input  type = "tel" [(ngModel)]="user_inputs.Contact_Number" [ngModelOptions]="{standalone: true}" (change)="validateUniqueInputs('Contact_number')" maxlength = "10" placeholder="XXXXXXXXXX">+63 </ion-input>
+        </ion-item><br><br>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-list>
+          <ion-list-header>
+            <ion-label color="tertiary">Almost there!</ion-label>
+          </ion-list-header>
+          <ion-item>
+            <ion-label>What type of user are you?</ion-label>
+            <ion-select  cancelText="cancel" okText="enter" interface="popover" [(ngModel)]="user_inputs.User_Type" [ngModelOptions]="{standalone: true}">
+              <ion-select-option value="tenant">Tenant</ion-select-option>
+              <ion-select-option value="property owner">Property Owner</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <br>
+          <label id="form_inc_warning">Please complete the Sign up form</label>
+          <br> 
+          <ion-button expand = "full" color="tertiary"  (click)="createAcc()">Finish</ion-button>
+        </ion-list>
+      </ion-slide>
+
+    </ion-slides>
+
+    <br>
+    <div class="buttons">
+      <ion-button id="back" expand="block"  class="next"  color="medium" (click)="swipeBack()">
+        Back
+       <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button id="next" expand="block" class="next"  color="primary" (click)="swipeNext()">
+        Next
+        <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
+      
+    </div>
+    </form>
+
+    <ion-card class="terms" *ngIf="phase == 2">
+      <ion-card-header>
+        <ion-card-title>User Agreement</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="content">
+          <iframe src="../assets/TERMS_AND_CONDITIONS.html" frameborder="0"></iframe>
+        </div>
+        <h6 style="text-align: center;">By clicking the "I Agree" button, you agree to the Terms and Conditions stated above.</h6>
+        <ion-button expand="block" (click)="gotoVerify()">
+          <ion-icon slot="start" name="checkmark"></ion-icon>
+          I Agree
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+
+    <ion-card class="verify" *ngIf="phase == 3">
+      <ion-card-header>
+        <ion-card-title>Verify Email</ion-card-title>
+      </ion-card-header>
+      <input type="password" maxlength="6" [(ngModel)]="codeInput">
+      <h6>Enter the code here we sent to your Email</h6>
+      <h6>Didn't receive a code? <span class="resend" (click)="resend()">resend</span></h6>
+      <ion-button color="primary"  expand="block" (click)="verify()">
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Verify
+      </ion-button>
+    </ion-card>
+
+</ion-content>

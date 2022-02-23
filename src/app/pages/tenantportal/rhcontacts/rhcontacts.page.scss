@@ -1,0 +1,41 @@
+ion-header{
+    ion-toolbar{
+        .name-label{
+            opacity: 100%;
+        }
+    }
+}
+ion-content{
+    --background: rgb(243, 243, 243);
+   .wrapper{
+       max-width: 700px;
+       margin: 1em auto;
+       ion-item-sliding{
+           ion-item{
+               --inner-padding-top: .5em;
+               --inner-padding-bottom: .5em;
+               div{
+                   .label{
+                       font-size: 13px;
+                   }
+               }
+           }
+           ion-item-options{
+            a{
+                text-decoration: none;
+                background-color: rgb(19, 133, 179);
+                color: white;
+                padding: 25.5px 1em;
+            }
+        }
+       }
+        .call{
+            &:hover{
+                opacity: 50%;
+            }
+        }
+        .call{
+            --background: rgb(13, 173, 98);
+        }
+   }
+}

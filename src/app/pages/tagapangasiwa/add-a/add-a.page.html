@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="wrapper">
+      <ion-button [routerLink]="['/tagapangasiwa/dashboard']" fill="clear">
+        <ion-icon slot="start" name="chevron-back"></ion-icon>
+        Back
+      </ion-button>
+    </div>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Add New Admin</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Firstname</ion-label>
+          <ion-input type="text" [(ngModel)]="adminParam.firstname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Middlename</ion-label>
+          <ion-input type="text" [(ngModel)]="adminParam.middlename"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Lastname</ion-label>
+          <ion-input type="text" [(ngModel)]="adminParam.lastname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input type="text" [(ngModel)]="adminParam.username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="adminParam.password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Re-Enter Password</ion-label>
+          <ion-input type="password" [(ngModel)]="adminParam.reenter"></ion-input>
+        </ion-item>
+        <ion-button  expand="block" (click)="addAdmin()">
+          <ion-icon slot="start" name="person-add-sharp"></ion-icon>
+          Register
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

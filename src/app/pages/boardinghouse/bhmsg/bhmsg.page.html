@@ -1,0 +1,63 @@
+<ion-header  >
+  <ion-toolbar>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-searchbar
+    (ionChange)="search()"
+    debounce="500" 
+    animated='true' 
+    placeholder='search messages'
+    mode="ios"
+    showCancelButton="focus"
+    [(ngModel)]="searchInput"
+    ></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-list class="suggest" *ngIf="searchResults.length > 0" >
+      
+      <ion-item   *ngFor="let i of searchResults" (click)="view(i.Conversation_ID)">
+        <ion-avatar slot="start" *ngIf="i.image_src">
+          <img [src]="i.image_src" />
+        </ion-avatar>
+        <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
+        <ion-label>{{i.name}}</ion-label>
+      </ion-item>
+    </ion-list>
+   
+    <ng-container *ngFor="let i of conversations">
+      <ion-item-sliding *ngIf="RRP_ID != i.Deleted_From">
+        <ion-item details="none" (click)="view(i.Conversation_ID)" >
+          <ion-avatar slot="start" *ngIf="i.image_src">
+            <img [src]="i.image_src" />
+          </ion-avatar>
+          <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
+          <div class="item-labels">
+            <h6 class="send-name">{{i.name}}</h6>
+            <h6 class="last-date">{{i.Last_Edited | date:"longDate"}}</h6>
+          </div>
+          <ion-badge color="primary" mode="ios" *ngIf="i.badge_value > 0" slot="end">{{i.badge_value}}</ion-badge>
+          <ion-icon slot="end" name="chevron-back-outline" ></ion-icon>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="delete(i.Conversation_ID)">
+            Delete
+            <ion-icon slot="top" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ng-container>
+    
+  </div>
+
+
+</ion-content>

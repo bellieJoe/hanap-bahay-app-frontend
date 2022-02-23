@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="md">
+      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Rental House Settings</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-content>
+        <ion-item-divider lines='none'>
+          <ion-label>Boarding House Details</ion-label>
+          <ion-button expand='block' class="edit_details" slot="end" (click)="edit()">
+            <ion-icon slot="start" name="create-outline"></ion-icon>
+            Edit Details
+          </ion-button>
+        </ion-item-divider>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="home-sharp"></ion-icon>
+          <ion-label>{{RH_Details.RRP_Name}}</ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="person-sharp"></ion-icon>
+          <ion-label>Owned by {{RH_Owner_Name | titlecase}}</ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="location-sharp"></ion-icon>      
+          <ion-label><span>{{RH_Details.RRP_Address | titlecase}}</span></ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="bed-sharp"></ion-icon>
+          <ion-label>Capacity of <span >{{RH_Details.RRP_Capacity}}</span></ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="woman"></ion-icon>
+          <ion-label>{{RH_Details.RRP_Type}}</ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="card"></ion-icon>
+          <ion-label>Php {{RH_Details.RRP_Rent_Rate | number:'1.2-2'}} per Month</ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-icon slot="start" name="call"></ion-icon>
+          <ion-label>+63{{RH_Details.Contact_Number}}</ion-label>
+        </ion-item>
+        <ion-item lines='none' >
+          <ion-icon slot="start" name="information-circle"></ion-icon>
+          <ion-label >Description</ion-label>         
+          <!-- <ion-label *ngIf="!RH_Details.RRP_Description">Description not set</ion-label> -->
+        </ion-item>
+        <div class="des">
+          <ion-label *ngIf="RH_Details.RRP_Description">{{RH_Details.RRP_Description}}</ion-label>         
+          <ion-label *ngIf="!RH_Details.RRP_Description">Description not set</ion-label>
+        </div>
+      </ion-card-content>
+      <ion-button  expand='block' class="edit_details1" (click)="edit()">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Edit Details
+      </ion-button>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <ion-item-divider lines='none'>
+          <ion-label>Rental House Map Coordinates</ion-label>
+          <ion-button (click)="presentModal()" expand='block' class="edit_details" slot="end">
+            <ion-icon slot="start" name="location-outline"></ion-icon>
+            Change Coordinates
+          </ion-button>
+        </ion-item-divider>
+        <ion-item lines='none'>
+          <ion-label>X Coordinate | {{RH_Details.RRP_X_Coordinates}}</ion-label>
+        </ion-item>
+        <ion-item lines='none'>
+          <ion-label>Y Coordinate | {{RH_Details.RRP_Y_Coordinates}}</ion-label>
+        </ion-item>
+      </ion-card-content>
+      <ion-button (click)="presentModal()" expand='block' class="edit_details1" >
+        <ion-icon slot="start" name="location-outline"></ion-icon>
+        Change Coordinates
+      </ion-button>
+    </ion-card>
+
+    <ion-card>
+      <ion-item-divider lines='none'>
+        <ion-label>Inquiry Settings</ion-label>
+        <!-- <ion-button (click)="presentModal()" expand='block' class="edit_details" slot="end">
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          Change Coordinates
+        </ion-button> -->
+      </ion-item-divider>
+      <ion-card-content>
+        <ion-item button (click)="editExpiry()">
+          <div>
+            <h2>Set Inquiry Expiration</h2>
+            <h6>Set how many days will your inquiry expire if not approved.</h6>
+          </div>
+          <!-- <ion-toggle slot="end"></ion-toggle> -->
+        </ion-item>
+        <ion-item button (click)="editExpiry()">
+          <div>
+            <h2>Not accepting Inquiries right now?</h2>
+            <h6>Temporarily stop accepting inquiries for some reasons</h6>
+          </div>
+          <!-- <ion-toggle slot="end"></ion-toggle> -->
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+</ion-content>

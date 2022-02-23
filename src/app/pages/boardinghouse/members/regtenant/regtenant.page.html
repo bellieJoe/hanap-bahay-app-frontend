@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button fill="clear" [routerLink]="['/boardinghouse/members']" color="dark">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Register Tenant</ion-card-title>
+      </ion-card-header>
+      <ion-card-content *ngIf="phase == 1">
+        <ion-item>
+          <ion-label>Select Designation</ion-label>
+          <ion-select  multiple="false" placeholder="Select Type" [(ngModel)]="Type">
+            <ion-select-option *ngFor="let i of RRP_Settings" [value]="i.value">{{ i.value }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="ion-margin-top">
+          <ion-label position="floating">Email Address</ion-label>
+          <ion-input type="email" placeholder="eg delacruzjuan@gmail.com" [(ngModel)]="Email"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="checkEmail()">
+          <ion-icon slot="end" name="chevron-forward"></ion-icon>
+          Next
+        </ion-button>
+        <!-- <a href='http://localhost:8100/' target="_blank"  style='background:  rgb(18, 130, 235); padding: .8em; font-size: 18px; margin-top: 1em; text-decoration: none; cursor: pointer; color: white;'>Confirm Registration</a> -->
+      </ion-card-content>
+
+      <ion-card-content *ngIf="phase == 2">
+        
+        <ion-item>
+          <ion-label>{{Email}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Firstname</ion-label>
+          <ion-input type="text" placeholder="eg Juan" [(ngModel)]="Firstname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Middlename</ion-label>
+          <ion-input type="text" placeholder="eg Hernandez" [(ngModel)]="Middlename"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Lastname</ion-label>
+          <ion-input type="text" placeholder="eg Dela Cruz" [(ngModel)]="Lastname"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="register()">
+          <ion-icon slot="start" name="person-sharp"></ion-icon>
+          Register
+        </ion-button>
+        <ion-button expand="block" color="medium" (click)="cancel()">
+          Cancel
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+    
+  </div>
+
+</ion-content>

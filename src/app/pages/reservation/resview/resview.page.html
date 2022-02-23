@@ -1,0 +1,74 @@
+<ion-header class = "ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+
+
+
+  <div class="wrapper">
+    <!-- <ion-text color="primary">
+      <h1>Boarding House name</h1>
+      <h1 (click)="call()">Contact Number</h1>
+    </ion-text> -->
+
+    <ion-item lines="none">
+      <ion-icon slot="start" name="home"></ion-icon>
+      <div class="con">
+        <ion-label>Rental House Name</ion-label>
+        <ion-label>{{RH_Name}}</ion-label>
+      </div>
+    </ion-item>
+    <ion-item lines="none">
+      <div class="con">
+        <ion-label>Contact Number</ion-label>
+        <ion-label>{{Contact_Number}}</ion-label>
+      </div>
+      <ion-icon slot="start" name="call"> </ion-icon>
+    </ion-item>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Update Logs</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let i of updates" class="ion-text-wrap log">
+        <h1><span>{{i.Update_Date | date:'longDate'}} {{i.Update_Date | date: 'h:mm a'}}</span> • {{i.Update_Content}}</h1>
+      </ion-item >
+
+      <div class="meet-det" *ngIf="Reservation_det.Status == 'approved' && Reservation_det.Date_Scheduled">
+        <ion-list-header>
+          <ion-label>Meeting Details</ion-label>
+        </ion-list-header>
+        <ion-item mode="md" lines="none">
+          <ion-icon slot="start" name="calendar-outline"></ion-icon>
+          <div class="con">
+            <ion-label>Meeting Date</ion-label>
+            <ion-label>{{Reservation_det.Date_Scheduled | date:'longDate'}}</ion-label>
+          </div>
+        </ion-item>
+        <ion-item mode="md" lines="none">
+          <ion-icon slot="start" name="time-outline"></ion-icon>
+          <div class="con">
+            <ion-label>Meeting Time</ion-label>
+            <ion-label>{{Reservation_det.Date_Scheduled | date:'h:mm a'}}</ion-label>
+          </div>
+        </ion-item>
+        <ion-item mode="md" lines="none" *ngIf="Reservation_det.Confirmation_Note != ''">
+          <ion-icon slot="start" name="clipboard-outline"></ion-icon>
+          <div class="con">
+            <ion-label>Note from the Property Owner</ion-label>
+            <ion-label class="ion-text-wrap" style="white-space: pre-wrap;">{{Reservation_det.Confirmation_Note}}</ion-label>
+          </div>
+        </ion-item>
+      </div>
+      <h6 class="noup" *ngIf="!updates">No updates yet</h6>
+    </ion-list> 
+  </div>
+</ion-content>

@@ -1,0 +1,54 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button [routerLink]="['/tagapangasiwa/dashboard']" fill="clear">
+      <ion-icon slot="start" name="chevron-back"></ion-icon>
+      Back
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Change Password</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="!isConfirmed">
+        <h5>Enter your password to continue</h5>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="Password"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="confirmPassword()">
+          <ng-container *ngIf="!passwordChecking">
+            <ion-icon slot="start" name="lock-open-sharp"></ion-icon>
+            Confirm Password
+          </ng-container>
+          <ng-container *ngIf="passwordChecking">
+            <ion-spinner name="lines" slot="start"></ion-spinner>
+            Checking Password
+          </ng-container>
+        </ion-button>
+      </ion-card-content>
+
+      <ion-card-content *ngIf="isConfirmed">
+        <ion-item>
+          <ion-label position="floating">Enter your new password</ion-label>
+          <ion-input type="password" [(ngModel)]="NewPassword"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Re-Enter your new password </ion-label>
+          <ion-input type="password" [(ngModel)]="ReNewPassword"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="savePassword()">
+          <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+          Save New Password
+        </ion-button>
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+
+</ion-content>

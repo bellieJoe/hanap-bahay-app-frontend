@@ -1,0 +1,26 @@
+ion-content{
+    .wrapper{
+        width: 90%;
+        height: 100%;
+        margin: auto;
+        // background-color: blue;
+        .b1{
+            --background: rgb(0, 141, 206);
+        }
+        h6{
+            text-align: center;
+        }
+        .map{
+            height: 90%;
+            // color: rgb(11, 125, 218);
+        
+        }
+        .findMap{
+            width: 100%;
+            margin: auto;
+            button{
+                margin: auto;
+            }
+        }
+    }
+}

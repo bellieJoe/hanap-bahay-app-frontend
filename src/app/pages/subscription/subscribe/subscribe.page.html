@@ -1,0 +1,276 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button  expand="block" fill="clear" slot="start" [routerLink]="['/subscription']">
+      <ion-icon slot="icon-only" name="arrow-back" color="dark"></ion-icon>
+    </ion-button>
+    <ion-title>Rental House Registration</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+
+    <!-- phase 1: Basic Information -->
+    <div class="wrap_content p1" *ngIf="phase == 1" >
+      <ion-list>
+        <ion-list-header>
+          <ion-label color="primary">Basic Information</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-label position="floating">Rental House Name<span class="req" > *</span></ion-label>
+          <ion-input type="text" required [(ngModel)]="rh_user_inputs.RRP_Name" placeholder="eg PBB House"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Rental House Address<span class="req" > *</span></ion-label>
+          <ion-input type="text" required [(ngModel)]="rh_user_inputs.RRP_Address" placeholder="eg Brgy name, Municipality, Province "></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Contact Number<span class="req" > *</span></ion-label>
+          <ion-input type="tel" required [(ngModel)]="rh_user_inputs.Contact_Number" placeholder="XXXXXXXXXX" maxlength='10'>+63 </ion-input>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" color="tertiary" (click)="validate(1)">
+        <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        Next
+      </ion-button>
+    </div>
+
+
+
+    <!-- phase 2: Type of Rental House -->
+    <div class="wrap_content p2" *ngIf="phase == 2">
+      <ion-item lines="none">
+        <ion-text color="primary">
+          <ion-label class="ion-text-wrap">Identify what type of rental house is this</ion-label>
+        </ion-text>
+      </ion-item>
+      <ion-chip *ngFor="let i of chosenTypes">
+        <ion-label>{{ i.value}}, {{ i.capacity }} {{ i.unit }}</ion-label>
+        <ion-icon name="close-circle" (click)="removeOption(i)"></ion-icon>
+      </ion-chip>
+      <ion-card>
+        <ion-card-content>
+          <div class="select-type">
+            <ion-item >
+              <ion-label position="floating">Rental House Type</ion-label>
+              <ion-input type="text" placeholder="type here" (click)="showOptions()" [(ngModel)]="optionValue"></ion-input>
+            </ion-item>
+            <div class="type-options" *ngIf="showOption">
+              <ion-item (click)="choose('house for rent')">
+                <ion-label>house for rent</ion-label>
+              </ion-item>
+              <ion-item (click)="choose('bed space')">
+                <ion-label>bed space</ion-label>
+              </ion-item>
+              <ion-item (click)="choose('female bed space')">
+                <ion-label>female bed space</ion-label>
+              </ion-item>
+              <ion-item (click)="choose('male bed space')">
+                <ion-label>male bed space</ion-label>
+              </ion-item>
+              <ion-item (click)="choose('room for rent')">
+                <ion-label>room for rent</ion-label>
+              </ion-item>
+            </div>
+            <ion-item *ngIf="optionValue">
+              <ion-label position="floating">Maximum Capacity</ion-label>
+              <ion-input type="number" placeholder="input the capacity here" [(ngModel)]="optionCapacity"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="optionValue">
+              <ion-label position="floating">Capacity Unit</ion-label>
+              <ion-input type="text" placeholder="eg. person, units etc" [(ngModel)]="optionUnit"></ion-input>
+            </ion-item>
+            <ion-button slot="end" (click)="addOption()">
+              <ion-icon slot="start" name="add" ></ion-icon>
+              add
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+
+
+      <ion-button expand="block" color="medium" (click)="swipeBack()" class="back">
+        <ion-icon slot="start" name="chevron-back"></ion-icon>
+        Back
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="validate(2)" class="next">
+        <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        Next
+      </ion-button>
+    </div>
+
+    <!-- phase 3: Setup Billing and Payment -->
+    <div class="wrap_content p2" *ngIf="phase == 3">
+      <ion-item lines="none">
+        <ion-text color="primary">
+          <ion-label class="ion-text-wrap">Rental House Billing</ion-label>
+        </ion-text>
+      </ion-item>
+      <ion-card *ngFor="let i of chosenTypes" mode="md">
+        <ion-card-content>
+          <ion-item lines = "none">
+            <ion-label>Setup {{ i.value }} billing</ion-label>
+            <ion-button  expand="block" slot="end" (click)="toggleEditBilling(i.value)" *ngIf="i.billing_status == 'unset'">
+              Setup
+            </ion-button>
+            <ion-button expand="block" *ngIf="i.billing_status == 'edited'" (click)="editBilling(i.value)" slot="end">
+              <ion-icon slot="start" name="create"></ion-icon>
+              Edit
+            </ion-button>
+          </ion-item>
+          <div *ngIf="i.billing_status == 'edited'">
+            <ion-item *ngFor="let a of i.billing">
+              <ion-label>{{ a.label }}</ion-label>
+              <ion-label slot="end">{{ a.amount  | currency : 'Php' }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>Total Fee's</ion-label>
+              <ion-label slot="end"> {{ i.total_billing | currency : 'Php'}}</ion-label>
+            </ion-item>
+          </div>
+          <ng-container *ngIf="toggleBilling == i.value">
+            <ion-item>
+              <ion-label slot="start">Rent Payment: </ion-label>
+              <ion-input placeholder="eg 2500" [(ngModel)]="rent_rate" slot="end">Php </ion-input>
+            </ion-item>
+            <ion-item *ngFor="let i of rent" class="bill-payments">
+              <ion-label slot="start">{{ i.label }}</ion-label>
+              <ion-input slot="end" disabled>Php {{ i.amount }}</ion-input>
+              <ion-button (click)="removePayment(i.label)" fill="clear" shape="round" slot="end">
+                <ion-icon slot="icon-only" name="close" ></ion-icon>
+              </ion-button>
+            </ion-item>
+            <br>
+            <div class="other-fee" *ngIf="i.billing_status == 'unset'">
+              <ion-label>Add other fee's (optional)</ion-label>
+              <ion-item>
+                <ion-label position="floating">Label</ion-label>
+                <ion-input type="text" placeholder="eg. electricity fee" [(ngModel)]="payment.label"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Amount</ion-label>
+                <ion-input type="number" placeholder="eg. 100" [(ngModel)]="payment.amount"></ion-input>
+              </ion-item>
+              <ion-button expand="block" (click)="addPayment()" >
+                <ion-icon slot="start" name="add"></ion-icon>
+                Add fee
+              </ion-button>
+            </div>
+            <br>
+            <ion-button expand="block" color="success" *ngIf="i.billing_status == 'unset'" (click)="saveBilling(i.value)">
+              <ion-icon slot="start" name="save"></ion-icon>
+              Save
+            </ion-button>
+          </ng-container>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-button expand="block" color="medium" (click)="swipeBack()" class="back">
+        <ion-icon slot="start" name="chevron-back"></ion-icon>
+        Back
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="validate(3)" class="next">
+        <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        Next
+      </ion-button>
+    </div>
+
+    <!-- phase 4: Location of the Rental House -->
+    <div class="wrap_content p2" *ngIf="phase == 4">
+      <ng-container *ngIf="!onMap">
+        <ion-list>
+          <ion-list-header>
+            <ion-label color="primary">Location</ion-label>
+          </ion-list-header>
+          <ion-note>(Note: you must be at the exact location of your Rental House and as much as possible use mobile phone for accuracy or you can locate your rental house manually on map)</ion-note>
+        </ion-list>
+        <div class="loc-buttons">
+          <ion-button (click)="getCoords()" expand="block">
+            <ng-container *ngIf="!calibrating">
+              <ion-icon slot="start" name="location-outline"></ion-icon>
+              Get Location
+            </ng-container>
+            <ng-container *ngIf="calibrating">
+              <ion-spinner name="lines"></ion-spinner>
+              Getting Location
+            </ng-container>
+          </ion-button>
+          <ion-label> or </ion-label>
+          <ion-button color="success" (click)="openMap()" expand="block">
+            <ion-icon slot="start" name="search"></ion-icon>
+              Find on map
+          </ion-button>
+        </div>
+        
+        <ion-item>
+          <ion-label>X Coordinate: </ion-label>
+          <ion-input type="number" [(ngModel)]="rh_user_inputs.RRP_X_Coordinates" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Y Coordinate: </ion-label>
+          <ion-input type="number" [(ngModel)]="rh_user_inputs.RRP_Y_Coordinates" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <center>or</center> <br>
+        
+      </ng-container>
+      <div #mapElement class="map" id="map" *ngIf="onMap">
+        <ion-item>
+          <ion-spinner name="dots" slot="start"></ion-spinner> Initializing Map
+        </ion-item>
+      </div>
+
+      <ion-button expand="block" color="medium" (click)="swipeBack()" class="back">
+        <ion-icon slot="start" name="chevron-back"></ion-icon>
+        Back
+      </ion-button>
+
+      <ion-button expand="block" color="tertiary" (click)="validate(4)" class="next">
+        <ion-icon slot="end" name="chevron-forward"></ion-icon>
+        Next
+      </ion-button>
+      <!-- <ion-button color="tertiary" (click)="register_RH()" expand="block" class="next">
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Finish Registration
+      </ion-button> -->
+    </div>
+
+    <!-- phase 5: Rental House Permit -->
+    <div class="wrap_content p2" *ngIf="phase == 5">
+      <ion-item lines="none">
+        <ion-text color="primary">
+          <ion-label class="ion-text-wrap">Permits <ion-note>(optional)</ion-note></ion-label>
+        </ion-text>
+      </ion-item>
+      <ion-note>Providing a photo of documents such as business permit helps seekers know that you are a legitimate business. Please be aware that the photo's that you will upload will be visible for the Rental House Seekers.</ion-note><br>
+      <div class="img-list" *ngFor="let i of selectedImage">
+        <ion-button shape="round" color="medium" size="small" (click)="removeImage(i.name)">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+        <img [src]="i.data" >
+        <h6>{{ i.name }}</h6>
+      </div>
+      <div class="img-input">
+        <ion-item>
+          <ion-label position="floating">Name</ion-label>
+          <ion-input type="text" placeholder="name of the document" [(ngModel)]="imageName"></ion-input>
+        </ion-item>
+        <input type="file" accept='image/jpeg' class="file-input" (change)="fileChange()" id="imageFile">
+        <ion-button expand="block" (click)="addImage()">
+          <ion-icon slot="start" name="images"></ion-icon>
+          Add photo
+        </ion-button>
+      </div>
+      <ion-button color="tertiary" (click)="register_RH()" expand="block" class="next">
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Finish Registration
+      </ion-button>
+    </div>
+
+  </div>
+
+</ion-content>

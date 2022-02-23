@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="ios" class="name-item">
+      <ion-label position='stacked' class="name-label" color="primary">{{BH_Name}}</ion-label>
+      <ion-input disabled>Complaints</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <div action="" class="complain_form">
+      <div class="form_header">
+        <h4>Complaint Form</h4>
+      </div>
+      <h6 class="el1">Hi <span>{{yourName}}</span> thanks for reaching out, please write your complaints about this Rental House down there and the Property owner will try to resolve it.</h6>
+      <ion-item class="el2">
+        <ion-label position='floating'>Write your complaints here</ion-label>
+        <ion-textarea [(ngModel)]="complaintsInput"></ion-textarea>
+      </ion-item>
+      <ion-button  expand="block" class="el3" (click)="submitComplaint()">
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Submit
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

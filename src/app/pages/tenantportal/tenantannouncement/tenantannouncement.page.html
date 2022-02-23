@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="ios">
+      <ion-label position='stacked' color="primary" class="name-label">{{BH_Name}}</ion-label>
+      <ion-input disabled>Announcements</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header >
+  <ion-toolbar mode="ios">
+    <ion-segment  id="segment" mode="md" [(ngModel)]="segmentValue">
+      <ion-segment-button value="all" (click)="filter('unchecked')">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="important" (click)="filter('checked')">
+        <ion-label>Important</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="normal" (click)="filter('checked')">
+        <ion-label>Normal</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+  
+    <ng-container *ngFor="let i of announcements">
+      <ion-card  *ngIf="segmentValue == i.Announcement_Tag || segmentValue == 'all'"> 
+        <ion-card-header>
+          <ion-label class="title">{{i.Annoucement_Title}}</ion-label>
+          <div>
+            <ion-label color="tertiary">{{i.Announcement_Tag | titlecase}} •</ion-label>
+            <ion-label> {{i.Date_Time | date:"longDate"}} {{i.Date_Time |date:"shortTime"}}</ion-label>
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+         <h6>{{i.Announcement_Content}}</h6>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>   
+  </div>
+
+</ion-content>

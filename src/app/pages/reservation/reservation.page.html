@@ -1,0 +1,101 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inquiries</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header >
+  <ion-toolbar mode="ios">
+    <ion-segment  id="segment" mode="md" [(ngModel)]="segmentValue" scrollable swipe-gesture = "true">
+      <ion-segment-button value="all" (click)="filter('all')">
+        <ion-label>
+          All 
+          <ion-badge color="primary" mode="ios">{{badge_values.all}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="pending" (click)="filter('pending')">
+        <ion-label>
+          Pending 
+          <ion-badge color="secondary" mode="ios">{{badge_values.pending}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="approved" (click)="filter('approved')">
+        <ion-label>
+          Approved
+          <ion-badge color="success" mode="ios">{{badge_values.approved}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="declined" (click)="filter('declined')">
+        <ion-label>
+          Declined 
+          <ion-badge color="danger" mode="ios">{{badge_values.declined}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="canceled" (click)="filter('canceled')">
+        <ion-label>
+          Canceled 
+          <ion-badge color="warning" mode="ios">{{badge_values.canceled}}</ion-badge>
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ng-container *ngFor="let i of ReservationDets" >
+      <ion-card  *ngIf="segmentValue == i.Status || segmentValue == 'all'">
+        <ion-card-content>
+          <ion-item details="none" lines="none">
+            <div class="cont">
+              <ion-label color="primary" class="label">Rental House Name</ion-label>
+              <ion-label  class="con">{{i.RRP_Name}}</ion-label>
+            </div>
+          </ion-item>
+          <ion-item details="none" lines="none" *ngIf="i.Status == 'pending'">
+            <div class="cont">
+              <ion-label color="primary" class="label">Status</ion-label>
+              <ion-label class="con">{{i.Status | titlecase}}</ion-label>
+            </div>
+          </ion-item>
+          <ion-item details="none" lines="none">
+            <div class="cont">
+              <ion-label color="primary" class="label">Date Reserved</ion-label>
+              <ion-label  class="con">{{i.Date_Reserve | date:'longDate'}}</ion-label>
+            </div>
+          </ion-item>
+          <ion-item details="none" lines="none">
+            <div class="cont">
+              <ion-label color="primary" class="label">Capacity Reserved</ion-label>
+              <ion-label  class="con">{{i.Reservation}} {{i.unit}}</ion-label>
+            </div>
+          </ion-item>
+          <h1 *ngIf="i.Status != 'pending'" class="{{i.Status}}">{{i.Status | uppercase}}</h1>
+          <ion-button  expand="block" color="tertiary"  *ngIf="i.Status == 'approved'" (click)="view(i.Reservation_ID,i.RRP_ID)">
+            <ion-icon slot="start" name="pin-outline"></ion-icon>
+            View Updates
+          </ion-button>
+          <ion-button  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Delete
+          </ion-button>
+          
+        </ion-card-content>
+        <div class="buttons" *ngIf="i.Status == 'pending'">
+          <button  class="butt cancel" (click)="cancel(i.Reservation_ID)" >
+            Cancel
+          </button>
+          <button class="butt view" (click)="view(i.Reservation_ID,i.RRP_ID)">
+            View updates
+          </button>
+        </div>
+        
+      </ion-card> 
+    </ng-container>
+    
+  </div>
+
+</ion-content>

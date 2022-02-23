@@ -1,0 +1,74 @@
+
+ion-content{
+    .wrapper{
+        // transition: .4s;
+        max-width: 700px;
+        margin: 0em auto 2em auto;
+        // padding: .5em;
+        ion-button{
+            width: 300px;
+            margin: auto;
+        }
+        .part{
+            // margin: auto;
+            // transition: .4s;
+            .name{
+                font-weight: bold;
+                padding: .5em;
+                margin-bottom: 0px;
+            }
+            .image-con{
+                display: inline-block;
+                padding: .5em;
+                // transition: .4s;
+                // height: 131.51px;
+                width: 166px;
+                // border: .5px solid rgb(228, 228, 228);
+                h6{
+                    margin-top: 0px;
+                    text-align: left;
+                    width: 100%;
+                    height: 1.3em;
+                    // font-size: 14px;
+                    padding: 0em .5em ;
+                    overflow: hidden;
+
+                }
+                ion-img{
+                    width: 150px;
+                    height: auto;
+                    display: inline-block;
+                    cursor: pointer;
+                }
+                .to-hide{
+                    // transition: .4s;
+                    display: none;
+                    p{
+                        display: block;
+                        padding: .5em;
+                        // opacity: 70%;
+                        color: rgb(88, 88, 88);
+                        width: 100%;
+                        margin-top: 0px;
+                        white-space: pre-wrap;
+                        // transition: .4s;
+                        ion-button{
+                            // transition: .4s;
+                            margin: .5em auto;
+                            opacity: 100%;
+                        }
+                    }
+                    
+                }
+                
+                &:hover{
+                    // transition: .4s;
+                    background-color: rgb(233, 233, 233);
+                       
+                }
+
+            }
+            
+        }
+    }
+}

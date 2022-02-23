@@ -1,0 +1,113 @@
+
+
+.bgcover{
+    grid-template-columns: 1fr 4fr;
+    display: grid;
+    background-image: linear-gradient(to bottom right, rgb(195, 247, 100), rgb(11, 199, 121), rgb(39, 165, 238));
+    padding: 1em;
+    ion-text{
+        margin: auto 1em;
+        margin-right: 0px;
+    }
+}
+
+.tagname{
+    color: white;
+    ion-button{
+        width: 15em;
+        height: 3em;
+    }
+    h4{
+        font-weight: bold;
+        font-size: 25px;
+    }
+}
+
+ion-card{
+    margin: 1em auto;
+    margin-top: 0px;
+    width: 95%;
+    padding: 1em;
+    ion-item-divider {
+        --background: #ffffff;
+    }
+    
+    ion-card-header{
+        ion-item{
+           margin: auto;
+           margin-left: 0em;
+           ion-button{
+            --background-hover: white;
+           }
+           ion-icon{
+               vertical-align: top;
+            //    margin-right: .5em;
+           }
+           
+         }
+    }
+    ion-card-content{
+        ion-item{
+            div{
+                padding-left: 0px;
+                flex: initial;
+                align-items: left;
+                align-content: initial;
+                text-align: left;
+                // background-color: aquamarine;
+                align-self: flex-start;
+                .uname{
+                    font-style: italic;
+                    font-size: 13px;
+                    line-height: 1.2;
+                }
+            }  
+        }
+        
+        .name{
+            // grid-template-columns: 1fr 1fr 1fr;
+            // display: grid;
+            .content{
+                text-align: left;
+                margin-left: 0px;
+                ion-label{
+                    font-size: 13px;
+                }
+                ion-text{
+                    margin-top: 0px;
+                    h4{
+                        margin-top: 0px;
+                        color: black;
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+        .cons{
+            ion-label{
+                font-size: 13px;
+            }
+            ion-text{
+                margin-top: 0px;
+                h4{
+                    color: black;
+                    margin-top: 0px;
+                    font-size: 16px;
+                }
+            }
+        }
+        div{
+            margin: 1em auto;
+        }
+    }
+
+}
+
+.wrapper{
+    max-width: 700px;
+    margin: auto;
+}
+
+ion-content{
+    --background: rgb(243, 243, 243);
+}

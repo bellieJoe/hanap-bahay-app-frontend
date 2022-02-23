@@ -1,0 +1,95 @@
+<script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
+<ion-header class="ion-no-border" >
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="isAuth">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-button expand="block" fill="clear" slot="start" color="dark" [routerLink]="['']" *ngIf="!isAuth">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-searchbar animated='true' placeholder='search places' mode="ios" showCancelButton="focus" #searchInput (ionInput)="search()" id="searchInput" (ionCancel)="clearField()" (ionClear)="clearField()"></ion-searchbar>
+    
+    <!-- <ion-button class="grid_view" slot="end" fill='none' title="Grid view" [routerLink]="['/mapsearchgrid']" >
+      <ion-icon slot="icon-only" name="grid"></ion-icon>
+    </ion-button> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container >
+    <ion-list class="fieldres"  *ngIf="autocomplete_fields">
+      <ion-item *ngFor="let i of autocomplete_fields" (click)="setInput(i)">
+        <ion-label>{{i.description}}</ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngIf="onSkeleton" class="fieldres">
+      <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+    </ion-item>
+  </ng-container>
+
+
+  <div class="local" (click)="revealLoc()"  title="Navigate to your location">
+    <ion-icon name="locate"></ion-icon>
+  </div>
+
+  <div class="reload" (click)="reloadMap()" title="reload map">
+    <ion-icon name="reload"></ion-icon>
+  </div>
+
+  <div #mapElement class="map" id="map" ></div>
+
+  <div class="dirPanel" id = "dirPanel" >
+    <ion-button class="togglePanel" fill="clear" (click)="showDirPanel()">
+      <ion-icon slot="icon-only" name="chevron-up" *ngIf="!dirPanelOpen"></ion-icon>
+      <ion-icon slot="icon-only" name="chevron-down" *ngIf="dirPanelOpen"></ion-icon>
+    </ion-button>
+    <div class="wrapper">
+      <div class="start">
+        <ion-label>Set starting point</ion-label>
+        <ion-searchbar  [debounce]="250" 
+          showCancelButton="focus" 
+          mode="ios" 
+          placeholder="search place" 
+          animated
+          #searchstart
+          (ionInput)="searchStart()"
+          
+          [(ngModel)]="getDirProps.start" [ngModelOptions]="{standalone:true}"></ion-searchbar>
+          <ion-item>
+            <ion-label>Travel mode</ion-label>
+            <ion-select  interface="popover" [(ngModel)]="getDirProps.travel_mode" [ngModelOptions]="{standalone:true}">
+              <ion-select-option value="DRIVING">Driving</ion-select-option>
+              <ion-select-option value="TRANSIT">Transit</ion-select-option>
+              <ion-select-option value="WALKING">Walking</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ng-container >
+            <ion-list class="fieldres" *ngIf="autocomplete_fields2" >
+              <ion-item  *ngFor="let i of autocomplete_fields2" (click)="setInput2(i.description)">
+                <ion-label>{{i.description}}</ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item *ngIf="onSkeleton2" class="fieldres">
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </ion-item>
+          </ng-container>
+      </div>
+      
+       <ion-item color="tertiary" class="end-item" lines="none" details="none">
+         <div>
+           <ion-label class="dest">Destination</ion-label>
+           <ion-label>{{getDirProps.rrp_name}}</ion-label>
+         </div>
+       </ion-item>
+
+  
+       <ion-button expand="block" (click)="generateDirection()">
+         <ion-icon slot="start" name="compass"></ion-icon>
+         Generate Direction
+       </ion-button>
+    </div>
+  </div>
+  <ion-backdrop visible = "true" (ionBackdropTap)="showDirPanel()" *ngIf="dirPanelOpen"></ion-backdrop>
+
+</ion-content>
+

@@ -1,0 +1,23 @@
+// ion-tab-bar {
+//     overflow-x: scroll;
+// }
+
+ion-header{
+    ion-toolbar{
+        ion-label{
+            margin-left: 1em;
+        }
+        :last-child{
+            font-size: 14px;
+        }
+    }
+}
+
+ion-content{
+    ion-tabs{
+        width: 90%;
+        max-width: 900px;
+        margin: auto;
+    }
+}
+

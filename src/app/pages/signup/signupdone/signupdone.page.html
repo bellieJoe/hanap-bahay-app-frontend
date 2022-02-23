@@ -1,0 +1,29 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="closeSignup()" slot="end" fill="clear" >
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <div class="wrapper">
+    <form>
+      <div class="form_header">
+        <h4>Validate your account</h4>
+      </div>
+      <div class="instruction">
+        <label >{{'Hi Bellie'}}We have sent a verification email to you. Please check your email to see the verification code.</label>
+      </div>
+      <ion-item>
+        <ion-label position='floating'>Verification code</ion-label>
+        <ion-input type='text'></ion-input>
+      </ion-item>
+      <ion-button expand='block'>
+        <ion-icon slot="start" name="checkmark"></ion-icon>
+        Validate
+      </ion-button>
+    </form>
+  </div>
+
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="dismiss(false)" slot="end" fill='none' >
+      Close
+    </ion-button>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position='floating'>Select date of meet up</ion-label>
+      <ion-input type="date" [(ngModel)]="meet_date" placeholder=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Select Time</ion-label>
+      <ion-input type="time" [(ngModel)]="meet_time" placeholder=""></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Add notes</ion-label>
+      <ion-textarea [(ngModel)]="meet_note" rows="1"></ion-textarea>
+    </ion-item>
+
+    <ion-button   expand='block' color="tertiary" (click)="approve()">
+      <!-- <ion-icon slot="start" name="checkmark"></ion-icon> -->
+      Cancel meet-up process
+    </ion-button>
+    <ion-button   expand='block' (click)="confirm()">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Confirm
+    </ion-button>
+  </ion-list>
+
+</ion-content>

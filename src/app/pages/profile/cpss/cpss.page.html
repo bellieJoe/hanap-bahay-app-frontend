@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Chang Password</ion-title>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <ion-slides mode="md"  #slider>
+      <ion-slide>
+        <ion-item >
+          <ion-label position="floating" >Enter your password to confirm</ion-label>
+          <ion-input [type]="passType" [(ngModel)]="passwordInput"></ion-input>
+          <ion-icon slot="end" [name]="eyeIcon" class="eye-icon" (click)="seePass()" title="see password"></ion-icon>
+        </ion-item>
+        <ion-button  expand="block" color="tertiary" (click)="confirm()">
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          Confirm
+        </ion-button>
+      </ion-slide>
+      <ion-slide>
+        <ion-item>
+          <ion-label position="floating">Enter new password</ion-label>
+          <ion-input [type]="passType2" [(ngModel)]="newPassword"></ion-input>
+          <ion-icon slot="end" [name]="eyeIcon2" class="eye-icon" (click)="seePass2()" title="see password"></ion-icon>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Re-Enter new password</ion-label>
+          <ion-input [type]="passType2" [(ngModel)]="reenterPassword"></ion-input>
+          <ion-icon slot="end" [name]="eyeIcon2" class="eye-icon" (click)="seePass2()" title="see password"></ion-icon>
+        </ion-item>
+        <ion-button  expand="block" color="tertiary" (click)="changePassword()">
+          Change
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        </ion-button>
+      </ion-slide>
+    </ion-slides>
+
+    <!-- <div class="check-pass-div">
+      <ion-item>
+        <ion-progress type="indeterminate" value="0.42" buffer="0.5" reversed="true" color="primary"></ion-progress>
+      </ion-item>
+    </div> -->
+    
+  </div>
+
+</ion-content>

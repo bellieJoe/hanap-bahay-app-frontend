@@ -1,0 +1,107 @@
+ion-content {
+    --background: rgb(243, 243, 243);
+    div{
+        
+        max-width: 700px;
+        width: 100%;
+        margin: auto;
+        .no-ann{
+            width: 90%;
+            margin: 1em auto;
+            opacity: 50%;
+        }
+        ion-card{
+            padding: 1em;
+            .aTitle{
+                font-weight: bold;
+                opacity: 100%;
+                color: black;
+                margin-bottom: 1em;
+            }
+            .aContent{
+                color: rgb(37, 37, 37);
+            }
+            ion-card-content{
+                h5{
+                    white-space: pre-wrap;
+                }
+            }
+            ion-card-header{
+                h5{
+                    margin-bottom: 0px;
+                    margin-top: 0px;
+                    font-size: 15px;
+                }
+                ion-label{
+                    font-size: 13px;
+                }
+            }
+            ion-button{
+                width: 95%;
+                margin-left: 2.5%;
+                margin-right: 2.5%;
+            }
+        }
+        .add_announcement{
+            width: fit-content;
+            margin: 1em auto;
+            color: white;
+            display: none;
+            --background: #0078EE;
+            &:hover{
+                --background: grey;
+            }
+        }
+    }
+}
+
+ion-fab-button {
+    --background: #0078EE;
+    display: none;
+}
+
+ion-header{
+    .segment_bar{
+        height: 2.5em;
+        ion-segment{
+            height: 98%;
+        }
+    }
+
+    ion-toolbar{
+        ion-segment{
+            max-width: 700px;
+            margin: auto;
+            ion-segment-button{
+                text-transform: initial;
+            }
+        }
+        .BH_Name{
+            opacity: 100%;
+            font-size: 18px;
+        }
+        .add_announcement{
+            margin-right: 2em;
+            --background: #0078EE;
+            &:hover{
+                --background: grey;
+            }
+        }
+    }
+}
+
+
+@media screen and(max-width: 580px){
+
+    ion-header{
+        ion-toolbar{
+            .add_announcement{
+                display: none;
+            }
+        }
+    }
+    ion-fab-button {
+        display: flex;
+    }
+
+}

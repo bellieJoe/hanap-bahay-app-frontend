@@ -1,0 +1,29 @@
+
+ion-header{
+    ion-toolbar{
+        .name-label{
+            opacity: 100%;
+        }
+    }
+}
+ion-content {
+    --background: rgb(243, 243, 243);
+    
+   .wrapper{
+       border: 1px solid lightgrey;
+       max-width: 700px;
+       width: 100%;
+       margin: 1em auto;
+       ion-item{
+        // --inner-padding-top: .5em;
+        // --inner-padding-bottom: .5em;
+           div{
+               margin-left: 1em;
+               .date-added{
+                   font-size: 13px;
+                   opacity: 75%;
+               }
+           }
+       }
+   }
+}

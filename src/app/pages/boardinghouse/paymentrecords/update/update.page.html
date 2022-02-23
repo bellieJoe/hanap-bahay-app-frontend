@@ -1,0 +1,39 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+    <ion-title>Update List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item>
+      <ion-label position='stacked' class="name_label">Tenant Name</ion-label>
+      <ion-input type="text" class="name" disabled [(ngModel)]="paymentDetail.Tenant_Name" [ngModelOptions]={standalone:true}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position='stacked'>Date Paid</ion-label>
+      <ion-input type="date" [(ngModel)]="paymentDetail.Date_Paid" [ngModelOptions]={standalone:true}></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select  multiple="false" placeholder="Not set" interface='popover' [(ngModel)]="paymentDetail.Status" [ngModelOptions]={standalone:true}>
+        <ion-select-option value="paid">Paid</ion-select-option>
+        <ion-select-option value="unpaid">Unpaid</ion-select-option>
+        <ion-select-option value="incomplete">Incomplete</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position='stacked'>Amount Paid</ion-label>
+      <ion-input type="number" [(ngModel)]="paymentDetail.Amount_Paid" [ngModelOptions]={standalone:true}></ion-input>
+    </ion-item>
+    <ion-button  expand="block" (click)="update()">
+      <ion-icon slot="start" name="checkmark"></ion-icon>
+      Update Record
+    </ion-button>
+  </ion-list>
+
+</ion-content>

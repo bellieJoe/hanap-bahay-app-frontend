@@ -1,0 +1,90 @@
+<ion-app >
+  <!-- (ionSplitPaneVisible)="onSplitPaneVisible(event)"  -->
+    <ion-split-pane contentId="menu-content"  when="">
+      <ion-menu mode="md" contentId="menu-content" menuId="menu-content" side="start" type="overlay" (ionDidOpen) = "loadMenu()" swipeGesture="false">
+        <ion-header class = "ion-no-border" >
+          <ion-toolbar color="secondary" class="py-2">
+            <ion-item color="secondary">
+              <ion-avatar slot="start">
+                <img src="../assets/icon/favicon.svg" />
+              </ion-avatar>
+              <ion-title>HanapBahay</ion-title>
+            </ion-item>
+            
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-menu-toggle  auto-hide="false" class="swiper-no-swiping">
+
+            <ion-item  [routerLink]="['/profile']" routerLinkActive="router-link-active" mode="md">
+              <ion-icon name="person-sharp" slot="start" *ngIf="!image_src"></ion-icon>
+              <ion-avatar slot="start" *ngIf="image_src">
+                <ion-img [src]="image_src" ></ion-img>
+              </ion-avatar>
+              <ion-label>{{UserDets.Firstname | titlecase}}</ion-label>
+            </ion-item>
+
+            <ion-item button [routerLink]="['/notification']"   mode="md">
+              <ion-icon name="notifications-sharp" slot="start"></ion-icon>
+              <ion-label>Notification</ion-label>
+              <ion-badge color="warning" mode="ios" *ngIf="Notification_Count > 0">{{Notification_Count}}</ion-badge>
+            </ion-item>
+
+            <ion-item button [routerLink]="['/map']" mode="md">
+              <ion-icon name="search-sharp" slot="start"></ion-icon>
+              <ion-label>Search Rental House</ion-label>
+            </ion-item>
+
+            <ion-item button [routerLink]="['/message']"  mode="md">
+              <ion-icon name="chatbox-ellipses-sharp" slot="start"></ion-icon>
+              <ion-label>Messages <span style="color: aqua; font-size: 20px;" *ngIf="HasNewMessage">•</span></ion-label>
+            </ion-item>
+
+            <ion-item  *ngFor="let l of menuLinks" [routerLink]="[l.url]" routerLinkActive="router-link-active" mdoe="md">
+              <ion-icon [name]="l.icon" slot="start"></ion-icon>
+              <ion-label>{{l.title}}</ion-label>
+              <ion-badge slot='end' color="light" *ngIf="l.badge > 0">3</ion-badge>
+            </ion-item>
+
+            <ng-container *ngIf="User_Type == 'property owner'">
+              <ion-item button [routerLink]="['/subscription']"  mode="md">
+                <ion-icon name="business-sharp" slot="start"></ion-icon>
+                <ion-label>Manage Rental House</ion-label>
+              </ion-item>
+              <ion-item button  mode="md">
+                <ion-icon name="card-sharp" slot="start"></ion-icon>
+                <ion-label>Pay Subscription</ion-label>
+              </ion-item>
+            </ng-container>
+
+            <ng-container *ngIf="User_Type == 'tenant'">
+              <ion-item button [routerLink]="['/rhprofile']"  mode="md" *ngIf="RRP_Name">
+                <ion-icon name="home-sharp" slot="start"></ion-icon>
+                <ion-label>Tenant Portal</ion-label>
+              </ion-item>
+              <ion-item button [routerLink]="['/reservation']"  mode="md">
+                <ion-icon name="book-sharp" slot="start"></ion-icon>
+                <ion-label>Your Inquiries</ion-label>
+              </ion-item>
+              <ion-item button [routerLink]="['/checklist']"  mode="md">
+                <ion-icon name="checkbox-sharp" slot="start"></ion-icon>
+                <ion-label>Checklist</ion-label>
+              </ion-item>
+            </ng-container>
+
+            <ion-item (click)="reportIssues()" button   mode="md">
+              <ion-icon name="help-circle-sharp" slot="start"></ion-icon>
+              <ion-label>Having Issues?</ion-label>
+            </ion-item>
+
+            <ion-item   (click)="logout()" button   mode="md">
+              <ion-icon name="exit" slot="start"></ion-icon>
+              <ion-label>Logout</ion-label>
+            </ion-item>
+
+          </ion-menu-toggle>
+        </ion-content>
+      </ion-menu>
+      <ion-router-outlet id="menu-content" main></ion-router-outlet>
+    </ion-split-pane>
+</ion-app>

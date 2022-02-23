@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none'>
+      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-input disabled>Complaints</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper" *ngFor="let i of Complaints_Dets">
+    <div class="top">
+      <h6>from {{i.Fullname}}</h6>
+      <h6 class="content">{{i.Complaint_Content}}</h6>
+      <ion-label class="date">{{i.Complaint_Date | date:'longDate'}} </ion-label><ion-label *ngIf="i.Is_New == 1" color="tertiary">  new</ion-label>
+    </div>
+    <div class="done" >
+      <ion-button  expand="full" fill="clear" shape="round" (click)="delete(i.Complaint_ID)">
+        Done
+      </ion-button>
+    </div> 
+  </div>
+  <h6 class="no-com" *ngIf="!Complaints_Dets">Good Job! No complaints as of now</h6>
+
+  
+</ion-content>

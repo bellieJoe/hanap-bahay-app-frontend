@@ -1,0 +1,30 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-button [routerLink]="['/bhprofileview']" fill="clear" slot="start" color="dark">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title>{{RRP_Name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <!-- <div class="part" *ngFor="let i of imageGroup">
+      <h6 class="name" *ngIf="i">{{i}}</h6>
+      <ng-container *ngFor="let a of bhImg">
+        <div class="image-con"  id="con{{a.IMG_ID}}" >
+          <ion-img [src]="a.url" [id]="a.IMG_ID" (click)="viewImage(a.IMG_ID)"></ion-img>
+          <h6>{{a.Title}}</h6>
+          <div class="to-hide" id="des{{a.IMG_ID}}" >
+            <p >{{a.Description}}</p>
+          </div>
+        </div>
+      </ng-container>
+    </div> -->
+    <ion-text color="primary">
+      <h1>This page is in development</h1>
+    </ion-text>
+  </div>
+  
+
+</ion-content>

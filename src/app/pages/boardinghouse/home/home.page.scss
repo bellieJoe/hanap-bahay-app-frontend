@@ -1,0 +1,168 @@
+
+// .ion-text-wrap{
+//     font-size: 14px;
+// }
+ion-toolbar{
+    .BH_Name{
+        opacity: 100%;
+        font-size: 18px;
+    }
+}
+ion-content{
+    div{
+        max-width: 800px;
+        margin: auto;
+        ion-avatar{
+            margin-right: 1em;
+        }
+        a{
+            text-decoration: none;
+        }
+        :first-child{
+            ion-slides{
+                background: rgb(0, 0, 0);
+                ion-slide{
+                    .slide-button{
+                        position: absolute; 
+                        right: 0px; 
+                        top: 0px;
+                        --background: #c93636;
+                        
+                    }
+                    div{
+                        ion-img{
+                            height: fit-content;
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+    
+        ion-list{
+            .viewAll{
+                margin: 1em 5%;
+                width: 90%;
+            }
+            .image_upload{
+                margin: 1em 5%;
+                --background: #0078EE;
+                color: white;
+                width: 90%;
+                // max-width: 500px;
+                // margin: auto ;
+                &:hover{
+                    --background: grey;
+                }
+            }
+            ion-item{
+                width: 100%;
+                margin: auto;
+                ion-buttons{
+                    scroll-behavior: smooth;
+                    margin: auto;
+                    overflow-x: scroll;
+                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;  /* Firefox */
+                    ::-webkit-scrollbar{
+                        display: none;
+                    }
+                }
+                
+            }
+            .description{
+                font-size: 13px;
+            }
+            .desc{
+                padding-bottom: 0px;
+            }
+            .des-con{
+                ion-label{
+                    margin-top: 0px;
+                    // letter-spacing: .8px;
+                    opacity: 80%;
+                }
+            }
+            .rating{
+                width: 90%;
+                margin: auto;
+                h4{
+                    margin-top: 2em;
+                    // margin-left: 1em;
+                    font-size: 21px;
+                    span{
+                        background-color:  rgb(223, 60, 10);
+                        color: white;
+                        border-radius: 5em;
+                        padding: .5em;
+                    }
+                }
+                
+                div{
+                    grid-template-columns: 5% 85% 10%;
+                    display: grid;
+                    margin: 1em auto;
+                    ion-label{
+                        text-align: right;
+                    }
+                    ion-badge {
+                        --background: #ffffff;
+                        --color: #3880ff;
+                        --padding-bottom: 4px;
+                        --padding-end: 4px;
+                        --padding-start: 4px;
+                        --padding-top: 4px;
+                    }
+                    ion-progress-bar{
+                        height: 1em;
+                        border-radius: 1em;
+                        margin-left: 1em ;
+                        width: 90%;
+                    }
+                    ion-buttons{
+                        overflow-x: hidden;
+                    }
+                    
+                }
+                ion-chip{
+                    span{
+                        font-weight: bold;
+                    }
+                }
+                
+            }
+    
+            .review{
+                width: 90%;
+                margin: auto;
+                h4{
+                    margin-top: 2em;
+                    // margin-left: 1em;
+                    font-size: 21px;
+                    span{
+                        background-color:  rgb(223, 60, 10);
+                        color: white;
+                        border-radius: 5em;
+                        padding: .5em;
+                    }
+                }
+                ion-item{
+                    width: 100%;
+                    div{
+                        width: 100%;
+                        .rev_size{
+                            font-size: 13px;
+                            span{
+                                color: rgb(179, 153, 10);
+                            }
+                        }
+                        ion-label{
+                            font-size: 14px;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+}

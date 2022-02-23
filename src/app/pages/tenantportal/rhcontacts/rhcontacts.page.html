@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="ios">
+      <ion-label position='stacked' color="primary" class="name-label">{{BH_Name}}</ion-label>
+      <ion-input disabled>Contacts</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-item-sliding *ngFor="let i of Contacts" mode="md">
+      <ion-item mode="md">
+        <ion-icon slot="start" name="call-sharp"></ion-icon>
+        <div>
+          <ion-label class="label" color="primary">{{i.Contact_Name}} • {{i.Contact_Type}}</ion-label>
+          <ion-label class="content">+63{{i.Contact_Number}}</ion-label>
+        </div>
+        <ion-icon slot="end" name="chevron-back" mode="md"></ion-icon>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option  mode="ios" class="call" *ngIf="isMobile" (click)="call(i.Contact_Number)">
+          Call
+          <ion-icon slot="top" name="call-sharp"></ion-icon>
+        </ion-item-option>
+        <a  href="tel: +63{{i.Contact_Number}}" *ngIf="!isMobile">Copy to Dialer</a>
+      </ion-item-options>
+    </ion-item-sliding>
+
+</div>
+
+</ion-content>

@@ -1,0 +1,21 @@
+ion-header{
+    ion-toolbar{
+        .titles{
+            display: block;
+            .rname{
+                font-size: 13px;
+            }
+        }
+    }
+}
+ion-content {
+    --background: rgb(243, 243, 243);
+    ion-item-group{
+        margin: 1em auto;
+        max-width: 900px;
+        width: 90%;
+        .date{
+            font-size: 14px;
+        }
+    }
+}

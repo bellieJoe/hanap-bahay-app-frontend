@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-searchbar debounce="500" animated='true' placeholder='search places or rental house'></ion-searchbar>
+    <ion-button class="grid_view" slot="end" fill='none' title="Map view" [routerLink]="['/map']" >
+      <ion-icon slot="icon-only" name="map"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <div class="house_card" *ngFor="let item of no_house">
+    <div >
+      <img src="../../../assets/image/bh_background/3.png" alt="" class="bhpic">
+    </div>
+    <ion-list>
+      
+      <ion-item lines='none' >
+        <ion-label color="primary"><b>Rental House Name</b></ion-label>
+        <ion-icon slot="start" name="home" color="primary"></ion-icon>
+      </ion-item>
+      <ion-item lines='none'>
+        <ion-label>Female Bed Spacer</ion-label>
+        <ion-icon slot="start" name="woman"></ion-icon>
+      </ion-item>
+      <ion-item lines='none'>
+        <ion-label>Address</ion-label>
+        <ion-icon slot="start" name="location"></ion-icon>
+      </ion-item>
+      <ion-item lines='none'>
+        <ion-label>09592340784</ion-label>
+        <ion-icon slot="start" name="call"></ion-icon>
+      </ion-item>
+      <ion-item lines='none'>
+        <ion-label><b>Php 2500.00</b> / rent month</ion-label>
+        <ion-icon slot="start" name="card"></ion-icon>
+      </ion-item>
+      <ion-button class="view_button" expand='block' [routerLink]="['/bhprofileview']"  >
+        <ion-icon slot="start" name="enter"></ion-icon>
+        View
+      </ion-button>
+    </ion-list>
+  </div>
+
+</ion-content>

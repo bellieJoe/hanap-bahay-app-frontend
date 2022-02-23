@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Get Directions</ion-title>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <div class="start">
+      <ion-label>Set starting point</ion-label>
+      <ion-searchbar  [debounce]="250" 
+        showCancelButton="focus" 
+        mode="ios" 
+        placeholder="search place" 
+        animated
+        #searchInput (ionInput)="search()" id="searchInput" (ionCancel)="clearField()" (ionClear)="clearField()"></ion-searchbar>
+        <ion-item>
+          <ion-label>Travel mode</ion-label>
+          <ion-select   #travelmode>
+            <ion-select-option value="DRIVING"> <ion-icon slot="start" name="car-sport-outline"></ion-icon> Driving</ion-select-option>
+            <ion-select-option value="BICYCLING">Bicycling</ion-select-option>
+            <ion-select-option value="TRANSIT">Transit</ion-select-option>
+            <ion-select-option value="WALKING">Walking</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ng-container >
+          <ion-list class="fieldres"  *ngIf="autocomplete_fields">
+            <ion-item *ngFor="let i of autocomplete_fields" (click)="setInput(i)">
+              <ion-label>{{i.description}}</ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-item *ngIf="onSkeleton" class="fieldres">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </ion-item>
+
+        </ng-container>
+    </div>
+    
+
+     <!-- <div class="end">
+      <ion-label>Destination</ion-label>
+      <div class="dest">{{dirProps.rrp_name}}</div>
+     </div> -->
+
+     <ion-item >
+       <div>
+         <ion-label>Destination</ion-label>
+         <ion-label>{{dirProps.rrp_name}}<</ion-label>
+       </div>
+     </ion-item>
+     <ion-item>
+       <ion-label>Awesome Label</ion-label>
+     </ion-item>
+
+     <ion-button expand="block" (click)="passData()">
+       <ion-icon slot="start" name="compass"></ion-icon>
+       Generate Direction
+     </ion-button>
+  </div>
+
+</ion-content>

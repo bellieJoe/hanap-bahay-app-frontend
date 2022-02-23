@@ -1,0 +1,44 @@
+ion-content{
+    .wrapper{
+        margin: auto;
+        max-width: 600px;
+        .call{
+            color: rgb(47, 201, 93);
+            cursor: pointer;
+            &:hover{
+                opacity: 70%;
+            }
+        }
+        .con{
+            :first-child{
+                color : rgb(15, 125, 189);
+                font-size: 13px;
+            }
+        }
+        ion-list{
+            .noup{
+                text-align: center;
+            }
+            .log{
+                --background: #F4F4F4;
+                h1{
+                    font-size: 13px;
+                    font-weight: normal;
+                    span{
+                        color: rgb(15, 125, 189);
+                        // opacity: 70%;
+                    }
+                }
+            }
+            .meet-det{
+                margin-top: 1em;
+                h6{
+                    width: 95%;
+                    margin: auto;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+        
+}

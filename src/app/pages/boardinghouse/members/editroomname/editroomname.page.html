@@ -1,0 +1,23 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Change Name</ion-title>
+    <ion-button slot="end" fill="clear" shape="round" (click)="close()">
+      <ion-icon slot="start" name="close-sharp"></ion-icon>
+      cancel
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="wrapper">
+    <ion-item>
+      <ion-label position='floating'>New Name</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+    <ion-button (click)="changeName('Room Name has been Changed')" expand='full' color="tertiary">
+      Change
+    </ion-button>
+  </div>
+
+</ion-content>

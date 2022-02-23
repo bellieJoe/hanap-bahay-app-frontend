@@ -1,0 +1,18 @@
+ion-content{
+    ion-card{
+        width: 90%;
+        margin: auto;
+        .res{
+            margin:2em  auto ;
+            max-width: 300px;
+        }
+        .itemcon{
+            grid-template-columns: 80% 20%;
+            display: grid;
+            .shit{
+                position: relative;
+                top: 2.5em;
+            }
+        }
+    }
+}

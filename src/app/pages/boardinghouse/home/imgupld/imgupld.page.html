@@ -1,0 +1,76 @@
+<ion-header class = "ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-button [routerLink]="['/boardinghouse/home/imgvw']" fill="clear" slot="start" color="dark">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button> -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper" id="wrapper">
+    <ion-input type="file" #imageSelect accept="image/*" (ionInput) ="fileChangeEvent()" id="input" style="display: none;"></ion-input>
+    <div class="phase1" *ngIf="phase == 1" >
+      <ion-img src="../../../assets/image/image-background.svg" class="img-background"></ion-img>
+      <ion-button expand="block" (click)="pickImage()">
+        <ion-icon slot="start" name="images"></ion-icon>
+        Select Image
+      </ion-button>
+    </div>
+
+    <div class="phase2" *ngIf="phase == 2">
+      <div class="cropper">
+        <img-cropper [image]="data" [settings]="cropperSettings" class = "img-cropper" #cropper></img-cropper>
+      </div>
+
+      <ion-button  expand="block" color="tertiary" (click)="crop()">
+        Crop image
+        <ion-icon slot="start" name="crop"></ion-icon>
+      </ion-button>
+      <ion-button expand="block" (click)="pickImage()">
+        <ion-icon slot="start" name="images"></ion-icon>
+        Select Image
+      </ion-button>
+    </div>
+
+    <div class="phase3" *ngIf="phase == 3">
+      <ion-img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight" ></ion-img>
+      <div class="part" (click)="showOptions()" id="part">
+        <h6>What part of the Rental House is this? <ion-icon [name]="chevron_icon" ></ion-icon></h6>
+        <div><input type="radio" name = "ans" [(ngModel)]="part" value="Comfort Room"> <label> Comfort Room</label></div>
+        <div><input type="radio" name = "ans" [(ngModel)]="part" value="Living Room"> <label> Living Room</label></div>
+        <div><input type="radio" name = "ans" [(ngModel)]="part" value="Kitchen"> <label> Kitchen</label></div>
+        <div><input type="radio" name="ans" [(ngModel)]="part" value="Bedroom"> <label> Bedroom</label> </div>
+        <div><input type="radio" name="ans" [(ngModel)]="part" value="Balcony"> <label> Balcony</label></div>
+        <div><input type="radio" name="ans" [(ngModel)]="part" value="Garage"> <label> Garage</label></div>
+        <div><input type="radio" name="ans" [(ngModel)]="part"value="Front"> <label> Front</label></div>
+        <div><input type="radio" name="ans" [(ngModel)]="part" value="Others"> <label> Others</label></div>
+      </div>
+
+      <ion-item class="ans" *ngIf="part != 'Others'">
+        <ion-label>{{part}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="part == 'Others'">
+        <ion-label position="floating">Others, please Specify</ion-label>
+        <ion-input type="text" placeholder="Write here" [(ngModel)]="SelectedPart" maxlength = "20"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Image Name</ion-label>
+        <ion-input type="text" placeholder="optional" [(ngModel)]="Title" maxlength = "30"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Write something about this photo</ion-label>
+        <ion-textarea auto-grow placeholder="optional" [(ngModel)]="Description"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" (click)="uploadAll()">
+        <ion-icon slot="start" name="cloud-upload"></ion-icon>
+        Upload
+      </ion-button>
+    </div>
+    
+  </div>
+
+</ion-content>

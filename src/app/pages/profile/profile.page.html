@@ -1,0 +1,231 @@
+<ion-header  mode="md">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="md">
+  <br>
+  <!-- loaders -->
+  <div class="wrapper" *ngIf="isLoading">
+    <center><ion-spinner name="dots" style="transform: scale(2)"></ion-spinner></center>
+  </div>
+
+  <div class="wrapper" *ngIf="!isLoading">
+    <!-- top or main information -->
+    <ion-card mode="md">
+      <ion-card-content mode="md">
+        <ion-item lines='none' mode="md" >
+          <ion-avatar slot="start" *ngIf="img_src" mode="md">
+            <img [src]="img_src" />
+          </ion-avatar>
+          <ion-icon slot="start" name="person" *ngIf="!img_src" mode="md"></ion-icon>
+          <div slot="start">
+            <ion-label mode="md" class="ion-text-wrap">{{user_Details.Firstname | titlecase}} {{this.user_Details.Middlename | slice:0:1 | titlecase}}. {{user_Details.Lastname | titlecase}}</ion-label>
+            <ion-label mode="md" class="uname ion-text-wrap" color="tertiary">@{{this.user_Details.Username}}</ion-label>
+          </div>
+        </ion-item>
+
+        <ion-item mode="md" lines='none' button (click)="logout()" href="">
+          <ion-icon mode="md" slot="start" name="log-out-outline"></ion-icon>
+          <ion-label mode="md">Logout</ion-label>
+        </ion-item>
+        <ion-item mode="md" lines='none' button (click)="openImageUploader()">
+          <ion-icon mode="md" slot="start" name="image-outline"></ion-icon>
+          <ion-label mode="md">Change Profile Picture</ion-label>
+        </ion-item>
+        <ion-item mode="md" lines='none' button (click)="changePassword()">
+          <ion-icon mode="md" slot="start" name="create-outline"></ion-icon>
+          <ion-label mode="md">Change Password</ion-label>
+        </ion-item>
+        <ion-item mode="md" lines = "none" class="eEdit" (click)="enableEdited()" >
+          <!-- <ion-checkbox #enableEdit></ion-checkbox> -->
+          <ion-toggle mode="md" #enableEdit slot="start"></ion-toggle>
+          <ion-label mode="md">Enable editing</ion-label> 
+        </ion-item>
+        <ion-item mode="md" lines = "none" button [routerLink]="['/profile/privacy']" >
+          <ion-icon mode="md" slot="start" name="shield-outline"></ion-icon>
+          <ion-label mode="md">Privacy Settings</ion-label> 
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- personal information -->
+    <ion-card>
+      <ion-item-divider> 
+        <ion-item lines='none'>
+          <ion-icon name="person" slot="start"></ion-icon>
+          Personal Information
+        </ion-item>
+      </ion-item-divider>
+      <ion-card-content>
+        <div class="name">
+          <div class="content" *ngIf="user_Details.Firstname">
+            <ion-label color="primary">Firstname</ion-label>
+            <ion-text>
+              <h4>{{user_Details.Firstname | titlecase}}</h4>
+            </ion-text>
+          </div>
+          <div class="content" *ngIf="user_Details.Middlename">
+            <ion-label color="primary">Middlename</ion-label>
+            <ion-text>
+              <h4>{{user_Details.Middlename | titlecase}}</h4>
+            </ion-text>
+          </div>
+          <div class="content" *ngIf="user_Details.Lastname">
+            <ion-label color="primary">Lastname</ion-label>
+            <ion-text>
+              <h4>{{user_Details.Lastname | titlecase}}</h4>
+            </ion-text>
+          </div>
+        </div>
+        <div class="cons" *ngIf="user_Details.Birthdate">
+          <ion-label color="primary">Birthdate</ion-label>
+            <ion-text >
+              <h4>{{user_Details.Birthdate | date:"longDate"}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons"  *ngIf="user_Details.Address">
+          <ion-label color="primary">Address</ion-label>
+            <ion-text >
+              <h4>{{user_Details.Address }}</h4>
+            </ion-text>
+        </div>
+        <ion-button expand = 'block' #edit1  (click)="editProfile(0)" slot="end" color="primary" *ngIf="enabled">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          edit
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+      
+  <!-- contact information -->
+    <ion-card>
+      <ion-item-divider> 
+        <ion-item lines='none'>
+          <ion-icon name="call" slot="start"></ion-icon>
+          Contact Information
+          <!-- <ion-button expand = 'block' #edit2 disabled (click)="editProfile(1)" slot="end" color="tertiary">
+            edit
+          </ion-button> -->
+        </ion-item>
+      </ion-item-divider>
+      <ion-card-content>
+        <div class="cons">
+          <ion-label color="primary">Contact number</ion-label>
+            <ion-text>
+              <h4>+63{{user_Details.Contact_Number}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons">
+          <ion-label color="primary">Email address</ion-label>
+            <ion-text>
+              <h4>{{user_Details.Email}}</h4>
+            </ion-text>
+        </div>
+        <ion-button expand = 'block' #edit2  (click)="editProfile(1)" slot="end" color="primary" *ngIf="enabled">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          edit
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- work and education -->
+    <ion-card>
+      <ion-item-divider> 
+        <ion-item lines='none'>
+          <ion-icon name="book" slot="start"></ion-icon>
+          Work & Education
+        </ion-item>
+      </ion-item-divider>
+      
+      <ion-card-content >
+        <div class="cons" *ngIf="user_Profile.Occupation">
+          <ion-label color="primary">Occupation</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.Occupation ? user_Profile.Occupation : "not set" )| titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.Work_Address">
+          <ion-label color="primary">Work address</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.Work_Address ? user_Profile.Work_Address: "not set") | titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.Highest_Education">
+          <ion-label color="primary">Highest Education Achieve</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.Highest_Education ? user_Profile.Highest_Education : "not set" )| titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" **ngIf="user_Profile.School_Name">
+          <ion-label color="primary">School Name</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.School_Name ? user_Profile.School_Name : "not set" )| titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.School_Address">
+          <ion-label color="primary">School Address</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.School_Address ? user_Profile.School_Address : "not set") | titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" *ngIf="!user_Profile.School_Address && !user_Profile.School_Name && !user_Profile.Highest_Education && !user_Profile.Work_Address && !user_Profile.Occupation">
+          <center>No work and school</center>
+        </div>
+        <ion-button expand = 'block' #edit3  (click)="editProfile(2)" slot="end" color="primary" *ngIf="enabled">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          edit
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- emergency contact -->
+    <ion-card>
+      <ion-item-divider> 
+        <ion-item lines='none'>
+          <ion-icon name="people" slot="start"></ion-icon>
+          Emergency Contact
+        </ion-item>
+      </ion-item-divider>
+      <ion-card-content>
+        <div class="cons" *ngIf="user_Profile.Guardian_Name">
+            <ion-label color="primary">Contact's Name</ion-label>
+              <ion-text >
+                <h4>{{(user_Profile.Guardian_Name ? user_Profile.Guardian_Name  : "not set" ) | titlecase}}</h4>
+              </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.Contact_Number">
+          <ion-label color="primary">Contact Number</ion-label>
+          <ion-text >
+            <h4>{{user_Profile.Contact_Number ? user_Profile.Contact_Number : "not set"}}</h4>
+          </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.Relationship">
+          <ion-label color="primary">Relatioship</ion-label>
+          <ion-text >
+            <h4>{{(user_Profile.Relationship ? user_Profile.Relationship : "not set" )| titlecase}}</h4>
+          </ion-text>
+        </div>
+        <div class="cons" *ngIf="user_Profile.Address">
+          <ion-label color="primary">Address</ion-label>
+            <ion-text >
+              <h4>{{(user_Profile.Address ? user_Profile.Address : "not set") | titlecase}}</h4>
+            </ion-text>
+        </div>
+        <div class="cons" *ngIf="!user_Profile.Address && !user_Profile.Relationship && !user_Profile.Contact_Number && !user_Profile.Guardian_Name">
+          <ion-text >
+            <center>No parents or guardians provided</center>
+          </ion-text>
+        </div>
+        <ion-button expand = 'block' #edit4  (click)="editProfile(3)" slot="end" color="primary" *ngIf="enabled">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          edit
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

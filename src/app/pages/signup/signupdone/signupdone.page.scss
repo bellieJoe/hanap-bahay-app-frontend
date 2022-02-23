@@ -1,0 +1,43 @@
+ion-content{
+    --background: rgb(243, 243, 243);
+    .wrapper{
+        max-width: 700px;
+        margin: auto;
+        form{
+            width: 95%;
+            background-color: white;
+            border: 1px solid lightgrey;
+            border-radius: 1em;
+            margin: 10em auto;
+            .form_header{
+                background-color:  rgb(13, 87, 129);
+                padding: 1em;
+                border-top-left-radius: 1em;
+                border-top-right-radius: 1em;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-weight: bold;
+                color: white;
+            }
+            .instruction{
+                width: 90%;
+                margin: 2em auto;
+            }
+            &:hover{
+                transition: .5s;
+                box-shadow: 0em 0em 10px lightgrey;
+            }
+            ion-item, ion-button{
+                width: 90%;
+                margin: 1em auto;
+            }
+            ion-button{
+                margin-bottom: 2em;
+                --background: rgb(13, 87, 129);
+                &:hover{
+                    --background: rgb(19, 112, 167);
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,66 @@
+
+<ion-header>
+    <ion-toolbar>
+      <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-buttons slot="end">
+        <ion-button color="primary" (click)="presentPopover($event)" >
+          <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-button slot="primary" class = 'add_contact' (click)="presentModalContact()">
+          <ion-icon slot="start" name="call"></ion-icon>
+          Add new Contact
+      </ion-button>
+      <ion-item lines='none'>
+        <ion-label position='stacked' color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+        <ion-input disabled>Contacts</ion-input>
+      </ion-item>
+    </ion-toolbar>
+  </ion-header>
+
+<ion-content>
+
+    <div class="wrapper">
+      <ion-item-divider mode="md">
+        <ion-label>This contacts are accessible to all the Tenants</ion-label>
+      </ion-item-divider>
+
+      <ion-list>
+        <ion-item-sliding *ngFor="let i of rhContacts">
+          <ion-item>
+            <ion-icon slot="start" name="call-outline"></ion-icon>
+            <div>
+              <ion-label class="cname" color="primary">{{i.Contact_Name}} • {{i.Contact_Type}}</ion-label>
+              <ion-label>+63{{i.Contact_Number}}</ion-label>
+            </div>
+            <ion-icon slot="end" name="chevron-back"></ion-icon>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option *ngIf="!isInWeb" (click)="callNumber(i.Contact_Number)">
+              <ion-icon slot="top" name="call"></ion-icon>
+              Call
+            </ion-item-option>
+            <ion-item-option color="secondary" (click)="edit(i.Contact_ID)">
+              <ion-icon slot="top" name="create"></ion-icon>
+              Edit
+            </ion-item-option>
+            <ion-item-option color="danger" (click)="deleteContact(i.Contact_ID)">
+              <ion-icon slot="top" name="trash"></ion-icon>
+              Delete
+            </ion-item-option>
+            <a href="tel: +63{{i.Contact_Number}}" *ngIf="isInWeb">Call</a>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed"  class="add_contact1" color="tertiary">
+        <ion-fab-button color="tertiary" (click)="presentModalContact()">
+            <ion-icon name="add-sharp" ></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

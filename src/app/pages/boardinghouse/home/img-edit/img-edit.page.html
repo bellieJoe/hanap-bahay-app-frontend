@@ -1,0 +1,26 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <ion-img [src]="imageDetails.url"></ion-img>
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input type="text" maxlength = '30' [(ngModel)]="imageDetails.Title"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea [(ngModel)]="imageDetails.Description" auto-grow></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" (click)="updateDetails()">
+      <ion-icon slot="start" name="save"></ion-icon>
+      Save Changes
+    </ion-button>
+  </div>
+
+</ion-content>

@@ -1,0 +1,65 @@
+<ion-header  >
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
+    </ion-buttons>
+    <ion-button (click)="showRegisterForm()" slot="end" >
+      <ion-icon slot="end" name="home"></ion-icon>
+      Register
+    </ion-button>
+    <ion-title>Owned Rental House</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <ion-button (click)="showRegisterForm()" class="add_house a11">
+    <ion-icon slot="end" name="home"></ion-icon>
+    Register
+  </ion-button> -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="add_house a11" (click)="showRegisterForm()" >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+
+    <ion-card *ngFor="let i of yourHouses">
+      <ion-card-content>
+        <ion-item lines = "none">
+          <ion-icon slot="start" name="home" *ngIf="!i.image_src"></ion-icon>
+          <ion-avatar slot="start" *ngIf="i.image_src">
+            <img [src]="i.image_src" >
+          </ion-avatar>
+          <ion-label>{{i.RRP_Name}}</ion-label>
+       </ion-item>
+        <ion-item lines = "none"><ion-icon slot="start" name="location"></ion-icon><ion-label>{{i.RRP_Address}}</ion-label></ion-item>
+        <ion-item lines = "none"><ion-icon slot="start" name="bed"></ion-icon><ion-label>{{i.Tenant_Count}} Occupants</ion-label></ion-item>
+        <ion-item lines = "none"><ion-icon slot="start" name="business"></ion-icon><label *ngFor="let a of i.RRP_Settings"> {{ a.value }},&nbsp;</label></ion-item>
+        <ion-item lines = "none" (click)="manageRH(i.RRP_ID, i.RRP_Name)" style="cursor: pointer;" [routerLink]="['/boardinghouse/bhsettings']"><ion-icon slot="start" name="settings"></ion-icon><ion-label>Rental House Settings</ion-label></ion-item>
+        <ion-buttons >
+          <ion-button fill="solid" (click)="deleteRH(i.RRP_ID)" class="del" color="medium">
+            <ion-icon slot="start" name="trash" ></ion-icon>
+            Delete 
+          </ion-button >
+          <ion-button fill="solid" [routerLink]="['/boardinghouse']" (click)="manageRH(i.RRP_ID, i.RRP_Name)" color="primary">
+            <ion-icon slot="start" name="home"></ion-icon>
+            Manage
+          </ion-button>
+        </ion-buttons>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-list>
+
+  <div class="welcome-message" *ngIf="yourHouses.length == 0 || !yourHouses">
+    <ion-img src="https://image.freepik.com/free-vector/building-exterior-with-open-windows-people_74855-6268.jpg"></ion-img>
+    <h1>Welcome Landlord, start managing your Rental Houses now.</h1>
+    <p>Click on the add/register button to add new rental house</p>
+  </div>
+  
+
+  
+
+</ion-content>

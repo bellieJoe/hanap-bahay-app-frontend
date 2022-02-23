@@ -1,0 +1,56 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Change Coordinates</ion-title>
+    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
+      close
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="wrapper">
+      <ng-container *ngIf="!onMap">
+          <br>
+        <ion-note>(note: you need to be in the exact location of your Rental house and use mobile phone for accuracy)</ion-note>
+        <br><br>
+        <ion-button  expand="block" class="b1" (click)="getUserPosition()" > 
+          <ng-container *ngIf="!calibrating">
+            <ion-icon slot="start" name="compass" ></ion-icon>
+            Calibrate 
+          </ng-container>
+          <ng-container *ngIf="calibrating">
+            <ion-spinner name="lines" slot="start"></ion-spinner>
+            Calibrating
+          </ng-container>
+        </ion-button>
+        <h6>or</h6>
+        <ion-button fill="clear" (click)="openMap()" expand="full">
+          <ion-icon slot="start" name="search"></ion-icon>
+            Find on map
+        </ion-button> 
+        <br>
+        <!-- <div class="findMap">
+          or <br>
+          <ion-button fill="clear" (click)="openMap()">
+            <ion-icon slot="start" name="search"></ion-icon>
+              Find on map
+          </ion-button> 
+         </div> -->
+        <ion-item>
+          <ion-label position="stacked">X Coordinates</ion-label>
+          <ion-input type="number" [(ngModel)]="RH_Details.RRP_X_Coordinates"  [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Y Coordinates</ion-label>
+          <ion-input type="number" [(ngModel)]="RH_Details.RRP_Y_Coordinates"  [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        
+        <br>
+        <ion-button  expand="block" class="b2" (click)="update()">
+          Update 
+        </ion-button>
+      </ng-container>
+      <div #mapElement class="map" id="map" *ngIf="onMap"></div>
+    </div>
+
+</ion-content>

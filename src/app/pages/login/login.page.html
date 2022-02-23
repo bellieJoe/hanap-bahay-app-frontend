@@ -1,0 +1,44 @@
+<ion-header  class="ion-no-border" mode="md">
+  <ion-toolbar color="primary" >
+    <ion-button  expand="block" fill="clear" shape="round" slot="start" [routerLink]="['/landingpage']" color="light">
+      <ion-icon color="light" slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-title >Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content mode="md">
+  <form >
+    <ion-item class="title-form" lines="none" details="none" color="light">
+      <ion-icon slot="start" name="person-sharp" color="primary"></ion-icon>
+      <h4>Login here</h4>
+    </ion-item>
+    <ion-item color="light">
+      <ion-label position="floating" >Username <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required type="text" [(ngModel)]="uname" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item color="light">
+      <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required [type] = "showPassword ? 'text' : 'password'" [(ngModel)]="pass" [ngModelOptions]="{standalone: true}" ></ion-input>
+      <ion-icon (click)="togglePassword()" class="eye" slot="end" [name]="passwordToggleIcon"></ion-icon>
+    </ion-item>
+    <ion-item color="light"  [routerLink]="['/login/regtenant']" button lines="none">
+      <h6 color="tertiary" >Are you registered by your property owner? click here</h6>
+    </ion-item>
+    <br>
+    <!-- <ion-item color="light"> -->
+      <ion-button expand="block" color="primary" type="submit"  (click)="verifyLogin()" >
+        Login
+        <ion-icon slot="start" name="enter-outline"></ion-icon>
+      </ion-button>
+      <ion-button  expand="block" color="primary" type="submit"  [routerLink]="['/signup']" color="tertiary">
+        Sign Up
+        <ion-icon slot="start" name="reader-outline"></ion-icon>
+      </ion-button>
+    <!-- </ion-item> -->
+    
+
+  </form>
+  
+
+</ion-content>

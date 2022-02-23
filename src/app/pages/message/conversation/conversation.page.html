@@ -1,0 +1,42 @@
+<ion-header >
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <!-- <ion-button  expand="block" fill="clear" shape="round" href = "/message">
+        <ion-icon  name="arrow-back-outline"></ion-icon>
+      </ion-button> -->
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-item lines = "none">
+      <!-- <ion-avatar>
+        <img src ="../assets/image/muzan.png" />
+      </ion-avatar> -->
+      <ion-label>{{name}}</ion-label>
+    </ion-item>
+      
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrapper">
+    <div class="conv-view" id="conv-view">
+      <ng-container *ngFor="let i of messages">
+        <div class="{{i.class}}" title="{{i.Date_Sent | date:'longDate'}}" *ngIf="i.Deleted_From != viewer_id">
+          <div>
+            <ion-label class="mess-con">{{i.Message_Content}}<br><span>{{i.Date_Sent | date:"mediumDate"}} • {{i.Date_Sent |date:"shortTime"}}</span></ion-label>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <ion-item color="tertiary" class="item-send" lines="none" >
+      <ion-textarea placeholder="type message"  [(ngModel)]="message" ></ion-textarea>
+      <ion-icon slot="end" name="send" (click)="send()"></ion-icon>
+    </ion-item>
+
+
+  </div>
+  
+</ion-content>
