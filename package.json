@@ -49,8 +49,7 @@
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "validate.js": "^0.13.1",
-    "zone.js": "~0.10.2",
-    "@angular/cli": "^9.1.15"
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.5",

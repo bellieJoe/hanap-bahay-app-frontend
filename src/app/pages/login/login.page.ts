@@ -49,54 +49,90 @@ export class LoginPage implements OnInit {
 
   async verifyLogin(){
     try {
-      await this.dbapi.searchUser_username(this.uname).subscribe((policy: CreateUserPolicy[]) => {
-        // this.presentAlert("nagana yung db")
-        console.log("gumana yung db api")
-        if(policy[0]){
-          //console.log(policy[0])
-          if(this.uname === policy[0].Username && policy[0].Password === this.pass){
-            this.userservice.addUserInfo("User_ID", policy[0].User_ID)
-            this.userservice.addUserInfo("Username", policy[0].Username)
-            this.userservice.addUserInfo("User_Type", policy[0].User_Type)
-            // this.presentAlert("nagana yung storage")
-            // console.log(policy[0].User_Type)
-            
-            if(policy[0].User_Type == 'tenant'){
-              // console.log('You are a Tenant')
-              location.href = "/map"
-              // this.router.navigate(['/map'])
-              this.dismiss();
-            }
-            else if(policy[0].User_Type == "property owner"){
-              // console.log('You are a Property Owner')
-              location.href = "/subscription"
-              // this.router.navigate(['/subscription'])
-              this.dismiss();
-            }
-            else if(policy[0].User_Type == "admin"){
-              // console.log('You are an Admin')
-              this.router.navigate(['/admininterface/reports'])
-              this.dismiss();
-            }
-            else{
-              // console.log("di nagmatch")
-            }
-            
-          }else{
-            // console.log("di nagmatch")
-            this.presentAlert("The username and password is incorrect")
-            this.uname = ""
-            this.pass = ""
+      let policy =  await new Promise((resolve, reject)=>{
+        this.dbapi.searchUser_username(this.uname).subscribe((policy: CreateUserPolicy[])=>{
+          resolve(policy)
+        })
+      })
+
+      if (policy[0]){
+        if (this.uname === policy[0].Username && policy[0].Password === this.pass){
+          await this.userservice.addUserInfo("User_ID", policy[0].User_ID)
+          await this.userservice.addUserInfo("Username", policy[0].Username)
+          await this.userservice.addUserInfo("User_Type", policy[0].User_Type)
+
+          if(policy[0].User_Type == 'tenant'){
+            location.href = "/map"
+            this.dismiss();
           }
-        }
-        else{
-          // console.log("Unregistered Username")
+          else if(policy[0].User_Type == "property owner"){
+            location.href = "/subscription"
+            this.dismiss();
+          }
+          else if(policy[0].User_Type == "admin"){
+            this.router.navigate(['/admininterface/reports'])
+            this.dismiss();
+          }
+        } else {
           this.presentAlert("The username and password is incorrect")
           this.uname = ""
           this.pass = ""
         }
+      } else {
+        // console.log("Unregistered Username")
+        this.presentAlert("The username and password is incorrect")
+        this.uname = ""
+        this.pass = ""
+      }
+
+      // await this.dbapi.searchUser_username(this.uname).subscribe((policy: CreateUserPolicy[]) => {
+      //   // this.presentAlert("nagana yung db")
+      //   console.log("gumana yung db api")
+      //   if(policy[0]){
+      //     //console.log(policy[0])
+      //     if(this.uname === policy[0].Username && policy[0].Password === this.pass){
+      //       this.userservice.addUserInfo("User_ID", policy[0].User_ID)
+      //       this.userservice.addUserInfo("Username", policy[0].Username)
+      //       this.userservice.addUserInfo("User_Type", policy[0].User_Type)
+      //       // this.presentAlert("nagana yung storage")
+      //       // console.log(policy[0].User_Type)
+            
+      //       if(policy[0].User_Type == 'tenant'){
+      //         // console.log('You are a Tenant')
+      //         location.href = "/map"
+      //         // this.router.navigate(['/map'])
+      //         this.dismiss();
+      //       }
+      //       else if(policy[0].User_Type == "property owner"){
+      //         // console.log('You are a Property Owner')
+      //         location.href = "/subscription"
+      //         // this.router.navigate(['/subscription'])
+      //         this.dismiss();
+      //       }
+      //       else if(policy[0].User_Type == "admin"){
+      //         // console.log('You are an Admin')
+      //         this.router.navigate(['/admininterface/reports'])
+      //         this.dismiss();
+      //       }
+      //       else{
+      //         // console.log("di nagmatch")
+      //       }
+            
+      //     }else{
+      //       // console.log("di nagmatch")
+      //       this.presentAlert("The username and password is incorrect")
+      //       this.uname = ""
+      //       this.pass = ""
+      //     }
+      //   }
+      //   else{
+      //     // console.log("Unregistered Username")
+      //     this.presentAlert("The username and password is incorrect")
+      //     this.uname = ""
+      //     this.pass = ""
+      //   }
        
-      })
+      // })
     } catch (error) {
 
       console.log(error)
