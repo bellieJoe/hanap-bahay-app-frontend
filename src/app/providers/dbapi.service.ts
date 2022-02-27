@@ -67,7 +67,6 @@ export class DbapiService  {
         withCredentials: true,
         params: { col, val }
       }).then(res => {
-        console.log(res)
         observer.next(res.data)
       }).catch(err => {
         alert(err)

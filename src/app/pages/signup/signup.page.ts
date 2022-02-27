@@ -21,6 +21,7 @@ const moment = require("moment")
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
 })
+
 export class SignupPage  {
 
   constructor(
@@ -54,6 +55,7 @@ export class SignupPage  {
   Verification_Code : string
   codeInput : string
   phase : number = 1
+  validating : boolean = false
 
   //for policies purposes
   profile : UserProfile = {
@@ -131,27 +133,31 @@ export class SignupPage  {
       }
       cons = ['Firstname', 'Middlename', 'Lastname', 'Birthdate']
     }else if (index == 2){
-
+      data = {
+        Email: this.user_inputs.Email,
+        Address: this.user_inputs.Address,
+        User_Contact_Number: this.user_inputs.Contact_Number
+      }
+      cons = ['Email', 'Address', 'User_Contact_Number']
+    }else if (index == 3){
+      data = {
+        User_Type: this.user_inputs.User_Type,
+      }
+      cons = ['User_Type']
     }
 
     return await this.validator.validateOnly(data, cons)
-
   }
   
   async swipeNext(){
     let activeIndex = await this.slides.getActiveIndex();
+    this.validating = true
     let res = await this.validateInputs(activeIndex)
-    this.errors = !res.success ? res.error : null
-    res.success && this.slides.slideNext();
-    switch (activeIndex) {
-      case 0:
-        if(!this.errors.Username){
-          this.validateUniqueInputs("Username")
-        }
-        break;
-    
-      default:
-        break;
+    this.validating = false
+    this.errors = res.error
+    if(res.success){
+      this.errors = {}
+      this.slides.slideNext()
     }
   }
 
@@ -168,20 +174,19 @@ export class SignupPage  {
     // this.createAcc()
   }
 
-  async validateUniqueInputs(col : string)  {
-    let disticntion = await new Promise((resolve, reject) => {
-      this.errors[col] = "Validating..."
-      this.dbapi.checkUserDistinct(col, this.user_inputs["Username"]).subscribe(isDistinct => {
-        console.log(isDistinct)
-        resolve(isDistinct)
-      })
-    })
-    if(!disticntion){
-      this.errors[col] = `${col} is taken`
-    }else{
-      this.errors[col] = null
-    }
-  }
+  // async validateUniqueInputs(col : string)  {
+  //   let disticntion = await new Promise((resolve, reject) => {
+  //     this.errors[col] = "Validating..."
+  //     this.dbapi.checkUserDistinct(col, this.user_inputs["Username"]).subscribe(isDistinct => {
+  //       resolve(isDistinct)
+  //     })
+  //   })
+  //   if(!disticntion){
+  //     this.errors[col] = `${col} is taken`
+  //   }else{
+  //     this.errors[col] = null
+  //   }
+  // }
 
   async presentAlert(con:string, head:string) {
     const alert = await this.alertController.create({
@@ -205,26 +210,15 @@ export class SignupPage  {
     this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe()
   }
 
-  createAcc(){
-    if(this.user_inputs.Firstname != null && this.user_inputs.Username != null &&
-      this.user_inputs.Password != null && this.user_inputs.Lastname != null &&
-      this.user_inputs.Middlename != null && this.user_inputs.Birthdate != null && this.user_inputs.Email != null &&
-      this.user_inputs.Address != null && this.user_inputs.Contact_Number != null && 
-      this.user_inputs.User_Type != null){
-
-        if(this.user_inputs.Contact_Number.toString().length == 10){
-          this.Info_ok = true
-          this.phase = 2
-          this.Verification_Code = this.generateCode()
-          // console.log(this.Verification_Code)
-          this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe()
-        }else{
-          this.presentAlert("Contact length must me 10 digits", "Alert")
-        }  
-    }
-    else{
-      // console.log('Error: Signup Form Incomplete')
-      document.getElementById('form_inc_warning').style.display = "flex"
+  async createAcc(){
+    let validationResult : any = await this.validateInputs(3)
+    this.errors = validationResult.error ? validationResult.error : {}
+    if(validationResult.success){
+      this.Info_ok = true
+      this.Verification_Code = this.generateCode()
+      this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe(()=>{
+        this.phase = 2
+      })
     }
   }
 
@@ -335,8 +329,36 @@ export class SignupPage  {
   //     document.getElementById('form_inc_warning').style.display = "flex"
   //   }
   // }
-  generateNewUser(){
 
+  generateNewUser(){
+    console.log(this.user_inputs)
+    this.dbapi.createUserPolicy(this.user_inputs).subscribe(()=>{
+      setTimeout(()=>{
+        this.loadingController.dismiss()
+      }, 1000)
+
+      this.dbapi.searchUser(this.user_inputs.Username).subscribe((policy: CreateUserPolicy[])=>{
+
+        this.profile.User_ID = policy[0].User_ID
+
+        this.dbapi.creteUserProfile_id(this.profile).subscribe()
+
+        this.userservice.addUserInfo("User_ID", policy[0].User_ID)
+        this.userservice.addUserInfo("Username", policy[0].Username)
+        this.userservice.addUserInfo("User_Type", policy[0].User_Type)
+
+        if(policy[0].User_Type == 'tenant'){
+          this.router.navigate(['/map'])
+        }else if(policy[0].User_Type == "property owner") {
+          this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
+            this.router.navigate(['/subscription'])
+          })
+        }else if(policy[0].User_Type == "admin") {
+          this.router.navigate(['/admininterface/reports'])
+        }else{
+        }
+      })
+    })
   }
 
   dismiss() {

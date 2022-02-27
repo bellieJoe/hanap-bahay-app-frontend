@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import _ from "lodash"
-const validate = require("validate.js")
+import { DbapiService } from 'src/app/providers/dbapi.service';
+var validate = require("validate.js")
 const moment = require("moment")
-// import moment from 'moment'
+
 
 @NgModule({
   declarations: [],
@@ -12,7 +13,48 @@ const moment = require("moment")
     CommonModule
   ]
 })
-export class ValidatorModule { 
+export class ValidatorModule  { 
+  // custom validators
+  constructor(
+    private dbapi: DbapiService,
+  ){
+  }
+  initCustomvalidators() {
+    validate.validators.isUserUsernameDistinct = (value) => {
+      return new validate.Promise((resolve, reject)=> {
+        this.dbapi.checkUserDistinct("Username", value).subscribe((res) => {
+          if(res){
+            resolve()
+          }else{
+            resolve(" is taken")
+          }
+        })
+      })
+    }
+    validate.validators.isUserContactNumberDistinct = (value) => {
+      return new validate.Promise((resolve, reject)=> {
+        this.dbapi.checkUserDistinct("Contact_number", value).subscribe((res) => {
+          if(res){
+            resolve()
+          }else{
+            resolve(" is taken")
+          }
+        })
+      })
+    }
+    validate.validators.isUserEmailDistinct = (value) => {
+      return new validate.Promise((resolve, reject)=> {
+        this.dbapi.checkUserDistinct("Email", value).subscribe((res) => {
+          if(res){
+            resolve()
+          }else{
+            resolve(" is taken")
+          }
+        })
+      })
+    }
+  }
+
   constraints = {
     Firstname : {
       presence : {
@@ -52,6 +94,18 @@ export class ValidatorModule {
         is : 10
       }
     },
+    User_Contact_Number : {
+      presence: {
+        allowEmpty: false
+      },
+      numericality : {
+        onlyInteger : true
+      },
+      length : {
+        is : 10
+      },
+      isUserContactNumberDistinct: true
+    },
     Occupation: {
       presence: { allowEmpty: false },
       length: { maximum: 100 }
@@ -85,9 +139,20 @@ export class ValidatorModule {
         allowEmpty: false
       },
       format: {
-        pattern: "[a-z0-9]+",
-        message: "can only contain a-z and 0-9"
-      }
+        pattern: "[a-z0-9A-Z]+",
+        message: "can only contain a-z, A-Z and 0-9"
+      },
+      length: {
+          minimum: 5
+      },
+      isUserUsernameDistinct: true
+    },
+    Email: {
+      presence: {
+        allowEmpty: false
+      },
+      isUserEmailDistinct: true,
+      email: true
     },
     Password: {
       presence: {
@@ -105,14 +170,25 @@ export class ValidatorModule {
         attribute: "Password",
         message: "^Password doesn't match"
       }
+    },
+    User_Type: {
+      presence: {
+        allowEmpty: false
+      },
+      inclusion: {
+        within: [ "tenant", "property owner" ]
+      }
     }
   }
 
   async validateOnly(data, cons){
+    this.initCustomvalidators()
+   
     try {
       await validate.async(data, _.pick(this.constraints, cons))
       return {
-        success: true
+        success: true,
+        error: null
       }
     } catch (error) {
       return {
