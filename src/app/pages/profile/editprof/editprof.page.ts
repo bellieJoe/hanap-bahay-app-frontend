@@ -137,7 +137,6 @@ export class EditprofPage {
       this.dismiss();
     }
 
-
     async presentAlert(con:string, head:string) {
       const alert = await this.alertController.create({
         header: head,

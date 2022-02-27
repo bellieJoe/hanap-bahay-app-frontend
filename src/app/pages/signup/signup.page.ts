@@ -9,7 +9,10 @@ import { SignupdonePage } from './signupdone/signupdone.page';
 import { Storage } from '@ionic/storage';
 import { UserserviceService } from 'src/app/providers/userservice.service';
 import { TitleCasePipe } from '@angular/common';
-
+import _ from "lodash"
+import { ValidatorModule } from 'src/app/modules/validator/validator.module';
+const validate = require("validate.js")
+const moment = require("moment")
 
 
 
@@ -18,7 +21,7 @@ import { TitleCasePipe } from '@angular/common';
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
 })
-export class SignupPage implements OnInit {
+export class SignupPage  {
 
   constructor(
     public modalController: ModalController,
@@ -29,8 +32,18 @@ export class SignupPage implements OnInit {
     private userservice : UserserviceService,
     private alertController: AlertController,
     private t : TitleCasePipe,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private validator: ValidatorModule
     ) { }
+
+  //slides
+  @ViewChild('slides')  slides: IonSlides;
+  backDisable = true;
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+    loop: false,
+  };
 
   //password hiding
   showPassword1  = false;
@@ -42,10 +55,42 @@ export class SignupPage implements OnInit {
   codeInput : string
   phase : number = 1
 
+  //for policies purposes
+  profile : UserProfile = {
+    User_ID : null,
+    Occupation : null,
+    Work_Address : null,
+    Highest_Education : null,
+    School_Name : null,
+    School_Address  : null,
+    Guardian_Name  : null,
+    Contact_Number : null,
+    Relationship : null,
+    Address : null,
+  }
+  user_account_info : CreateUserPolicy[]
+  //user_account_credentials : UserCredentials[]
+  password_retype : string;
+  user_inputs : CreateUserPolicy = {
+    User_ID: null, 
+    Firstname : null,
+    Middlename : null,
+    Lastname : null,
+    Birthdate : null,
+    Email : null,
+    Address : null,
+    Contact_Number : null,
+    User_Type : null,
+    Username : null,
+    Password : null
+  }
+
+  // validation
+  errors: any = {}
+
   ionViewDidLeave(){
     this.phase = 1
   }
-
 
   togglePassword(a){
     
@@ -67,73 +112,55 @@ export class SignupPage implements OnInit {
     }
   }
 
+  async validateInputs(index){
+    let cons = []
+    let data = {}
+    if(index == 0){
+      data = {
+        Username: this.user_inputs.Username,
+        Password: this.user_inputs.Password,
+        confirmPassword: this.password_retype
+      }
+      cons = ['Username', 'Password', 'confirmPassword']
+    }else if(index == 1){
+      data = {
+        Firstname: this.user_inputs.Firstname,
+        Middlename: this.user_inputs.Middlename,
+        Lastname: this.user_inputs.Lastname,
+        Birthdate: this.user_inputs.Birthdate
+      }
+      cons = ['Firstname', 'Middlename', 'Lastname', 'Birthdate']
+    }else if (index == 2){
 
+    }
 
-  //slides
-  @ViewChild('slides')  slides: IonSlides;
+    return await this.validator.validateOnly(data, cons)
 
-  backDisable = true;
-  swipeNext(){
-    this.slides.slideNext();
   }
+  
+  async swipeNext(){
+    let activeIndex = await this.slides.getActiveIndex();
+    let res = await this.validateInputs(activeIndex)
+    this.errors = !res.success ? res.error : null
+    res.success && this.slides.slideNext();
+    switch (activeIndex) {
+      case 0:
+        if(!this.errors.Username){
+          this.validateUniqueInputs("Username")
+        }
+        break;
+    
+      default:
+        break;
+    }
+  }
+
   swipeBack(){
     this.slides.slidePrev();
   }
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400,
-    loop: false,
-  };
 
   closeSignup(){
     this.dismiss();
-  }
-
-  //for policies purposes
-  profile : UserProfile = {
-    User_ID : null,
-    Occupation : null,
-    Work_Address : null,
-    Highest_Education : null,
-    School_Name : null,
-    School_Address  : null,
-    Guardian_Name  : null,
-    Contact_Number : null,
-    Relationship : null,
-    Address : null,
-  }
-  user_account_info : CreateUserPolicy[]
-  //user_account_credentials : UserCredentials[]
-  user_inputs : CreateUserPolicy = {
-    User_ID: null, 
-    Firstname : null,
-    Middlename : null,
-    Lastname : null,
-    Birthdate : null,
-    Email : null,
-    Address : null,
-    Contact_Number : null,
-    User_Type : null,
-    Username : null,
-    Password : null
-  }
-
-  
-  //user_input_credentials: UserCredentials = { username : null, password : null}
-
-  // //to check if the passwords inputted are desame , validating inputs
-  password_retype : string;
-  checkMatch(){
-    //console.log(this.user_inputs.Password)
-    // console.log("Checking if Passwords Match...")
-    if(this.user_inputs.Password != this.password_retype){
-      document.getElementById("pass_warning").style.display = "flex";
-      // console.log("Error: Passwords does'nt Match")
-    }
-    else{
-      document.getElementById("pass_warning").style.display = "none";
-      // console.log("Passwords Match")
-    }
   }
 
   gotoVerify(){
@@ -141,87 +168,42 @@ export class SignupPage implements OnInit {
     // this.createAcc()
   }
 
-  //checks the inputs that must be unique
-  userUniqueIn : UserUniqueInputs []
-  validateUniqueInputs(a : string){
-    // console.log("Validating ", a, " ...")//temp
-      this.dbapi.getUserUniqueInputs().subscribe((policy: UserUniqueInputs[])=>{
-        this.userUniqueIn = policy
-        if(a == "Username"){
-          let isDuplicate = false
-          for (let i of this.userUniqueIn) {
-            if(this.user_inputs.Username  == i.Username){
-              // console.log("Error: The Username is taken, change it!")
-              this.user_inputs.Username = null
-              isDuplicate = true
-            }
-          }
-          if(isDuplicate == true){
-            document.getElementById('username_warning').style.display = "flex"
-          }
-          else{
-            document.getElementById('username_warning').style.display = "none"
-          }
-        }
-
-        if(a == "Email"){
-          let isDuplicate = false
-          for (let i of this.userUniqueIn) {
-            if(this.user_inputs.Email  == i.Email){
-              // console.log("Error: The Email address is already used")
-              this.user_inputs.Email = ""
-              isDuplicate = true
-            }
-          }
-          if(isDuplicate == true){
-            document.getElementById('email_warning').style.display = "flex"
-          }
-          else{
-            document.getElementById('email_warning').style.display = "none"
-          }
-        }
-        if(a == "Contact_number"){
-          let isDuplicate = false
-          for (let i of this.userUniqueIn) {
-            if(this.user_inputs.Contact_Number  == i.Contact_number){
-              // console.log("Error: The Contact number is already used")
-              this.user_inputs.Contact_Number = ""
-              isDuplicate = true
-            }
-          }
-          if(isDuplicate == true){
-            document.getElementById('c_number_warning').style.display = "flex"
-          }
-          else{
-            document.getElementById('c_number_warning').style.display = "none"
-          }
-        }
+  async validateUniqueInputs(col : string)  {
+    let disticntion = await new Promise((resolve, reject) => {
+      this.errors[col] = "Validating..."
+      this.dbapi.checkUserDistinct(col, this.user_inputs["Username"]).subscribe(isDistinct => {
+        console.log(isDistinct)
+        resolve(isDistinct)
       })
+    })
+    if(!disticntion){
+      this.errors[col] = `${col} is taken`
+    }else{
+      this.errors[col] = null
+    }
   }
-  
 
-    async presentAlert(con:string, head:string) {
-      const alert = await this.alertController.create({
-        header: head,
-        message: con,
-        buttons: ['OK']
-      });
-    
-      await alert.present();
-    }
+  async presentAlert(con:string, head:string) {
+    const alert = await this.alertController.create({
+      header: head,
+      message: con,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 
-    generateCode(){
-      let a : string = ""
-      for(let i = 0;i<6;i++){
-        // console.log("Randoms", Math.random().toPrecision(9).toString()[9])
-        a += Math.random().toPrecision(9).toString()[9]
-      }
-      return a
+  generateCode(){
+    let a : string = ""
+    for(let i = 0;i<6;i++){
+      // console.log("Randoms", Math.random().toPrecision(9).toString()[9])
+      a += Math.random().toPrecision(9).toString()[9]
     }
+    return a
+  }
 
-    resend(){
-      this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe()
-    }
+  resend(){
+    this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe()
+  }
 
   createAcc(){
     if(this.user_inputs.Firstname != null && this.user_inputs.Username != null &&
@@ -271,97 +253,96 @@ export class SignupPage implements OnInit {
     }
   }
 
-  generateNewUser(){
-    // validates the users inputs
-    if(this.user_inputs.Firstname != null && this.user_inputs.Username != null &&
-      this.user_inputs.Password != null && this.user_inputs.Lastname != null &&
-      this.user_inputs.Middlename != null && this.user_inputs.Birthdate != null && this.user_inputs.Email != null &&
-      this.user_inputs.Address != null && this.user_inputs.Contact_Number != null && 
-      this.user_inputs.User_Type != null){
-        // console.log(this.user_inputs.Contact_Number.toString().length)
-        if(this.user_inputs.Contact_Number.toString().length == 10){
+  // generateNewUser(){
+  //   // validates the users inputs
+  //   if(this.user_inputs.Firstname != null && this.user_inputs.Username != null &&
+  //     this.user_inputs.Password != null && this.user_inputs.Lastname != null &&
+  //     this.user_inputs.Middlename != null && this.user_inputs.Birthdate != null && this.user_inputs.Email != null &&
+  //     this.user_inputs.Address != null && this.user_inputs.Contact_Number != null && 
+  //     this.user_inputs.User_Type != null){
+  //       // console.log(this.user_inputs.Contact_Number.toString().length)
+  //       if(this.user_inputs.Contact_Number.toString().length == 10){
           
-          this.dbapi.createUserPolicy(this.user_inputs).subscribe(()=>{
-            setTimeout(()=>{
-              this.loadingController.dismiss()
-            }, 1000)
-            // console.log("Creating  User Success");
-            this.dbapi.searchUser(this.user_inputs.Username).subscribe((policy: CreateUserPolicy[])=>{
+  //         this.dbapi.createUserPolicy(this.user_inputs).subscribe(()=>{
+  //           setTimeout(()=>{
+  //             this.loadingController.dismiss()
+  //           }, 1000)
+  //           // console.log("Creating  User Success");
+  //           this.dbapi.searchUser(this.user_inputs.Username).subscribe((policy: CreateUserPolicy[])=>{
               
 
-              // console.log(policy[0])
+  //             // console.log(policy[0])
   
-              //creating the profile of the user
-              this.profile.User_ID = policy[0].User_ID
-              // console.log(this.profile)
-              this.dbapi.creteUserProfile_id(this.profile).subscribe(()=>{
-                // console.log("Profile Successfully Created")
-              })
+  //             //creating the profile of the user
+  //             this.profile.User_ID = policy[0].User_ID
+  //             // console.log(this.profile)
+  //             this.dbapi.creteUserProfile_id(this.profile).subscribe(()=>{
+  //               // console.log("Profile Successfully Created")
+  //             })
   
-              //sets the info for active user to the offline storage or ionic storage
-              this.userservice.addUserInfo("User_ID", policy[0].User_ID)
-              this.userservice.addUserInfo("Username", policy[0].Username)
-              this.userservice.addUserInfo("User_Type", policy[0].User_Type)
-              // console.log("Eto yung laman ng storage pagka-update",this.storage.get("User_Type"))
+  //             //sets the info for active user to the offline storage or ionic storage
+  //             this.userservice.addUserInfo("User_ID", policy[0].User_ID)
+  //             this.userservice.addUserInfo("Username", policy[0].Username)
+  //             this.userservice.addUserInfo("User_Type", policy[0].User_Type)
+  //             // console.log("Eto yung laman ng storage pagka-update",this.storage.get("User_Type"))
               
-              //checks the type of user
+  //             //checks the type of user
 
-              // this.loadingController.dismiss()
-              if(policy[0].User_Type == 'tenant'){
-                // console.log('You are a Tenant')
-                this.router.navigate(['/map'])
-              }
-              else if(policy[0].User_Type == "property owner"){
-                console.log('You are a Property Owner')
-                // dito naman ako gagawa ng subscription nd user
-                this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
-                  // console.log("subscribtion success")
-                })
-                this.router.navigate(['/subscription'])
-              }
-              else if(policy[0].User_Type == "admin"){
-                // console.log('You are an Admin')
-                this.router.navigate(['/admininterface/reports'])
-              }
-              else{}
-            })// dito natapos yung pagcreate ng account
+  //             // this.loadingController.dismiss()
+  //             if(policy[0].User_Type == 'tenant'){
+  //               // console.log('You are a Tenant')
+  //               this.router.navigate(['/map'])
+  //             }
+  //             else if(policy[0].User_Type == "property owner"){
+  //               console.log('You are a Property Owner')
+  //               // dito naman ako gagawa ng subscription nd user
+  //               this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
+  //                 // console.log("subscribtion success")
+  //               })
+  //               this.router.navigate(['/subscription'])
+  //             }
+  //             else if(policy[0].User_Type == "admin"){
+  //               // console.log('You are an Admin')
+  //               this.router.navigate(['/admininterface/reports'])
+  //             }
+  //             else{}
+  //           })// dito natapos yung pagcreate ng account
   
             
   
-            this.user_inputs.Firstname = null 
-            this.user_inputs.Username = null 
-            this.user_inputs.Password = null 
-            this.user_inputs.Lastname = null 
-            this.user_inputs.Middlename = null 
-            this.user_inputs.Birthdate = null 
-            this.user_inputs.Email = null 
-            this.user_inputs.Address = null 
-            this.user_inputs.Contact_Number = null 
-            this.user_inputs.User_Type = null
-            this.password_retype = null
-            this.Info_ok =  false
-            this.Verification_Code = null
-            this.codeInput = null
-            this.dismiss()
-          })
-        }else{
-          this.presentAlert("Contact length must me 10 digits", "Alert")
-        }  
-    }
-    else{
-      // console.log('Error: Signup Form Incomplete')
-      document.getElementById('form_inc_warning').style.display = "flex"
-    }
+  //           this.user_inputs.Firstname = null 
+  //           this.user_inputs.Username = null 
+  //           this.user_inputs.Password = null 
+  //           this.user_inputs.Lastname = null 
+  //           this.user_inputs.Middlename = null 
+  //           this.user_inputs.Birthdate = null 
+  //           this.user_inputs.Email = null 
+  //           this.user_inputs.Address = null 
+  //           this.user_inputs.Contact_Number = null 
+  //           this.user_inputs.User_Type = null
+  //           this.password_retype = null
+  //           this.Info_ok =  false
+  //           this.Verification_Code = null
+  //           this.codeInput = null
+  //           this.dismiss()
+  //         })
+  //       }else{
+  //         this.presentAlert("Contact length must me 10 digits", "Alert")
+  //       }  
+  //   }
+  //   else{
+  //     // console.log('Error: Signup Form Incomplete')
+  //     document.getElementById('form_inc_warning').style.display = "flex"
+  //   }
+  // }
+  generateNewUser(){
+
   }
 
   dismiss() {
     this.modalController.dismiss({
       'dismissed': true
     });
-  }
-
-  ngOnInit() {
-    
   }
 
   ionViewDidEnter(){
@@ -371,7 +352,5 @@ export class SignupPage implements OnInit {
       // console.log(error)
     }
   }
-
-
 
 }

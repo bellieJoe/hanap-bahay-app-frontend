@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
   styleUrls: ['app.component.scss'],
   providers: [UserserviceService]
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
 
   constructor(
     private platform: Platform,
@@ -33,6 +33,12 @@ export class AppComponent{
   ) {
 
     this.initializeApp();
+  }
+
+  async ngOnInit() {
+      // this.dbapi.getCSRFToken()
+      // console.log(this.dbapi.CSRF_TOKEN)
+      // this.dbapi.authSanctum()
   }
  
   

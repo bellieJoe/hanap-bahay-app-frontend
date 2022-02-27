@@ -34,6 +34,7 @@
     "@ionic-native/web-socket-server": "^5.29.0",
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.3.1",
+    "axios": "^0.26.0",
     "call-number": "^1.0.1",
     "cordova-browser": "6.0.0",
     "emailjs": "^3.4.0",

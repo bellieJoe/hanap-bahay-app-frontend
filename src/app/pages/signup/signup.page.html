@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Signup</ion-title>
+    <ion-title>
+      Sign Up
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,28 +13,37 @@
   <br>
   <form *ngIf="phase == 1">
     <ion-item lines="none" aria-details="none" class="form-title">
-      <ion-label color="primary">Ceate account here</ion-label>
-      <ion-icon slot="start" name="reader-sharp" color="primary"></ion-icon>
+      <h1 color="primary" class="lg-text primary"><strong><i class="fa fa-user-plus me-2"></i>Create Account</strong></h1>
     </ion-item>
     
     <ion-slides pager="true" [options]="slideOpts" #slides  class="swiper-no-swiping">
-
-      <ion-slide><br>
-        <ion-item>
-          <ion-label position = "floating">Username<ion-text color="danger">*<span id='username_warning'>the username is taken</span></ion-text></ion-label>
-          <ion-input  type="text" [(ngModel)]="user_inputs.Username" [ngModelOptions]="{standalone: true}" (change)="validateUniqueInputs('Username')" placeholder="eg anything143"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input [type] = "showPassword1 ? 'text' : 'password'"  [(ngModel)]="user_inputs.Password" [ngModelOptions]="{standalone: true}" (ionChange)="checkMatch()" placeholder="write here"></ion-input>
-          <ion-icon (click)="togglePassword(1)" class="eye" slot="end" [name]="passwordToggleIcon1"></ion-icon>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Confirm Password <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input [type] = "showPassword2 ? 'text' : 'password'" [(ngModel)]="password_retype" [ngModelOptions]="{standalone: true}" (ionChange)="checkMatch()" placeholder="write here"></ion-input>
-          <ion-icon (click)="togglePassword(2)" class="eye" slot="end" [name]="passwordToggleIcon2"></ion-icon>
-        </ion-item>
-        <label id = 'pass_warning'>*password doesnt match*</label>
+      <ion-slide>
+        <div >
+          <ion-item >
+            <ion-label position="floating">Username<ion-text color="danger">*<span id='username_warning'>the username is taken</span></ion-text></ion-label>
+            <ion-input required  type="text" [(ngModel)]="user_inputs.Username" [ngModelOptions]="{standalone: true}"(change)="validateUniqueInputs('Username')" ></ion-input>
+          </ion-item>
+          <h1 class="sm-text m-0 p-0  danger">{{ errors.Username }}</h1>
+        </div>
+        
+        <div >
+          <ion-item >
+            <ion-label position="floating">Password <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required [type] = "showPassword1 ? 'text' : 'password'"  [(ngModel)]="user_inputs.Password" [ngModelOptions]="{standalone: true}"></ion-input>
+            <ion-icon (click)="togglePassword(1)" class="eye" slot="end" [name]="passwordToggleIcon1"></ion-icon>
+          </ion-item>
+          <h1 class="sm-text m-0 p-0  danger">{{ errors.Password }}</h1>
+        </div>
+        
+        <div>
+          <ion-item>
+            <ion-label position="floating">Confirm Password <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required [type] = "showPassword2 ? 'text' : 'password'" [(ngModel)]="password_retype" [ngModelOptions]="{standalone: true}" ></ion-input>
+            <ion-icon (click)="togglePassword(2)" class="eye" slot="end" [name]="passwordToggleIcon2"></ion-icon>
+          </ion-item>
+          <h1 class="sm-text m-0 p-0  danger">{{ errors.confirmPassword }}</h1>
+        </div>
+        
         <br><br>
       </ion-slide>
 
@@ -106,7 +117,7 @@
       </ion-button>
       
     </div>
-    </form>
+  </form>
 
     <ion-card class="terms" *ngIf="phase == 2">
       <ion-card-header>

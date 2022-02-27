@@ -100,10 +100,6 @@ ion-card{
     }
 }
 
-// .my-custom-class{
-//     width: fit-content;
-// }
-
 ion-button{
     text-transform: none;
     // &:hover{
@@ -119,3 +115,48 @@ $backgroundColor : rgb(167, 202, 216);
     margin-top: .5em;
 }
 
+// text sizes
+.xxsm-text{
+    font-size: xx-small;
+}
+.xsm-text{
+    font-size: x-small;
+}
+.sm-text{
+    font-size: small;
+}
+.md-text{
+    font-size: medium;
+}
+.lg-text{
+    font-size: large;
+}
+.xl-text{
+    font-size: x-large;
+}
+.xxl-text{
+    font-size: xx-large;
+}
+
+// colors
+.primary{
+    color: var(--ion-color-primary);
+}
+.secondary{
+    color: var(--ion-color-secondary);
+}
+.tertiary{
+    color: var(--ion-color-tertiary);
+}
+.warning{
+    color: var(--ion-color-warning);
+}
+.light{
+    color: var(--ion-color-light);
+}
+.success{
+    color: var(--ion-color-success);
+}
+.danger{
+    color: var(--ion-color-danger);
+}

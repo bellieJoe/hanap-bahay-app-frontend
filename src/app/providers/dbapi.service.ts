@@ -1,29 +1,52 @@
 import { Time } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 //import { UserInfo } from 'os';
 import { Observable } from 'rxjs';
 import { AnnouncementDetails, ChecklistDetails, ComplaintsDetails, ContactDetails, ConversationDetails, CreateUserPolicy,GetTenantList,image,ImageProps,Messages,NotificationDetails,PaymentDetails,RatingsDetails,RentalHouseDetails,ReservationDetails,ReservationUpdates,SearchTenantList,SubscriptionData,UserDetails,UserProfile,UserUniqueInputs } from  '../providers/policy';
+import axios from "axios"
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class DbapiService {
+export class DbapiService  {
 
+  // pre OJT deployment
+  // SERVER = 'https://hanap-bahay-app-dbapi.herokuapp.com'
+  // SERVER_NAME = `https://hanap-bahay-app-dbapi.herokuapp.com/php_scripts`
 
-  SERVER = 'https://hanap-bahay-app-dbapi.herokuapp.com'
+  // Development servers
   // SERVER = 'http://localhost/hanap-bahay-app-dbapi'
   // SERVER_NAME = `${this.SERVER}/php_scripts`
-  SERVER_NAME = `https://hanap-bahay-app-dbapi.herokuapp.com/php_scripts`
+
+  // new laravel server
+  SERVER = "http://localhost:8000"
+  SERVER_NAME = "http://localhost:8000"
+  CSRF_TOKEN : any = null
+
+  options = {
+    withCredentials : true,
+    observe: null,    
+  }
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
+  async authSanctum(){
+    try {
+      await axios.get(`${this.SERVER_NAME}/sanctum/csrf-cookie`, {
+        withCredentials: true
+      })
+    } catch (error) {
+        console.log(error)
+    }
+  }
+
   //for both users
-  getName_uid(uid:number):Observable<string>{
-    return this.httpClient.get<string>(`${this.SERVER_NAME}/getName_uid.php?uid=${uid}`)
+  getName_uid(uid:number):Observable<string>{ //done laravel
+    return this.httpClient.get<string>(`${this.SERVER_NAME}/users/${uid}/getFullName`) 
   }
 
   creteUserProfile_id(prof : UserProfile): Observable<UserProfile>{
@@ -34,9 +57,22 @@ export class DbapiService {
     return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/createNewUser.php`, this.createUserPolicy);
   }
   
-  getUserUniqueInputs():Observable<UserUniqueInputs[]>{
-    return this.httpClient.get<UserUniqueInputs[]>(`${this.SERVER_NAME}/getUserUniqueInputs.php`)
-    
+  getUserUniqueInputs():Observable<UserUniqueInputs[]>{ //done laravel
+    return this.httpClient.get<UserUniqueInputs[]>(`${this.SERVER_NAME}/users/unique-inputs`) 
+  }
+
+  checkUserDistinct(col: string, val:string): Observable<boolean>{ //done laravel
+    return new Observable(observer => {
+      axios.get(`${this.SERVER_NAME}/users/is-distinct`, {
+        withCredentials: true,
+        params: { col, val }
+      }).then(res => {
+        console.log(res)
+        observer.next(res.data)
+      }).catch(err => {
+        alert(err)
+      })
+    })
   }
 
   searchUser(username : string):Observable<CreateUserPolicy[]>{//after ssignup
