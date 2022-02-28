@@ -232,7 +232,7 @@ export class SignupPage  {
 
   verify(){
     this.presentLoading()
-    // console.log("code :", this.codeInput)
+
     if(this.codeInput == this.Verification_Code){
       this.generateNewUser()
       
