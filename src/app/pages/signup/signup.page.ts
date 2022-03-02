@@ -11,6 +11,7 @@ import { UserserviceService } from 'src/app/providers/userservice.service';
 import { TitleCasePipe } from '@angular/common';
 import _ from "lodash"
 import { ValidatorModule } from 'src/app/modules/validator/validator.module';
+import { resolve } from 'dns';
 const validate = require("validate.js")
 const moment = require("moment")
 
@@ -346,7 +347,7 @@ export class SignupPage  {
             await this.userservice.addUserInfo("User_ID", policy[0].User_ID)
             await this.userservice.addUserInfo("Username", policy[0].Username)
             await this.userservice.addUserInfo("User_Type", policy[0].User_Type)
-          }).then(()=>{
+            console.log("Login successful")
             if(policy[0].User_Type == 'tenant'){
               location.href = "/map"
             }else if(policy[0].User_Type == "property owner") {
@@ -356,7 +357,9 @@ export class SignupPage  {
             }else if(policy[0].User_Type == "admin") {
               this.router.navigate(['/admininterface/reports'])
             }else{
+
             }
+            resolve(null)
           })
         })
       })
