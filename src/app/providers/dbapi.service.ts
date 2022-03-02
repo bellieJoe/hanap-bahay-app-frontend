@@ -165,34 +165,89 @@ export class DbapiService  {
     return this.httpClient.post<any>(`${this.SERVER_NAME}/updateUserDetails_walkin.php`, params )
   }
 
-  //for landlord only
-  //
+  /* for landlord only
+  done laravel; return null */
   addRHSubscription(sub : CreateUserPolicy):Observable<any>{
-    return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/addRHSubscription.php`,sub )
-  }
-  getSubscription_id(sub : SubscriptionData): Observable<SubscriptionData[]>{//unused
-    return this.httpClient.get<SubscriptionData[]>(`${this.SERVER_NAME}/getSubscription_id.php` )
+    return new Observable(observer=>{
+      axios.post(
+        `${this.SERVER_NAME}/rrpsubscriptions/${sub.User_ID}/`,
+        {},
+        this.axiosConfig
+      )
+      .then(res=>observer.next())
+      .catch(err=>console.log(err))
+    })
+    return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/addRHSubscription.php`, sub )
   }
 
+  /* unused daw */
   getOwnersRH_id(id : number):Observable<RentalHouseDetails[]>{//unused
     return this.httpClient.get<RentalHouseDetails[]>(`${this.SERVER_NAME}/getOwnersRH_id.php/?id=${id}` )
   }
   
+  /* return null : done laravel */
   addNewRH(RH_Details : RentalHouseDetails):Observable<any>{
+    return new Observable(observer=>{
+      axios.post(
+        `${this.SERVER_NAME}/rrps/${RH_Details.Owner_ID}/`,
+        {},
+        this.axiosConfig
+      )
+      .then(res=>observer.next())
+      .catch(res=>console.log(res))
+    })
     return this.httpClient.post<RentalHouseDetails>(`${this.SERVER_NAME}/addNewRH.php`, RH_Details );
   }
 
-
     // for profile
+    /* return UserDetails[] : done laravel */
   getUserDetails_id(id : number): Observable<UserDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/users/${id}`,
+        this.axiosConfig
+      )
+      .then(res=>{
+        observer.next(res.data)
+      })
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<UserDetails[]>(`${this.SERVER_NAME}/profile/getUserDetails_id.php/?id=${id}` )
   }
+
+  /* return UserProfile[] : done laravel  */
   getUserProfile_id(id:number): Observable<UserProfile[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/profiles/${id}`,
+        this.axiosConfig
+      )
+      .then(res=>{
+        observer.next(res.data)
+      })
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<UserProfile[]>(`${this.SERVER_NAME}/profile/getUserProfile_id.php/?id=${id}` )
   }
+
+  /* return null : done laravel */
   updateUserDetails(details:UserDetails , uniq : number, id : number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/${id}/update?uniq=${uniq}`,
+          details,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
+    
     return this.httpClient.post<UserDetails>(`${this.SERVER_NAME}/profile/updateUserDetails.php/?uniq=${uniq};id=${id}`, details )
   }
+  
   updateUserProfile(profile : UserProfile, uniq : number): Observable<any>{
     return this.httpClient.post<UserProfile>(`${this.SERVER_NAME}/profile/updateUserProfile.php/?uniq=${uniq}`, profile )
   }
