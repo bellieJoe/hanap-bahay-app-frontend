@@ -15,8 +15,7 @@ export class DbapiService  {
   // pre OJT deployment
   // SERVER = 'https://hanap-bahay-app-dbapi.herokuapp.com'
   // SERVER_NAME = `https://hanap-bahay-app-dbapi.herokuapp.com/php_scripts`
-
-  // Development servers
+ // Development servers
   // SERVER = 'http://localhost/hanap-bahay-app-dbapi'
   // SERVER_NAME = `${this.SERVER}/php_scripts`
 
@@ -25,43 +24,74 @@ export class DbapiService  {
   SERVER_NAME = "http://localhost:8000"
   CSRF_TOKEN : any = null
 
-  options = {
+  axiosConfig = {
     withCredentials : true,
-    observe: null,    
   }
 
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  async authSanctum(){
-    try {
-      await axios.get(`${this.SERVER_NAME}/sanctum/csrf-cookie`, {
+  authSanctum(): Observable<any>{
+    return new Observable((observer) => {
+      axios.get(`${this.SERVER_NAME}/sanctum/csrf-cookie`, {
         withCredentials: true
       })
-    } catch (error) {
-        console.log(error)
-    }
+      .then(() => { observer.next() })
+      .catch(err => { observer.error( err ) })
+    })
   }
 
   //for both users
-  getName_uid(uid:number):Observable<string>{ //done laravel
+  // done laravel
+  getName_uid(uid:number):Observable<string>{ 
     return this.httpClient.get<string>(`${this.SERVER_NAME}/users/${uid}/getFullName`) 
   }
 
+  // done laravel
   creteUserProfile_id(prof : UserProfile): Observable<UserProfile>{
+    console.log("Before create User Profile request: " + prof)
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/${prof.User_ID}/create-user-profile`,
+          {},
+          {withCredentials:true}
+        )
+        .then(()=>observer.next())
+        .catch(err=>{
+          console.log(err)
+          observer.error(err)
+        })
+      })
+    })
     return this.httpClient.post<UserProfile>(`${this.SERVER_NAME}/profile/createUserProfile_id.php`, prof);
   }
 
+  // done laravel
   createUserPolicy(policy: CreateUserPolicy): Observable<CreateUserPolicy>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users`,
+          policy,
+          this.axiosConfig
+        )
+        .then(()=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/createNewUser.php`, this.createUserPolicy);
   }
   
-  getUserUniqueInputs():Observable<UserUniqueInputs[]>{ //done laravel
+  //done laravel
+  getUserUniqueInputs():Observable<UserUniqueInputs[]>{ 
     return this.httpClient.get<UserUniqueInputs[]>(`${this.SERVER_NAME}/users/unique-inputs`) 
   }
 
-  checkUserDistinct(col: string, val:string): Observable<boolean>{ //done laravel
+  //done laravel
+  checkUserDistinct(col: string, val:string): Observable<boolean>{ 
     return new Observable(observer => {
       axios.get(`${this.SERVER_NAME}/users/is-distinct`, {
         withCredentials: true,
@@ -74,24 +104,69 @@ export class DbapiService  {
     })
   }
 
-  searchUser(username : string):Observable<CreateUserPolicy[]>{//after ssignup
+  // done laravel
+  searchUser(username : string):Observable<any>{//after ssignup
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.get(
+          `${this.SERVER_NAME}/users/${username}`,
+          this.axiosConfig
+        )
+        .then((res)=>{
+          console.log(res.data)
+          observer.next(res.data)
+        })
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<CreateUserPolicy[]>(`${this.SERVER_NAME}/searchUser.php/?username=${username}` )
   }
 
-  searchUser_username(username : string):Observable<CreateUserPolicy[]>{
+  // done laravel
+  searchUser_username(username : string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.get(
+          `${this.SERVER_NAME}/users/${username}`,
+          this.axiosConfig
+        )
+        .then((res)=>{
+          console.log(res.data)
+          observer.next(res.data)
+        })
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<CreateUserPolicy[]>(`${this.SERVER_NAME}/searchUser_username.php/?username=${username}` )
   }
 
+  // preceded
   checkUsername(username:string):Observable<any>{
     return this.httpClient.post<any>(`${this.SERVER_NAME}/checkUsername.php`, {Username : username})
   }
 
+  // done laravel
   updateUserDetails_walkin(email:string, username:string, password:string,contact_number:string, birthdate:string, address:string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/update-user-details-walkin`,
+          {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address},
+          this.axiosConfig
+        )
+        .then((res)=>observer.next(res))
+        .catch(err=>console.log(err))
+      })
+    })
     let params = {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/updateUserDetails_walkin.php`, params )
   }
 
   //for landlord only
+  //
   addRHSubscription(sub : CreateUserPolicy):Observable<any>{
     return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/addRHSubscription.php`,sub )
   }
@@ -502,9 +577,28 @@ export class DbapiService  {
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/addAdmin.php`, params)
   }
 
+  // done laravel
   sendCode(mail : string, kodigo:string, name : string):Observable<any>{
-    let params = {email : mail, code : kodigo, fullname : name}
-    return this.httpClient.post<any>(`${this.SERVER_NAME}/phpmail.php`, params )
+    return new Observable((observer) => {
+      this.authSanctum().subscribe(() => {
+        axios.post(
+          `${this.SERVER_NAME}/users/send-code`,
+          {
+            email_address: mail,
+            code: kodigo,
+            fullname: name
+          }, this.axiosConfig
+        )
+        .then(()=>{
+          observer.next()
+        })
+        .catch(err => { 
+          console.log(err) 
+          observer.error(err)
+        })
+      })
+    })
+
   }
 
 }

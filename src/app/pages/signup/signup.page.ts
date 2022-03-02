@@ -341,22 +341,24 @@ export class SignupPage  {
 
         this.profile.User_ID = policy[0].User_ID
 
-        this.dbapi.creteUserProfile_id(this.profile).subscribe()
-
-        this.userservice.addUserInfo("User_ID", policy[0].User_ID)
-        this.userservice.addUserInfo("Username", policy[0].Username)
-        this.userservice.addUserInfo("User_Type", policy[0].User_Type)
-
-        if(policy[0].User_Type == 'tenant'){
-          this.router.navigate(['/map'])
-        }else if(policy[0].User_Type == "property owner") {
-          this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
-            this.router.navigate(['/subscription'])
+        this.dbapi.creteUserProfile_id(this.profile).subscribe(()=>{
+          new Promise(async(resolve, reject)=>{
+            await this.userservice.addUserInfo("User_ID", policy[0].User_ID)
+            await this.userservice.addUserInfo("Username", policy[0].Username)
+            await this.userservice.addUserInfo("User_Type", policy[0].User_Type)
+          }).then(()=>{
+            if(policy[0].User_Type == 'tenant'){
+              location.href = "/map"
+            }else if(policy[0].User_Type == "property owner") {
+              this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
+                this.router.navigate(['/subscription'])
+              })
+            }else if(policy[0].User_Type == "admin") {
+              this.router.navigate(['/admininterface/reports'])
+            }else{
+            }
           })
-        }else if(policy[0].User_Type == "admin") {
-          this.router.navigate(['/admininterface/reports'])
-        }else{
-        }
+        })
       })
     })
   }
