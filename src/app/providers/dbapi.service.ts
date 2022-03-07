@@ -247,281 +247,992 @@ export class DbapiService  {
     
     return this.httpClient.post<UserDetails>(`${this.SERVER_NAME}/profile/updateUserDetails.php/?uniq=${uniq};id=${id}`, details )
   }
-  
+
+  /* return null : done laravel */
   updateUserProfile(profile : UserProfile, uniq : number): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/profiles/${profile.User_ID}/update`,
+          profile,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<UserProfile>(`${this.SERVER_NAME}/profile/updateUserProfile.php/?uniq=${uniq}`, profile )
   }
+
+  /* returns number 0 or 1 : laravel done */
   confirmPassword(uid:number,pass:string): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/${uid}/auth`,
+          {pass:pass},
+          this.axiosConfig
+        )
+        .then(res=>observer.next(res.data))
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/profile/confirmPassword.php?uid=${uid}&pass=${pass}` )
   }
+
+  /* returns numbner 0 or 1 : done laravel */
   changePassword(uid: number , oldpass :string, newpass:string): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/${uid}/change-password`,
+          {oldpass:oldpass, newpass:newpass},
+          this.axiosConfig
+        )
+        .then(res=>observer.next(res.data))
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/profile/changePassword.php?uid=${uid}&oldpass=${oldpass}&newpass=${newpass}` )
   }
+
+  /* return null : done laravel */
   updatePrivacy(settings: string, user_ID:number): Observable<any>{
     let params = {Settings : settings, User_ID : user_ID}
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/${user_ID}/update-privacy`,
+          params,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<any>(`${this.SERVER_NAME}/profile/updatePrivacy.php`, params )
   }
 
-  //  RH view of Owner 
-
-  // messages from the RH
+  /* RH view of Owner  */
+  /* return Conversations [] : done laravel */
   getConvos_rrpid(rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/rrps/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Messages/getConvos_rrpid.php/?rrpid=${rrpid}` )
   }
+  
+  /* preceded */
   getConvoDets_rrpid(rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Messages/getConvoDets_rrpid.php/?rrpid=${rrpid}` )
   }
 
-  // searching tenant users from db
+  /* return tenant list : done laravel */
   searchTenant_fistname(name : string):Observable<SearchTenantList[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/users/search/tenant-firstname?name=${name}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<SearchTenantList[]>(`${this.SERVER_NAME}/RH_Management/searchTenant_firstname.php/?name=${name}` )
   }
+
+  /* return tenant list : done laravel */
   searchTenant_2name(fname : string, sname: string):Observable<SearchTenantList[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/search/tenant-2name?name1=${fname}&name2=${sname}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<SearchTenantList[]>(`${this.SERVER_NAME}/RH_Management/searchTenant_2name.php/?name1=${fname}&name2=${sname}` )
   }
+
+  /* returns tenant list : done laravel */
   searchTenant_3name(fname : string, sname: string, tname:string):Observable<SearchTenantList[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/search/tenant-3name?name1=${fname}&name2=${sname}&name3=${tname}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<SearchTenantList[]>(`${this.SERVER_NAME}/RH_Management/searchTenant_3name.php/?name1=${fname}&name2=${sname}&name3=${tname}` )
   }
+
+  /* return tenant list : done laravel */
   searchTenant_4name(fname : string, sname: string, tname:string, lname:string):Observable<SearchTenantList[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/search/tenant-4name?name1=${fname}&name2=${sname}&name3=${tname}&name4=${lname}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<SearchTenantList[]>(`${this.SERVER_NAME}/RH_Management/searchTenant_4name.php/?name1=${fname}&name2=${sname}&name3=${tname}&name4=${lname}` )
   }
+
+  /* return tenant list : done laravel */
   getTenantList_rrpid(id : number): Observable<GetTenantList[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/tenants/get-tenants`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<GetTenantList[]>(`${this.SERVER_NAME}/RH_Management/getTenantList_rrpid.php/?id=${id}` )
   }
-  getTenantListInfo_uid(id:number):Observable<GetTenantList[]>{
+
+  /* return tenant list : done laravel */
+  getTenantListInfo_uid(id:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/users/${id}/tenant-info`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<GetTenantList[]>(`${this.SERVER_NAME}/RH_Management/getTenantListInfo_uid.php/?id=${id}` )
   }
+
+  /* return null : done laravel */
   addTenant_rrpid(id:number, rrpid:number, date:string, time: string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/tenants/add-tenant`,
+          {id, rrpid, date, time},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<Date>(`${this.SERVER_NAME}/RH_Management/addTenant_rrpid.php/?rrpid=${rrpid}&id=${id}&date=${date}&time=${time}` )
   }
+
+  /* return number : done laravel */
   removeTenant_uid(id:number): Observable<number>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/tenants/delete-tenant`,
+          {id},
+          this.axiosConfig
+        )
+      })
+    })
     return this.httpClient.post<number>(`${this.SERVER_NAME}/RH_Management/removeTenant_uid.php/?id=${id}`, null )
   }
+
+  /* return null : done laravel */
   addBoarderRRP(uid:number,rrpid:number): Observable<number>{
+    return new Observable(observer=>{
+      axios.post(
+        `${this.SERVER_NAME}/tenant-boarded-rrps/add-tenant`,
+        {uid, rrpid},
+        this.axiosConfig
+      )
+      .then(res=>observer.next())
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<number>(`${this.SERVER_NAME}/RH_Management/addBoardedRRP.php?uid=${uid}&rrpid=${rrpid}` )
   }
+
+  /* return list of users : done laravel  */
   checkIfRegistered_email(email : string): Observable<any>{
-    let params = {Email : email}
-    return this.httpClient.post<any>(`${this.SERVER_NAME}/RH_Management/checkIfRegistered_email.php`, params )
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/users/email/check-registered-email?Email=${email}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
+    // return this.httpClient.post<any>(`${this.SERVER_NAME}/RH_Management/checkIfRegistered_email.php`, params )
   }
+
+  /* return null : done laravel */
   regTenantMail(reciever_email:string, owner_email:string, sender_name : string, reciever_name:string): Observable<any>{
     let params = {Reciever_Email : reciever_email, Owner_Email : owner_email, Sender_Name : sender_name, Reciever_Name : reciever_name}
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/email/send-tenant-verification`,
+          params,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<any>(`${this.SERVER_NAME}/regTenantMail.php`, params, )
   }
 
+  /* return null : done laravel */
   registerTenant(email : string, firstname : string, middlename : string, lastname : string): Observable<any>{
-    // let params = {Email : email, Firstname : firstname, Middlename : middlename, Lastname : lastname}
+    let params = {Email : email, Firstname : firstname, Middlename : middlename, Lastname : lastname}
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/users/register-tenant`,
+          params,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/regTenant.php?Email=${email}&Firstname=${firstname}&Middlename=${middlename}&Lastname=${lastname}` )
   }
 
+
   // Announcements
+  /* return null : done laravel */
   createAnnouncement_rrpid(announceDets : AnnouncementDetails): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/announcements/create`,
+          announceDets,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<AnnouncementDetails>(`${this.SERVER_NAME}/RH_Management/Announcements/createAnnouncement_rrpid.php`, announceDets )
   }
+
+  /* return announcements : done laravel  */
   getAnnouncements_rrpid(rrpid:number):Observable<AnnouncementDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/announcements/get-anncouncements/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<AnnouncementDetails[]>(`${this.SERVER_NAME}/RH_Management/Announcements/getAnnouncements_rrpid.php/?rrpid=${rrpid}` )
   }
+
+  /* return null : done laravel */
   deleteAnnouncement_aid(id : number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/announcements/delete/${id}`,
+          {},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Announcements/deleteAnnouncement_aid.php/?id=${id}` )
   }
 
+
   // Contacts
+  /* return null : done laravel */
   addContact(detail : ContactDetails): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/contacts/create`,
+          detail,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<ContactDetails>(`${this.SERVER_NAME}/RH_Management/Contacts/addContact.php`, detail )
   }
+
+  /* return contacts : done laravel */
   getContacts_rrpid(rrpid : number): Observable<ContactDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/contacts/get-contacts-rrpid/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ContactDetails[]>(`${this.SERVER_NAME}/RH_Management/Contacts/getContacts_rrpid.php?rrpid=${rrpid}` )
   }
+
+  /* return contact : done laravel */
   getContact_cid(cid : number):Observable<ContactDetails>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/contacts/${cid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ContactDetails>(`${this.SERVER_NAME}/RH_Management/Contacts/getContact_cid.php?cid=${cid}` )
   }
+
+  /* return null : done laravel */
   updateContact_cid(cid:number,cname:string,cnumber:number,ctype:string):Observable<ContactDetails>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/contacts/update/${cid}`,
+          {cid, cname, cnumber, ctype},
+          this.axiosConfig
+        )
+        .then(res=>observer.next(res.data))
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<ContactDetails>(`${this.SERVER_NAME}/RH_Management/Contacts/updateContact_cid.php?cid=${cid}&cname=${cname}&ctype=${ctype}&cnumber=${cnumber}` )
   }
+
+  /* return contacts : done laravel */
   deleteContact_cid(cid:number, rrpid:number):Observable<ContactDetails[]>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/contacts/delete/${cid}/${rrpid}`,
+          {},
+          this.axiosConfig
+        )
+      })
+    })
     return this.httpClient.get<ContactDetails[]>(`${this.SERVER_NAME}/RH_Management/Contacts/deleteContact_cid.php?cid=${cid}&rrpid=${rrpid}` )
   }
 
 
   // for Payment records
+  /* return null : done laravel */
   addPayment(payment : PaymentDetails): Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum()
+      .subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/payment-history/add`,
+          payment,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<PaymentDetails>(`${this.SERVER_NAME}/RH_Management/Payments/addPayment.php`, payment )
   }
+
+  /* return payments : done laravel */
   getPayments(rrpid:number,month:number,year:number):Observable<PaymentDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/payment-history/get-payments?rrpid=${rrpid}&year=${year}&month=${month}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<PaymentDetails[]>(`${this.SERVER_NAME}/RH_Management/Payments/getPayments.php?rrpid=${rrpid}&month=${month}&year=${year}` )
   }
+
+  /* return null : done laravel  */
   deletePayment_pid(pid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/payment-history/delete/${pid}`,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Payments/deletePayment_pid.php?pid=${pid}` )
   }
+
+  /* return payment : done laravel */
   getPayment_pid(pid : number):Observable<PaymentDetails>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/payment-history/get-payment/${pid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<PaymentDetails>(`${this.SERVER_NAME}/RH_Management/Payments/getPayment_pid.php?pid=${pid}` )
   }
+
+  /* return null : done laravel */
   updatePayment(detail : PaymentDetails):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/payment-history/update-payment/${detail.Payment_ID}`,
+          detail,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<PaymentDetails>(`${this.SERVER_NAME}/RH_Management/Payments/updatePayment.php`,detail )
   }
 
+
   // Rh Profile
+  /* return RentalHouseDetails : done laravel */
   getRHDetails_rrpid(rrpid : number):Observable<RentalHouseDetails>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrps/get-rrp/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<RentalHouseDetails>(`${this.SERVER_NAME}/RH_Management/RH_Profile/getRHDetails_rrpid.php?rrpid=${rrpid}` )
   }
+
+  /* return number of available spaces : done laravel  */
   computeAvailability_rrpid(rrpid : number):Observable<number>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrps/compute-availability/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<number>(`${this.SERVER_NAME}/RH_Management/RH_Profile/computeAvailability_rrpid.php?rrpid=${rrpid}` )
   }
+
+  /* return ratings : done laravel  */
   getRatings_rrpid(rrpid : number):Observable<RatingsDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/ratings/get-ratings/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<RatingsDetails[]>(`${this.SERVER_NAME}/RH_Management/RH_Profile/getRatings_rrpid.php?rrpid=${rrpid}` )
   }
 
+
   // complaints
+  /* return complaints : done laravel  */
   getComplaints_rrpid(rrpid:number):Observable<ComplaintsDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/complaints/get-complaints/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ComplaintsDetails[]>(`${this.SERVER_NAME}/RH_Management/Complaints/getComplaints_rrpid.php?rrpid=${rrpid}` )
   }
 
+  /* return complaints : done laravel  */
   deleteComplaint_comid(comid : number, rrpid:number):Observable<ComplaintsDetails[]>{
+    return new Observable(observer=>{
+      axios.post(
+        `${this.SERVER_NAME}/complaints/delete-complaint`,
+        {comid, rrpid},
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ComplaintsDetails[]>(`${this.SERVER_NAME}/RH_Management/Complaints/deleteComplaints_comid.php?comid=${comid}&rrpid=${rrpid}` )
   }
 
+
   // rh settings
+  /* return null : done laravel  */
   updateRH(detail : RentalHouseDetails):Observable<RentalHouseDetails>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrps/update/rrp`,
+          detail,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<RentalHouseDetails>(`${this.SERVER_NAME}/RH_Management/RHSettings/updateRH.php`,detail )
   }
 
+  /* return null : done laravel */
   countTenant_rrpid(rrpid : number):Observable<number>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/tenants/count/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<number>(`${this.SERVER_NAME}/RH_Management/countTenant_rrpid.php?rrpid=${rrpid}` )
   }
 
+  /* return null : done laravel */
   deleteRHData_rrpid(rrpid : number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrps/delete/${rrpid}`,
+          {},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/deleteRHData_rrpid.php?rrpid=${rrpid}` )
   }
 
+  /* return null : done laravel */
   unboardTenants_rrpid(rrpid : number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/tenants/unboard-tenants`,
+          {rrpid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next)
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/unboardTenant_rrpid.php?rrpid=${rrpid}` )
   }
 
+
   // for map
+  /* return RentalHouseDetails[] : done laravel */
   getAllRH():Observable<RentalHouseDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrps/get-rrps`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<RentalHouseDetails[]>(`${this.SERVER_NAME}/Map/getAllRH.php`)
   }
 
   //bh profile view
+  /* return TenantBoardedRRP : done laravel */
   isBoarded(tid : number, rrpid : number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/tenant-boarded-rrps/get-tenant/${tid}/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/isBoarded.php?tid=${tid}&rrpid=${rrpid}` )
   }
 
+  /* return null : done laravel */
   addRating(tid: number, rrpid:number, rate_val : number, date:string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/ratings/add-rating`,
+          {tid, rrpid, rate_val, date},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/addRating.php?tid=${tid}&rrpid=${rrpid}&rate_val=${rate_val}&date=${date}`)
   }
 
+  /* return null : done laravel */
   addReview(tid: number, rrpid:number, review_con : string, date:string):Observable<any>{
-    return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/addReview.php?tid=${tid}&rrpid=${rrpid}&review_con=${review_con}&date=${date}`)
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/ratings/add-review`,
+          {tid, rrpid, review_con, date},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
+    // return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/addReview.php?tid=${tid}&rrpid=${rrpid}&review_con=${review_con}&date=${date}`)
   }
 
+  /* return null : done laravel  */
   reserveRH(rrpid:number, uid:number, date:string, amount:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservations/create`,
+          {rrpid, date, uid, amount},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/reserveRH.php?uid=${uid}&rrpid=${rrpid}&date=${date}&amount=${amount}`)
   }
 
+
   // checklist
+  /* return null : done laravel */
   addChecklist(uid:number,rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/checklists/create`,
+          {uid, rrpid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/addChecklist.php?uid=${uid}&rrpid=${rrpid}`)
   }
+
+  /* return checklist : done laravel */
   isListed(uid:number,rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/checklists/is-listed/${uid}}/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Map/isListed.php?uid=${uid}&rrpid=${rrpid}`)
   }
 
+
   // checklist
+  /* return checklist[] : done laravel */
   getCheclist_uid(uid:number):Observable<ChecklistDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/checklists/get-checklists/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ChecklistDetails[]>(`${this.SERVER_NAME}/Checklist/getChecklist_uid.php?uid=${uid}`)
   }
+
+  /* return null : done laravel  */
   checkAList_chid(chid:number, val:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/checklists/check-list`,
+          {chid, val},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Checklist/checkAList_chid.php?chid=${chid}&val=${val}`)
   }
+
+  /* return null : done laravel */
   deleteAChecklist_chid(chid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/checklists/delete`,
+          {chid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Checklist/deleteAChecklist_chid.php?chid=${chid}`)
   }
 
   // reservation
+  /* return null : done laravel */
   getReservations_uid(uid:number):Observable<ReservationDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/reservations/get-reservations/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ReservationDetails[]>(`${this.SERVER_NAME}/Reservation/getReservations_uid.php?uid=${uid}`)
   }
+
+  /* return reservationupdates[] : done laravel */
   getReseveUpdates_reid(reid : number):Observable<ReservationUpdates[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/reservation-updates/get-updates/${reid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ReservationUpdates[]>(`${this.SERVER_NAME}/Reservation/getReseveUpdates_reid.php?reid=${reid}`)
   }
+
+  /* return reservations : done laravel */
   getReservations_rrpid(rrpid:number):Observable<ReservationDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/reservations/get-reservations-rrp/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ReservationDetails[]>(`${this.SERVER_NAME}/Reservation/getReservations_rrpid.php?rrpid=${rrpid}` )
   }
+
+  /* return null : done laravel */
   confirmReservation(reid:number, meet_date:string, meet_note:string, today : string):Observable<any>{
+    return new Observable(observer=>{
+      let params = (meet_date && meet_date != 'null') ? {reid, meet_date, meet_note, today} : {reid, today}
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservation-updates/confirm-reservation`,
+          params,
+          this.axiosConfig
+        )
+        .then(res=>observer.next(res.data))
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/confirmReservation.php?reid=${reid}&meet_date=${meet_date}&meet_note=${meet_note}&today=${today}` )
   }
+
+  /* return reservation : done laravel */
   getReservationDetails_reid(reid:number):Observable<ReservationDetails>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/reservations/get-reservations-id/${reid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch()
+    })
     return this.httpClient.get<ReservationDetails>(`${this.SERVER_NAME}/Reservation/getReservationDetails.php?reid=${reid}` )
   }
+
+  /* return null : done laravel */
   updateReservation(reid:number, meet_date:string, meet_note:string, today : string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservation-updates/update-reservation`,
+          {reid, meet_date, meet_note, today},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/updateReservation.php?reid=${reid}&meet_date=${meet_date}&meet_note=${meet_note}&today=${today}` )
   }
+
+  /* return null : done laravel */
   declineReservation(reid:number, today : string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservation-updates/decline-reservation`,
+          {reid, today},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/declineReservation.php?reid=${reid}&today=${today}` )
   }
+
+  /* return null : done laravel */
   cancelReservertion(reid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservations/cancel`,
+          {reid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/cancelReservation.php?reid=${reid}` )
   }
+
+  /* reutrn null : done laravel */
   deleteReservation(reid:number, id:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/reservations/delete`,
+          {reid, id},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/deleteReservation.php?reid=${reid}&id=${id}` )
   }
+
+
   countNewReservation(rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/countNewReservation.php?rrpid=${rrpid}` )
   }
+
+
 
   //notification
   addNotification(uid:number, date:string, type:string, content:string,url:string, extraid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/addNotification.php?uid=${uid}&date=${date}&type=${type}&content=${content}&url=${url}&extraid=${extraid}` )
   }
+
+
   getNotifications_uid(uid:number):Observable<NotificationDetails[]>{
     return this.httpClient.get<NotificationDetails[]>(`${this.SERVER_NAME}/Notification/getNotifications_uid.php?uid=${uid}` )
   }
+
+
   deleteNotification(notif_id):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/deleteNotification.php?notif_id=${notif_id}` )
   }
+
+
   markReadNotif(notif_id):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/markReadNotif.php?notif_id=${notif_id}` )
   }
+
+
   countNewNotification(uid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/countNewNotification.php?uid=${uid}` )
   }
+
+
   
 
   //messaging
   checkConvExist(idA:number, idB : number, type:string, rrpid: number ):Observable<ConversationDetails>{
     return this.httpClient.get<ConversationDetails>(`${this.SERVER_NAME}/Messaging/checkConvExist.php?idA=${idA}&idB=${idB}&type=${type}&rrpid=${rrpid}` )
   }
+
+
   newConvo(idA:number,idB:number,type:string,rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/newConvo.php?idA=${idA}&idB=${idB}&type=${type}&rrpid=${rrpid}` )
   }
+
+
   getConvos_uid(uid : number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvos_uid.php?uid=${uid}` )
   }
+
+
   addMessage(convoid : number, from:number, content:string, date:string, height: number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/addMessage.php?convoid=${convoid}&from=${from}&content=${content}&date=${date}&height=${height}` )
   }
+
+
   fetchMessages(convoid:number):Observable<Messages[]>{
     return this.httpClient.get<Messages[]>(`${this.SERVER_NAME}/Messaging/fetchMessages.php?convoid=${convoid}`)
   }
+
+
   getConvoHeight(convoid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvoHeight.php?convoid=${convoid}` )
   }
+
+
+  /* returns convodetails : done laravel */
   getConvoDets(convoid:number):Observable<ConversationDetails>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/${convoid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvoDets.php?convoid=${convoid}` )
   }
+
+
   deleteConvo(convoid:number,uid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/deleteConvo.php?convoid=${convoid}&uid=${uid}` )
   }
+
+
   checkNewMesagges(uid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/checkNewMessages.php?uid=${uid}` )
   }
+
+
   checkNewMesagges_rrpid(rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/checkNewMessages_rrpid.php?rrpid=${rrpid}` )
   }
+
+
   countNewMessages(convoid:number, uid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/countNewMessages.php?convoid=${convoid}&uid=${uid}`)
   }
+
+
   setMessageRead(messid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/setMessageRead.php?messid=${messid}` )
   }
@@ -532,62 +1243,85 @@ export class DbapiService  {
   getTenantDetails(uid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/Announcement/getTenantDetails.php?uid=${uid}` )
   }
+
+
   //payment history
   getPaymentHistory_uid(uid:number, rrpid:number, date:string):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/PaymentHistory/getPaymentHistory_uid.php?uid=${uid}&rrpid=${rrpid}&date=${date}` )
   }
+
+
   // complains
   addComplain(uid: number, rrpid: number, date:string, content:string):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/Complaints/addComplain.php?uid=${uid}&rrpid=${rrpid}&date=${date}&content=${content}` )
   }
+
+
   setComplainOld(com_id):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Complaints/setComplainOld.php?com_id=${com_id}`)
   }
+
+
   countComplaints(rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Complaints/countComplaints.php?rrpid=${rrpid}` )
   }
 
-  
-  // delete this later hehe
-  sampleUploadImage(img:Blob):Observable<any>{
-    return this.httpClient.get<any>(`${this.SERVER_NAME}/sampleUploadImage.php?img=${img}` )
-  }
-  tryFetchImage(imgid:number):Observable<any>{
-    return this.httpClient.get<any>(`${this.SERVER_NAME}/tryFetchImage.php?imgid=${imgid}` )
-  }
 
-  sampleSetFile(bases : image):Observable<any>{
-    return this.httpClient.post<any>(`${this.SERVER_NAME}/sampleSetFile.php`, bases)
-  }
+/*   
+  // delete this later hehe
+  // sampleUploadImage(img:Blob):Observable<any>{
+  //   return this.httpClient.get<any>(`${this.SERVER_NAME}/sampleUploadImage.php?img=${img}` )
+  // }
+
+
+  // tryFetchImage(imgid:number):Observable<any>{
+  //   return this.httpClient.get<any>(`${this.SERVER_NAME}/tryFetchImage.php?imgid=${imgid}` )
+  // }
+
+
+  // sampleSetFile(bases : image):Observable<any>{
+  //   return this.httpClient.post<any>(`${this.SERVER_NAME}/sampleSetFile.php`, bases)
+  // }
+ */
 
   // tunay na upload image
   setProfilePicture(image : ImageProps):Observable<any>{
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Image/setProfilePicture.php`, image )
   }
 
+
   fetchImages_rrpid(rrpid:number):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/fetchImages_rrpid.php?rrpid=${rrpid}` )
   }
+
+
   fetchImage(id : number, type : string):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/fetchImage.php?id=${id}&type=${type}` )
   }
+
+
   deleteImage(imgid:number , filename: string):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/deleteImage.php?imgid=${imgid}&filename=${filename}` )
   }
+
+
   updateImageDetails(img_id : number, title : string, description : string):Observable<any>{
     let params = {IMG_ID : img_id, Title : title, Description : description}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Image/updateImageDetails.php`, params )
   }
+
 
   // error reports
   sendBugs(uid:number, date:string, content:string):Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Errors/sendBugs.php?uid=${uid}&date=${date}&content=${content}` )
   }
 
-  // for admins
+// admin interface is preceded
+/*   // for admins
   countUsers():Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/countUsers.php` )
   }
+
   countRentalHouses():Observable<any>{
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/countRentalHouses.php` )
   }
@@ -631,6 +1365,7 @@ export class DbapiService  {
     let params = {username: uname, firstname:fname, middlename:mname, lastname:lname, password:pword}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/addAdmin.php`, params)
   }
+ */
 
   // done laravel
   sendCode(mail : string, kodigo:string, name : string):Observable<any>{
