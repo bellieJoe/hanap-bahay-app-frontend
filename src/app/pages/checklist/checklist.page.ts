@@ -69,7 +69,6 @@ export class ChecklistPage {
           if(results.length == 0){
             this.Checklist = null
           }else{
-                // console.log(results)
                 this.Checklist = results
                 this.Checklist.map((val, i)=>{
                   if(this.Checklist[i].Check_Status == 0){
@@ -78,7 +77,11 @@ export class ChecklistPage {
                     this.Checklist[i].Check_Status = true
                   }
                   this.dbapi.getRHDetails_rrpid(val.RRP_ID).subscribe((rhdetails)=>{
-                    this.Checklist[i].RRP_Name = rhdetails.RRP_Name
+                    if(rhdetails) {
+                      this.Checklist[i].RRP_Name = rhdetails.RRP_Name
+                    } else {
+                      this.Checklist[i].error = "This Property might be closed or shutdown"
+                    }
                   })
                 })
           }

@@ -1,13 +1,13 @@
-<ion-header  >
-  <ion-toolbar>
+<ion-header  mode="md">
+  <ion-toolbar >
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
     <ion-title>Checklist</ion-title>
-    
   </ion-toolbar>
 </ion-header>
-<ion-header >
+
+<ion-header mode="md">
   <ion-toolbar mode="ios">
     <ion-segment  id="segment" mode="ios" [(ngModel)]="segmentValue">
       <ion-segment-button value="unchecked" (click)="filter('unchecked')">
@@ -20,14 +20,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="md" color="light">
   <ion-list class="wrapper">
     <ng-container *ngIf="segmentValue === 'unchecked'">
       <ng-container *ngFor="let i of Checklist">
-        <ion-item  *ngIf="!i.Check_Status">
-          <ion-label class="ion-text-wrap">{{i.RRP_Name}}</ion-label>
-          <ion-checkbox slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
-          <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary" (click)="visit(i.RRP_ID)">View</ion-button>
+        <ion-item  *ngIf="!i.Check_Status"  lines="none">
+          <ng-container *ngIf="!i.error">
+            <ion-label class="ion-text-wrap">{{i.RRP_Name}}</ion-label>
+            <ion-checkbox slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
+            <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary" (click)="visit(i.RRP_ID)">View</ion-button>
+          </ng-container>
+          <ng-container *ngIf="i.error">
+            <ion-label class="ion-text-wrap">{{i.error}}</ion-label>
+            <ion-checkbox slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
+          </ng-container>
         </ion-item>
       </ng-container>
     </ng-container>
@@ -37,41 +43,19 @@
         Clear All
       </ion-button>
       <ng-container *ngFor="let i of Checklist">
-        <ion-item  *ngIf="i.Check_Status">
-          <ion-label class="ion-text-wrap">{{i.RRP_Name}}</ion-label>
-          <ion-checkbox slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
-          <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary">Visit</ion-button>
+        <ion-item  *ngIf="i.Check_Status" lines="none">
+          <ng-container *ngIf="!i.error">
+            <ion-label class="ion-text-wrap">{{i.RRP_Name}}</ion-label>
+            <ion-checkbox slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
+            <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary">View</ion-button>
+          </ng-container>
+          <ng-container  *ngIf="i.error">
+            <ion-label class="ion-text-wrap">{{i.error}}</ion-label>
+            <ion-checkbox disabled slot="start" [checked]="i.Check_Status" mode="ios" color="tertiary" (ionChange)="check(i.Checklist_Id,i.Check_Status)"></ion-checkbox>
+          </ng-container>
         </ion-item>
       </ng-container>
     </ng-container>
   </ion-list>
-
-
-  <!-- <ion-list>
-    <ion-list-header>
-      <ion-label>To visit</ion-label>
-    </ion-list-header>
-    <ion-card *ngFor="let item of checklist" >
-      <ion-item  lines = "none">
-        <ion-label>{{item.houseName}}</ion-label>
-        <ion-checkbox slot="start" checked = "{{item.visited}}"></ion-checkbox>
-        <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary" [routerLink]="[item.url]"  >Visit</ion-button>
-      </ion-item>
-    </ion-card>
-  </ion-list> -->
-
-  <!-- <ion-list>
-    <ion-list-header>
-      <ion-label>Visited</ion-label>
-      <ion-button>Clear All</ion-button>
-    </ion-list-header>
-    <ion-card *ngFor="let item of visitedChecklist" >
-      <ion-item lines = "none">
-        <ion-label>{{item.houseName}}</ion-label>
-        <ion-checkbox slot="start" checked = "{{item.visited}}" disabled = "true"></ion-checkbox>
-        <ion-button slot="end" expand="block" fill="clear" shape="round" color="tertiary" [routerLink]="[item.url]"  >Visit</ion-button>
-      </ion-item>
-    </ion-card>
-  </ion-list> -->
 
 </ion-content>
