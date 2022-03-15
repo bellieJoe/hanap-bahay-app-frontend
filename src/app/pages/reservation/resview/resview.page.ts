@@ -30,23 +30,21 @@ export class ResviewPage {
 
   call(a: string){
     this.callNumber.callNumber(a,true)
-    
   }
-
-
 
   ionViewWillEnter(){
     if(this.platform.is("pwa")){
       this.callFunc = false
     }else{
-      true
+      // true
     }
     this.storage.get("User_ID").then(uid =>{
       this.storage.get("User_Type").then(utype =>{
         if(uid && utype == "tenant"){
           this.route.queryParams.subscribe((data)=>{
-            // console.log(data)
+            
             this.dbapi.getReservationDetails_reid(data.reid).subscribe(redets=>{
+              console.log(redets)
               if(uid == redets.User_ID){
                 if(redets.Confirmation_Note == "undefined"){
                   redets.Confirmation_Note = ""
@@ -68,14 +66,14 @@ export class ResviewPage {
                   // console.log(this.updates)
                 })
               }else{
-                this.router.navigate([''])
+                console.log("sda")
+                // this.router.navigate([''])
               }
             })
             
           })
-          console.log()
         }else{
-          this.router.navigate([''])
+          // this.router.navigate([''])
         }
       })
      

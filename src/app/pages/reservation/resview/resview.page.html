@@ -1,5 +1,5 @@
 <ion-header class = "ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar mode="md">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -9,35 +9,28 @@
 
 
 
-<ion-content>
-
-
-
+<ion-content color="light">
   <div class="wrapper">
-    <!-- <ion-text color="primary">
-      <h1>Boarding House name</h1>
-      <h1 (click)="call()">Contact Number</h1>
-    </ion-text> -->
-
-    <ion-item lines="none">
-      <ion-icon slot="start" name="home"></ion-icon>
-      <div class="con">
-        <ion-label>Rental House Name</ion-label>
-        <ion-label>{{RH_Name}}</ion-label>
-      </div>
-    </ion-item>
-    <ion-item lines="none">
-      <div class="con">
-        <ion-label>Contact Number</ion-label>
-        <ion-label>{{Contact_Number}}</ion-label>
-      </div>
-      <ion-icon slot="start" name="call"> </ion-icon>
-    </ion-item>
+    <div class="section">
+      <h1 class="section-header ">Property Details</h1>
+      <ion-item lines="none">
+        <ion-icon slot="start" name="home"></ion-icon>
+        <div class="con">
+          <ion-label>Rental House Name</ion-label>
+          <ion-label>{{RH_Name}}</ion-label>
+        </div>
+      </ion-item>
+      <ion-item lines="none">
+        <div class="con">
+          <ion-label>Contact Number</ion-label>
+          <ion-label>+63{{Contact_Number}}</ion-label>
+        </div>
+        <ion-icon slot="start" name="call"> </ion-icon>
+      </ion-item>
+    </div>
 
     <ion-list>
-      <ion-list-header>
-        <ion-label>Update Logs</ion-label>
-      </ion-list-header>
+      <h1 class="section-header">Update Logs</h1>
       <ion-item *ngFor="let i of updates" class="ion-text-wrap log">
         <h1><span>{{i.Update_Date | date:'longDate'}} {{i.Update_Date | date: 'h:mm a'}}</span> • {{i.Update_Content}}</h1>
       </ion-item >

@@ -16,8 +16,11 @@ ion-content{
             }
         }
         ion-list{
+            margin-top: 1em;
             .noup{
                 text-align: center;
+                margin: 1em 0em;
+                color: var(--ion-color-medium)
             }
             .log{
                 --background: #F4F4F4;
@@ -38,6 +41,16 @@ ion-content{
                     font-size: 14px;
                 }
             }
+        }
+        .section-header{
+            font-size: large;
+            font-weight: bold;
+            margin: 1em 0em 1em 1em;
+        }
+        .section{
+            background-color: white;
+            padding: 1em 0em;
+
         }
     }
         
