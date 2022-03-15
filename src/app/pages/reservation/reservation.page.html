@@ -48,7 +48,7 @@
   <div class="wrapper">
     <ng-container *ngFor="let i of ReservationDets" >
       <ion-card  *ngIf="segmentValue == i.Status || segmentValue == 'all'">
-        <ng-container *ngIf="!i.error">
+        <ng-container >
           <ion-card-content>
             <ion-item details="none" lines="none">
               <div class="cont">
@@ -81,25 +81,30 @@
               </div>
             </ion-item>
             <!-- <h1 *ngIf="i.Status != 'pending'" class="{{i.Status}}">Status{{i.Status}}</h1> -->
-            <ion-button  expand="block" color="tertiary"  *ngIf="i.Status == 'approved'" (click)="view(i.Reservation_ID,i.RRP_ID)">
-              <ion-icon slot="start" name="pin-outline"></ion-icon>
-              View Updates
-            </ion-button>
-            <ion-button class="ms-auto me-0" expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
-              <ion-icon slot="start" name="trash-outline"></ion-icon>
-              Delete
-            </ion-button>
+            <div class="buttons">
+              <ion-button  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+              <ion-button  expand="block" color="tertiary"  *ngIf="i.Status == 'approved'" (click)="view(i.Reservation_ID,i.RRP_ID)">
+                <ion-icon slot="start" name="pin-outline"></ion-icon>
+                View Updates
+              </ion-button>
+            </div>
+            <div class="buttons" *ngIf="i.Status == 'pending'">
+              <ion-button color="medium" (click)="cancel(i.Reservation_ID)" >
+                <ion-icon slot="start" name="stop-outline"></ion-icon>
+                Cancel
+              </ion-button>
+              <ion-button  expand="block" color="tertiary" (click)="view(i.Reservation_ID,i.RRP_ID)">
+                <ion-icon slot="start" name="pin-outline"></ion-icon>
+                View Updates
+              </ion-button>
+            </div>
           </ion-card-content>
-          <div class="buttons" *ngIf="i.Status == 'pending'">
-            <button  class="butt cancel" (click)="cancel(i.Reservation_ID)" >
-              Cancel
-            </button>
-            <button class="butt view" (click)="view(i.Reservation_ID,i.RRP_ID)">
-              View updates
-            </button>
-          </div>
+          
         </ng-container>
-        <ng-container *ngIf="i.error">
+        <!-- <ng-container *ngIf="i.error">
           <ion-card-content>
             <p class="py-2">{{ i.error }}</p>
             <ion-button class="ms-auto me-0"  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
@@ -107,7 +112,7 @@
               Delete
             </ion-button>
           </ion-card-content>
-        </ng-container>
+        </ng-container> -->
         
       </ion-card> 
     </ng-container>
