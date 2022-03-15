@@ -35,7 +35,6 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule, //bagong add ko lang oct 11
-    ImageCropperModule,
     IonicStorageModule.forRoot(), 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],

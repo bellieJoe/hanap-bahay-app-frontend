@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ImguploaderPageRoutingModule } from './imguploader-routing.module';
 
 import { ImguploaderPage } from './imguploader.page';
-import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
+import { ImageCropperComponent, CropperSettings, ImageCropperModule } from 'ngx-img-cropper';
 
 import { AppModule } from 'src/app/app.module';
 
@@ -17,6 +17,7 @@ import { AppModule } from 'src/app/app.module';
     FormsModule,
     IonicModule,
     ImguploaderPageRoutingModule,
+    ImageCropperModule
   ],
   declarations: [
     ImguploaderPage,

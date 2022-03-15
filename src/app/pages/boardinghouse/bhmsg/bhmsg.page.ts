@@ -75,7 +75,7 @@ export class BhmsgPage implements OnInit {
     }
   }
   delete(convoid:number){
-    this.dbapi.deleteConvo(convoid,this.RRP_ID).subscribe(()=>{
+    this.dbapi.deleteConvo(convoid,this.RRP_ID, 'rrp').subscribe(()=>{
       this.dbapi.getConvos_rrpid(this.RRP_ID).subscribe(condets=>{
         if(condets.length > 0){
           this.conversations = condets

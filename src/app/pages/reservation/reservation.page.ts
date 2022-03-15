@@ -198,17 +198,21 @@ export class ReservationPage {
   completeDetails(){
     this.ReservationDets.map((val, i)=>{
       this.dbapi.getRHDetails_rrpid(val.RRP_ID).subscribe((rhdets)=>{
-        this.ReservationDets[i].RRP_Name = rhdets.RRP_Name
-        if(rhdets.RRP_Type == "house for rent"){
-          this.ReservationDets[i].unit = "house/s"
-        }else if(rhdets.RRP_Type == "room for rent"){
-          this.ReservationDets[i].unit = "room/s"
-        }else if(rhdets.RRP_Type == "bed space"){
-          this.ReservationDets[i].unit = "person/s"
-        }else if(rhdets.RRP_Type == "male bed space"){
-          this.ReservationDets[i].unit = "person/s"
-        }else if(rhdets.RRP_Type == "female bed space"){
-          this.ReservationDets[i].unit = "person/s"
+        if (!rhdets) {
+          this.ReservationDets[i].error = "This Property might be close or shutdown by the owner"
+        } else {
+          this.ReservationDets[i].RRP_Name = rhdets.RRP_Name
+          if(rhdets.RRP_Type == "house for rent"){
+            this.ReservationDets[i].unit = "house/s"
+          }else if(rhdets.RRP_Type == "room for rent"){
+            this.ReservationDets[i].unit = "room/s"
+          }else if(rhdets.RRP_Type == "bed space"){
+            this.ReservationDets[i].unit = "person/s"
+          }else if(rhdets.RRP_Type == "male bed space"){
+            this.ReservationDets[i].unit = "person/s"
+          }else if(rhdets.RRP_Type == "female bed space"){
+            this.ReservationDets[i].unit = "person/s"
+          }
         }
       })
     })

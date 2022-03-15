@@ -8,6 +8,7 @@ import { ImgupldPageRoutingModule } from './imgupld-routing.module';
 
 import { ImgupldPage } from './imgupld.page';
 import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ImageCropperComponent, CropperSettings } from 'ngx-img-cropper';
     FormsModule,
     IonicModule,
     ImgupldPageRoutingModule,
+    ImageCropperModule
   ],
   declarations: [
     ImgupldPage,

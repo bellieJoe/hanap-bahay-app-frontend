@@ -96,14 +96,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tenantportal/tpmembers/tpmembers.module').then( m => m.TpmembersPageModule)
   },
   {
-    path: 'admindashboard',
-    loadChildren: () => import('./pages/admininterface/admindashboard/admindashboard.module').then( m => m.AdmindashboardPageModule)
-  },
-  {
-    path: 'reports',
-    loadChildren: () => import('./pages/admininterface/reports/reports.module').then( m => m.ReportsPageModule)
-  },
-  {
     path: 'blank',
     loadChildren: () => import('./pages/blank/blank.module').then( m => m.BlankPageModule)
   },

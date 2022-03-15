@@ -2,9 +2,10 @@ import { Time } from '@angular/common';
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 //import { UserInfo } from 'os';
-import { Observable } from 'rxjs';
+import { observable, Observable } from 'rxjs';
 import { AnnouncementDetails, ChecklistDetails, ComplaintsDetails, ContactDetails, ConversationDetails, CreateUserPolicy,GetTenantList,image,ImageProps,Messages,NotificationDetails,PaymentDetails,RatingsDetails,RentalHouseDetails,ReservationDetails,ReservationUpdates,SearchTenantList,SubscriptionData,UserDetails,UserProfile,UserUniqueInputs } from  '../providers/policy';
 import axios from "axios"
+import { on } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -129,7 +130,7 @@ export class DbapiService  {
       this.authSanctum()
       .subscribe(()=>{
         axios.get(
-          `${this.SERVER_NAME}/users/${username}`,
+          `${this.SERVER_NAME}/users/get-user-by-username/${username}`,
           this.axiosConfig
         )
         .then((res)=>{
@@ -1134,70 +1135,182 @@ export class DbapiService  {
   }
 
 
+  /* return number : done laravel */
   countNewReservation(rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/reservations/count-new/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Reservation/countNewReservation.php?rrpid=${rrpid}` )
   }
 
 
-
   //notification
+  /* return null : done laravel */
   addNotification(uid:number, date:string, type:string, content:string,url:string, extraid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/notifications/create`,
+          {uid, date, type, content, url, extraid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/addNotification.php?uid=${uid}&date=${date}&type=${type}&content=${content}&url=${url}&extraid=${extraid}` )
   }
 
-
+  /* return notifications[] : done laravel */
   getNotifications_uid(uid:number):Observable<NotificationDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/notifications/userid/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<NotificationDetails[]>(`${this.SERVER_NAME}/Notification/getNotifications_uid.php?uid=${uid}` )
   }
 
-
+  /* return null : done laravel */
   deleteNotification(notif_id):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/notifications/delete`,
+          {notif_id},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/deleteNotification.php?notif_id=${notif_id}` )
   }
 
-
+  /* return null : done laravel */
   markReadNotif(notif_id):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/notifications/mark-read`,
+          {notif_id},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/markReadNotif.php?notif_id=${notif_id}` )
   }
 
-
+  /* return number : done laravel */
   countNewNotification(uid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/notifications/count-new/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Notification/countNewNotification.php?uid=${uid}` )
   }
 
 
-  
-
   //messaging
+  /* return ConversationDetails : done laravel */
   checkConvExist(idA:number, idB : number, type:string, rrpid: number ):Observable<ConversationDetails>{
+
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/convo/check-exist?idA=${idA}&idB=${idB}&type=${type}&rrpid=${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<ConversationDetails>(`${this.SERVER_NAME}/Messaging/checkConvExist.php?idA=${idA}&idB=${idB}&type=${type}&rrpid=${rrpid}` )
   }
 
-
+  /* return null : done laravel */
   newConvo(idA:number,idB:number,type:string,rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/conversations/convo/create`,
+          {idA, idB, type, rrpid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/newConvo.php?idA=${idA}&idB=${idB}&type=${type}&rrpid=${rrpid}` )
   }
 
 
+  /* return conversations :done laravel */
   getConvos_uid(uid : number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/get-convo-user-id/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvos_uid.php?uid=${uid}` )
   }
 
-
+  /* return null : done laravel */
   addMessage(convoid : number, from:number, content:string, date:string, height: number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/messages/create`,
+          {convoid, from, content, date, height},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/addMessage.php?convoid=${convoid}&from=${from}&content=${content}&date=${date}&height=${height}` )
   }
 
-
+  /* return messages : done laravel */
   fetchMessages(convoid:number):Observable<Messages[]>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/messages/fetch-messages-by-conversation/${convoid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<Messages[]>(`${this.SERVER_NAME}/Messaging/fetchMessages.php?convoid=${convoid}`)
   }
 
-
+  /* return height : done laravel */
   getConvoHeight(convoid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/messages/conversation-height/${convoid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvoHeight.php?convoid=${convoid}` )
   }
-
 
   /* returns convodetails : done laravel */
   getConvoDets(convoid:number):Observable<ConversationDetails>{
@@ -1212,101 +1325,226 @@ export class DbapiService  {
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/getConvoDets.php?convoid=${convoid}` )
   }
 
-
-  deleteConvo(convoid:number,uid:number):Observable<any>{
+  /* return null : done laravel */
+  deleteConvo(convoid:number,uid:number, type:string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/conversations/convo/delete`,
+          {convoid, uid, type},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/deleteConvo.php?convoid=${convoid}&uid=${uid}` )
   }
 
-
+  /* return boolean : done laravel */
   checkNewMesagges(uid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/convo/check-new-message-by-user/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/checkNewMessages.php?uid=${uid}` )
   }
 
-
+  /* return boolean : done laravel */
   checkNewMesagges_rrpid(rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/convo/check-new-message-by-rrp/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/checkNewMessages_rrpid.php?rrpid=${rrpid}` )
   }
 
-
+  /* return number : done laravel */
   countNewMessages(convoid:number, uid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/conversations/convo/count-new-messages/${convoid}/${uid}`
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/countNewMessages.php?convoid=${convoid}&uid=${uid}`)
   }
-
-
+  
+  /* return null : done laravel */
   setMessageRead(messid:number):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/conversations/message/mark-read`,
+          {messid},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Messaging/setMessageRead.php?messid=${messid}` )
   }
   
 
   // tenant portal
-  // announcements
+  /* return tenant : done laravel */
   getTenantDetails(uid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/tenants/get-tenant-by-userid/${uid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/Announcement/getTenantDetails.php?uid=${uid}` )
   }
 
 
   //payment history
+  /* return payments : done laravel */
   getPaymentHistory_uid(uid:number, rrpid:number, date:string):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/payment-history/get-payments-by-user?uid=${uid}&rrpid=${rrpid}&date=${date}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/PaymentHistory/getPaymentHistory_uid.php?uid=${uid}&rrpid=${rrpid}&date=${date}` )
   }
 
 
   // complains
+  /* return null : done laravel */
   addComplain(uid: number, rrpid: number, date:string, content:string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/complaints/create`,
+          {uid, rrpid, date, content},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/TenantPortal/Complaints/addComplain.php?uid=${uid}&rrpid=${rrpid}&date=${date}&content=${content}` )
   }
 
-
+  /* return null : done laravel  */
   setComplainOld(com_id):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/complaints/mark-read`,
+          {com_id},
+          this.axiosConfig
+        )
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Complaints/setComplainOld.php?com_id=${com_id}`)
   }
 
-
+  /* return number : done laravel */
   countComplaints(rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/complaints/count-by-rrp/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/RH_Management/Complaints/countComplaints.php?rrpid=${rrpid}` )
   }
 
-
-/*   
-  // delete this later hehe
-  // sampleUploadImage(img:Blob):Observable<any>{
-  //   return this.httpClient.get<any>(`${this.SERVER_NAME}/sampleUploadImage.php?img=${img}` )
-  // }
-
-
-  // tryFetchImage(imgid:number):Observable<any>{
-  //   return this.httpClient.get<any>(`${this.SERVER_NAME}/tryFetchImage.php?imgid=${imgid}` )
-  // }
-
-
-  // sampleSetFile(bases : image):Observable<any>{
-  //   return this.httpClient.post<any>(`${this.SERVER_NAME}/sampleSetFile.php`, bases)
-  // }
- */
-
   // tunay na upload image
+  /* return null : done laravel */
   setProfilePicture(image : ImageProps):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/images/set-profile`,
+          image,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Image/setProfilePicture.php`, image )
   }
 
-
+  /* return images : done laravel */
   fetchImages_rrpid(rrpid:number):Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/images/fetch-images-by-rrp/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
+  
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/fetchImages_rrpid.php?rrpid=${rrpid}` )
   }
 
-
+  /* return image : done laravel */
   fetchImage(id : number, type : string):Observable<any>{
-    return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/fetchImage.php?id=${id}&type=${type}` )
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/images/fetch-image?id=${id}&type=${type}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
+    // return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/fetchImage.php?id=${id}&type=${type}` )
   }
 
-
+  /* return null : done laravel */
   deleteImage(imgid:number , filename: string):Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/images/delete`,
+          {imgid, filename},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Image/deleteImage.php?imgid=${imgid}&filename=${filename}` )
   }
 
-
+  /* return null : done laravel */
   updateImageDetails(img_id : number, title : string, description : string):Observable<any>{
     let params = {IMG_ID : img_id, Title : title, Description : description}
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/images/update-details`,
+          params,
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(err=>console.log(err))
+      })
+    })
+    
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Image/updateImageDetails.php`, params )
   }
 
@@ -1316,58 +1554,61 @@ export class DbapiService  {
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Errors/sendBugs.php?uid=${uid}&date=${date}&content=${content}` )
   }
 
+
 // admin interface is preceded
-/*   // for admins
+  // for admins
   countUsers():Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/countUsers.php` )
   }
-
   countRentalHouses():Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/countRentalHouses.php` )
   }
-
   loginAdmin(login_credential : any):Observable<any>{
+    return null
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/loginAdmin.php`, login_credential )
   }
-
   getAdminDetails_uname(username:string):Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/getAdminDetails_uname.php?uname=${username}` )
   }
-
   getAdminDetails(id:number):Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/getAdminDetails.php?id=${id}` )
   }
-
   getAllUsers():Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/getAllUsers.php` )
   }
-
   getAllHouses():Observable<any>{
+    return null
     return this.httpClient.get<any>(`${this.SERVER_NAME}/Admin/Dashboard/getAllHouses.php` )
   }
-
   checkPassword(uid:number, pword:string):Observable<any>{
+    return null
     let params = {id: uid, password: pword}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/checkPassword.php`, params )
   }
-
   changeUsername(uid:number, uname:string):Observable<any>{
+    return null
     let params = {id: uid, username: uname}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/changeUsername.php`, params )
   }
-
   changePasswordAdmin(uid:number, pword:string):Observable<any>{
+    return null
     let params = {id: uid, password: pword}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/changePasswordAdmin.php`, params )
   }
-
   addAdmin(fname:string, pword:string, mname:string, lname:string, uname:string):Observable<any>{
+    return null
     let params = {username: uname, firstname:fname, middlename:mname, lastname:lname, password:pword}
     return this.httpClient.post<any>(`${this.SERVER_NAME}/Admin/addAdmin.php`, params)
   }
- */
 
-  // done laravel
+
+
+  /* done laravel */
   sendCode(mail : string, kodigo:string, name : string):Observable<any>{
     return new Observable((observer) => {
       this.authSanctum().subscribe(() => {

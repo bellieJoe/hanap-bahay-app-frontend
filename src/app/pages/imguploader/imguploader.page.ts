@@ -33,9 +33,7 @@ export class ImguploaderPage {
     private platform : Platform,
     private camera: Camera,
     private router : Router
-  ) {
-    
-   }
+  ) { }
 
   @ViewChild("cropper") cropper : ImageCropperComponent
   @ViewChild("slider") slider : IonSlides
@@ -86,18 +84,12 @@ export class ImguploaderPage {
         await load.present()
         await new Promise((resolve, reject) => {
           this.dbapi.setProfilePicture(image).subscribe(status=>{
-            console.log("Image Data: " )
-            console.table(image)
-            console.log(status + " status")
-            if(status == "OK"){
-              this.presentToast("Image uploaded successfully")
-              this.modalController.dismiss({
-                "success" : true
-              })
-              resolve(null)
-            }else{
-              throw new Error("Image upload failed");
-            }
+
+            this.presentToast("Image uploaded successfully")
+            this.modalController.dismiss({
+              "success" : true
+            })
+            resolve(null)
             
           })
         }) 
@@ -242,12 +234,7 @@ export class ImguploaderPage {
     // console.log(this.platform.platforms())
     this.initCropper()
     this.checkUploadType()
-    try {
-     this.slider.update()
-      
-    } catch (error) {
-      
-    }
+    // this.slider.update()
     
   }
 

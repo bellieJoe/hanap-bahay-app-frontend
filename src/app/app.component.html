@@ -1,6 +1,6 @@
 <ion-app >
   <!-- (ionSplitPaneVisible)="onSplitPaneVisible(event)"  -->
-    <ion-split-pane contentId="menu-content"  when="">
+    <ion-split-pane mode="md" contentId="menu-content"  when="">
       <ion-menu mode="md" contentId="menu-content" menuId="menu-content" side="start" type="overlay" (ionDidOpen) = "loadMenu()" swipeGesture="false">
         <ion-header class = "ion-no-border" >
           <ion-toolbar color="secondary" class="py-2">
@@ -13,6 +13,7 @@
             
           </ion-toolbar>
         </ion-header>
+
         <ion-content>
           <ion-menu-toggle  auto-hide="false" class="swiper-no-swiping">
 

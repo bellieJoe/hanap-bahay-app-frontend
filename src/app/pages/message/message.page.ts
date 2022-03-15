@@ -45,7 +45,7 @@ export class MessagePage implements OnInit {
   }
 
   delete(convoid:number){
-    this.dbapi.deleteConvo(convoid,this.User_ID).subscribe(()=>{
+    this.dbapi.deleteConvo(convoid,this.User_ID, 'user').subscribe(()=>{
       this.dbapi.getConvos_uid(this.User_ID).subscribe(cons=>{
         if(cons.length > 0){
           this.conversations = cons
@@ -135,7 +135,7 @@ export class MessagePage implements OnInit {
 
   loadConvo(){
     this.dbapi.getConvos_uid(this.User_ID).subscribe((convs)=>{
-      // console.log(convs.length)
+      console.log(convs)
       if(convs.length > 0){
         if(this.conversations.length == convs.length){
           this.countNewMessage()

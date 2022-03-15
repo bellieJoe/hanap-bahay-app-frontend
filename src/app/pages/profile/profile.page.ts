@@ -81,17 +81,17 @@ export class ProfilePage implements OnInit {
       component: ImguploaderPage,
       componentProps : {
         "upload_type" : "user-profile",
-        "bh_id" : null
+        "bh_id" : null,
         }
     });
   
     await modal.present();
     await modal.onDidDismiss().then(res=>{
-      if(res.data.success){
-        this.img_src = `${this.url_src}user_${this.User_ID}.png?`+ new Date().getTime()
-        // window.location.reload()
-      }
-
+      // if(res.data.success){
+      //   this.img_src = `${this.url_src}user_${this.User_ID}.png?`+ new Date().getTime()
+      //   // window.location.reload()
+      // }
+      this.img_src = `${this.url_src}user_${this.User_ID}.png?`+ new Date().getTime()
     })
 
   

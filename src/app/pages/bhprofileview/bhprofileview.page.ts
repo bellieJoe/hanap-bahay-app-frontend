@@ -380,16 +380,18 @@ export class BhprofileviewPage {
 
   loadRHDets(){
     this.dbapi.getRHDetails_rrpid(this.RH_Details.RRP_ID).subscribe((res:RentalHouseDetails)=>{
+      console.log(res)
       this.RH_Details = res
       this.setIcon()
       this.fetchImages()
       this.loadProfilePic()
       this.dbapi.getUserDetails_id(res.Owner_ID).subscribe((dets)=>{
         this.RH_Owner_Name =  dets[0].Firstname + " " + dets[0].Middlename.slice(0,1) + ". " +dets[0].Lastname
+        this.dbapi.computeAvailability_rrpid(this.RH_Details.RRP_ID).subscribe((result)=>{
+          this.RH_Availability = result
+        })
       })
-      this.dbapi.computeAvailability_rrpid(this.RH_Details.RRP_ID).subscribe((result)=>{
-        this.RH_Availability = result
-      })
+      
     })
   }
 
