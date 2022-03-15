@@ -12,6 +12,9 @@ ion-content{
     .wrapper{
         max-width: 700px;
         margin: auto;
+        ion-button{
+            width: fit-content;
+        }
         ion-card {
             width: 95%;
             max-width: 600px;

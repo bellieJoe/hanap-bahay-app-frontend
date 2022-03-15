@@ -74,12 +74,18 @@
                 <ion-label  class="con">{{i.Reservation}} {{i.unit}}</ion-label>
               </div>
             </ion-item>
-            <h1 *ngIf="i.Status != 'pending'" class="{{i.Status}}">{{i.Status | uppercase}}</h1>
+            <ion-item details="none" lines="none" *ngIf="i.Status != 'pending'" >
+              <div class="cont">
+                <ion-label color="primary" class="label">Status</ion-label>
+                <ion-label class="{{i.Status}} con"  >{{i.Status | titlecase}}</ion-label>
+              </div>
+            </ion-item>
+            <!-- <h1 *ngIf="i.Status != 'pending'" class="{{i.Status}}">Status{{i.Status}}</h1> -->
             <ion-button  expand="block" color="tertiary"  *ngIf="i.Status == 'approved'" (click)="view(i.Reservation_ID,i.RRP_ID)">
               <ion-icon slot="start" name="pin-outline"></ion-icon>
               View Updates
             </ion-button>
-            <ion-button  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
+            <ion-button class="ms-auto me-0" expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
             </ion-button>
@@ -96,7 +102,7 @@
         <ng-container *ngIf="i.error">
           <ion-card-content>
             <p class="py-2">{{ i.error }}</p>
-            <ion-button  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
+            <ion-button class="ms-auto me-0"  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
               <ion-icon slot="start" name="trash-outline"></ion-icon>
               Delete
             </ion-button>
