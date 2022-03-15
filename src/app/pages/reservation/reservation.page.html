@@ -48,7 +48,7 @@
   <div class="wrapper">
     <ng-container *ngFor="let i of ReservationDets" >
       <ion-card  *ngIf="segmentValue == i.Status || segmentValue == 'all'">
-        <ng-container >
+        <ng-container  *ngIf="!i.error">
           <ion-card-content>
             <ion-item details="none" lines="none">
               <div class="cont">
@@ -104,15 +104,17 @@
           </ion-card-content>
           
         </ng-container>
-        <!-- <ng-container *ngIf="i.error">
+        <ng-container *ngIf="i.error">
           <ion-card-content>
             <p class="py-2">{{ i.error }}</p>
-            <ion-button class="ms-auto me-0"  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
-              <ion-icon slot="start" name="trash-outline"></ion-icon>
-              Delete
-            </ion-button>
+            <div class="buttons">
+              <ion-button class="ms-auto me-0"  expand="block" color="danger" (click)="delete(i.Reservation_ID)" *ngIf="i.Status != 'pending'">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                Delete
+              </ion-button>
+            </div>
           </ion-card-content>
-        </ng-container> -->
+        </ng-container>
         
       </ion-card> 
     </ng-container>
