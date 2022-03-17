@@ -8,7 +8,12 @@ import { ContactDetails } from 'src/app/providers/policy';
   templateUrl: './viewcontact.page.html',
   styleUrls: ['./viewcontact.page.scss'],
 })
-export class ViewcontactPage implements OnInit {
+export class ViewcontactPage  {
+  constructor(
+    private modalController: ModalController,
+    private dbapi : DbapiService,
+    private toastController: ToastController
+  ) { }
 
   @Input() contact_id : number
   line : string = "none"
@@ -20,7 +25,6 @@ export class ViewcontactPage implements OnInit {
     RRP_ID : null,
   }
 
-
   updateContact(){
     let a = this.contactDetails
     this.dbapi.updateContact_cid(a.Contact_ID, a.Contact_Name, a.Contact_Number, a.Contact_Type).subscribe((res : ContactDetails)=>{
@@ -31,13 +35,6 @@ export class ViewcontactPage implements OnInit {
       })
     })
   }
-
-
-  constructor(
-    private modalController: ModalController,
-    private dbapi : DbapiService,
-    private toastController: ToastController
-  ) { }
 
   async presentToast(a:string) {
     const toast = await this.toastController.create({
@@ -53,8 +50,6 @@ export class ViewcontactPage implements OnInit {
     })
   }
 
-  ngOnInit() {
-  }
 
   ionViewDidEnter(){
     this.dbapi.getContact_cid(this.contact_id).subscribe((res : ContactDetails)=>{
