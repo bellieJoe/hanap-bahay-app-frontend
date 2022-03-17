@@ -181,8 +181,16 @@ export class DbapiService  {
     return this.httpClient.post<CreateUserPolicy>(`${this.SERVER_NAME}/addRHSubscription.php`, sub )
   }
 
-  /* unused daw */
-  getOwnersRH_id(id : number):Observable<RentalHouseDetails[]>{//unused
+  /* return rrps : done laravel  */
+  getOwnersRH_id(id : number):Observable<RentalHouseDetails[]>{
+    return new Observable(observer=>{
+      axios.get(
+       `${this.SERVER_NAME}/rrps/get-rrps-by-owner/${id}`,
+       this.axiosConfig 
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
     return this.httpClient.get<RentalHouseDetails[]>(`${this.SERVER_NAME}/getOwnersRH_id.php/?id=${id}` )
   }
   
