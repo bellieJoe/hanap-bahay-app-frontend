@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 
 
 
+
 @Component({
   selector: 'app-imguploader',
   templateUrl: './imguploader.page.html',
@@ -180,12 +181,6 @@ export class ImguploaderPage {
           res.dismiss()
           this.slider.slideNext()
         }
-        // reader.addEventListener('load', (event: any) => {
-        //   this.picture.src  = event.target.result
-        //   this.cropper.setImage(this.picture)
-        //   res.dismiss()
-        //   this.slider.slideNext()
-        // });
       })
     })
 
@@ -225,16 +220,14 @@ export class ImguploaderPage {
 
   isAndroid : boolean = false
   ionViewDidEnter(){
+    this.initCropper()
+    this.checkUploadType()
+
     if(this.platform.is("mobile") && !this.platform.is("mobileweb")){
       this.isAndroid = true
-      console.log("true")
     }else{
       this.isAndroid = false
     }
-    // console.log(this.platform.platforms())
-    this.initCropper()
-    this.checkUploadType()
-    // this.slider.update()
     
   }
 

@@ -207,7 +207,7 @@ export class HomePage {
         if(image == null){
           this.profile_img = null
         }else{
-          this.profile_img = `http://192.168.43.65/HanapBahay/images/profile/${image.IMG_Filename}.png`
+          this.profile_img = `${this.dbapi.SERVER}/images/profile/${image.IMG_Filename}.png`
         }
       })
     })

@@ -39,6 +39,7 @@ export class ImgupldPage implements OnInit {
   Description : string = null
   Title : string = null
   SelectedPart : string = null
+
   async presentToast(con:string) {
     const toast = await this.toastController.create({
       message: con,
@@ -117,15 +118,14 @@ export class ImgupldPage implements OnInit {
 
   initCropper(){
     let wrapper = document.getElementById("wrapper")
-    console.log(wrapper.clientWidth)
     this.cropperSettings = new CropperSettings()
     this.cropperSettings.canvasWidth = 360
     this.cropperSettings.cropperDrawSettings.strokeColor = "#00B8C1"
     this.cropperSettings.showCenterMarker = false
     this.cropperSettings.markerSizeMultiplier = .5
     this.cropperSettings.minWithRelativeToResolution = false
-    // this.cropperSettings.dynamicSizing = true
     this.cropperSettings.noFileInput = true
+
     this.cropperSettings.width = 820
     this.cropperSettings.height = 450
     this.cropperSettings.croppedWidth = 820
@@ -145,32 +145,26 @@ export class ImgupldPage implements OnInit {
     })
   }
 
-  fileChangeEvent(): void {
-    console.log("nag file change event")
+  fileChangeEvent(){
+    console.log("file change event fired...")
     this.phase = 2
     this.imageSelect.getInputElement().then(elem=>{
       let load = this.loadingController.create({
         spinner: "bubbles",
         message: "Fetching Image",
-
       })
+      
       load.then(res=>{
         res.present()
         this.filechange = elem
         const file: File = elem.files[0];
         const reader = new FileReader();
-        if(file){
-          reader.readAsDataURL(file)
-          reader.onload = (event : any) =>{
-            this.picture.src  = event.target.result
-            this.cropper.setImage(this.picture)
-            res.dismiss()
-          }
-        }else{
-          // this.phase = 2
-          res.dismiss()
+        reader.readAsDataURL(file)
+        reader.onload = (event : any) =>{
+          this.picture.src  = event.target.result
+          this.cropper.setImage(this.picture)
         }
-        
+        res.dismiss()
       })
     })
 
@@ -189,6 +183,7 @@ export class ImgupldPage implements OnInit {
   }
 
   ionViewDidEnter(){  
+    this.initCropper()
     this.storage.get("User_Type").then(utype=>{
       if(utype == "property owner"){
         this.storage.get("RRP_ID").then(rrpid=>{
@@ -209,7 +204,7 @@ export class ImgupldPage implements OnInit {
   }
   
   ngOnInit() {
-    this.initCropper()
+    
   }
 
 }
