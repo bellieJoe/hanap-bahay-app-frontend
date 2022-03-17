@@ -401,7 +401,7 @@ export class DbapiService  {
   getTenantList_rrpid(id : number): Observable<GetTenantList[]>{
     return new Observable(observer=>{
       axios.get(
-        `${this.SERVER_NAME}/tenants/get-tenants`,
+        `${this.SERVER_NAME}/tenants/${id}/get-tenants`,
         this.axiosConfig
       )
       .then(res=>observer.next(res.data))
