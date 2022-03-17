@@ -155,7 +155,7 @@ export class BhreservationsPage {
 
   completeDetails(){
     this.Reservations.map((val,i)=>{
-      this.dbapi.getUserDetails_id(this.Reservations[i].User_ID).subscribe(udets=>{
+      this.dbapi.getUserDetails_id(this.Reservations[i].User_ID).subscribe((udets : any) =>{
         // console.log(udets)
         this.Reservations[i].name = `${this.titlecase.transform(udets[0].Firstname)} ${this.titlecase.transform(udets[0].Middlename.slice(0,1))}. ${this.titlecase.transform(udets[0].Lastname)}`
         if(udets[0].Contact_Number.toString().slice(0,1) == "6"){
