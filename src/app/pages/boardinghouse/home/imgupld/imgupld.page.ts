@@ -146,7 +146,6 @@ export class ImgupldPage implements OnInit {
   }
 
   fileChangeEvent(){
-    console.log("file change event fired...")
     this.phase = 2
     this.imageSelect.getInputElement().then(elem=>{
       let load = this.loadingController.create({

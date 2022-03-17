@@ -21,8 +21,8 @@ export class ImgvwPage implements OnInit {
   RRP_ID : number
   bhImg : any
   url_image = `${this.dbapi.SERVER}/images/rh_extra_image/`
-  grouped = []
-  imageGroup = []
+  grouped : any = []
+  imageGroup : any = []
   RRP_Name : string
 
   ngOnInit() {
@@ -49,15 +49,14 @@ export class ImgvwPage implements OnInit {
         })
       }
       this.groupImage()
-      console.log(this.imageGroup)
     })
   }
 
 
   viewImage(id:number){
-    let img = document.getElementById(id.toString())
-    let con = document.getElementById(`con${id}`)
-    let des = document.getElementById(`des${id}`)
+    let img : any = document.getElementById(id.toString())
+    let con : any = document.getElementById(`con${id}`)
+    let des : any = document.getElementById(`des${id}`)
     if(img.clientWidth == 150){
       img.style.width = "100%"
       con.style.width = "100%"
@@ -67,9 +66,9 @@ export class ImgvwPage implements OnInit {
       des.style.display = "flex"
       this.bhImg.map((val,i)=>{
         if(val.IMG_ID != id){
-         let b = document.getElementById(val.IMG_ID.toString())
-         let c = document.getElementById(`con${val.IMG_ID.toString()}`)
-         let d = document.getElementById(`des${val.IMG_ID.toString()}`)
+         let b : any = document.getElementById(val.IMG_ID.toString())
+         let c : any = document.getElementById(`con${val.IMG_ID.toString()}`)
+         let d : any = document.getElementById(`des${val.IMG_ID.toString()}`)
          b.style.width = "150px"
          c.style.paddingLeft = ".5em"
          c.style.paddingRight = ".5em"

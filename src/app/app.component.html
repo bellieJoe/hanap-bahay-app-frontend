@@ -1,4 +1,4 @@
-<ion-app >
+<ion-app mode="md">
   <!-- (ionSplitPaneVisible)="onSplitPaneVisible(event)"  -->
     <ion-split-pane mode="md" contentId="menu-content"  when="">
       <ion-menu mode="md" contentId="menu-content" menuId="menu-content" side="start" type="overlay" (ionDidOpen) = "loadMenu()" swipeGesture="false">
@@ -86,6 +86,6 @@
           </ion-menu-toggle>
         </ion-content>
       </ion-menu>
-      <ion-router-outlet id="menu-content" main></ion-router-outlet>
+      <ion-router-outlet id="menu-content" main mode="md"></ion-router-outlet>
     </ion-split-pane>
 </ion-app>
