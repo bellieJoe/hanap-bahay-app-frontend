@@ -154,7 +154,7 @@ export class ConversationPage{
   }
 
   slideLast(){
-    const conview = document.getElementById("conv-view") as HTMLDivElement
+    const conview : any = document.getElementById("conv-view") as HTMLDivElement
     conview.scrollTop = conview.scrollHeight + 48
   }
 
@@ -172,6 +172,7 @@ export class ConversationPage{
           if(conv.convid != undefined){
             // code here when came from convo list
             this.dbapi.getConvoDets(conv.convid).subscribe(cdets=>{
+              console.log(cdets)
               this.ConversationDetails = cdets
               this.fetchMessages()
               if(this.ConversationDetails.Type == "tenant to rrp"){
@@ -194,6 +195,7 @@ export class ConversationPage{
                   })
                 }else{
                   this.dbapi.getUserDetails_id(this.ConversationDetails.Receiver_A).subscribe(udets=>{
+                    console.log(this.ConversationDetails.Receiver_A)
                     this.name = `${this.titleCase.transform(udets[0].Firstname)} ${this.titleCase.transform(udets[0].Middlename.slice(0,1))}. ${this.titleCase.transform(udets[0].Lastname)}`
                   })
                 }
