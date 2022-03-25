@@ -204,7 +204,6 @@ export class DbapiService  {
           this.axiosConfig
         )
         .then(res=>{
-          console.log(res)
           observer.next()
         })
         .catch(err=>console.log(err))
