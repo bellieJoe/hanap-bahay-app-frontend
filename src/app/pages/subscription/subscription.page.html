@@ -1,5 +1,5 @@
-<ion-header mode="md">
-  <ion-toolbar>
+<ion-header >
+  <ion-toolbar mode="md">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
@@ -11,7 +11,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content color="light">
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button class="add_house a11" (click)="showRegisterForm()" >
@@ -19,8 +19,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-list>
-
+  <!-- <ion-list>
     <ion-card *ngFor="let i of yourHouses">
       <ion-card-content>
         <ion-item lines = "none">
@@ -47,13 +46,36 @@
       </ion-card-content>
     </ion-card>
 
-  </ion-list>
+  </ion-list> -->
 
-  <div class="welcome-message" *ngIf="yourHouses.length == 0 || !yourHouses">
+  <div class="wrapper shadow-sm ">
+    <div>
+      <h1 class=" md-text text-bold">Registered Properties</h1>
+    </div>
+    <div>
+      <div  class="empty-message"  *ngIf="yourHouses.length == 0 || !yourHouses">
+        <h1>No Registered Property</h1>
+      </div>
+      <div class="rh-item " *ngFor="let i of yourHouses">
+        <div class="rh-item-data">
+          <h1 class="rh-title">{{ i.RRP_Name }}</h1>
+          <h1 class="rh-address">{{ i.RRP_Address }}</h1>
+        </div>
+        <div class="rh-item-action">
+          <ion-button  expand="block"  [routerLink]="['/boardinghouse']" (click)="manageRH(i.RRP_ID, i.RRP_Name)">
+            <ion-icon slot="start" name="home"></ion-icon>
+            Manage
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!--  <div class="welcome-message" *ngIf="yourHouses.length == 0 || !yourHouses">
     <ion-img src="https://image.freepik.com/free-vector/building-exterior-with-open-windows-people_74855-6268.jpg"></ion-img>
     <h1>Welcome Landlord, start managing your Rental Houses now.</h1>
     <p>Click on the add/register button to add new rental house</p>
-  </div>
+  </div> -->
   
 
   
