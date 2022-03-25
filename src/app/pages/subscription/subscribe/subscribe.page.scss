@@ -2,6 +2,7 @@
 .map {
     background-color: rgb(116, 223, 116);
     height: 80vh;
+    border-radius: .5em;
     // color: rgb(11, 125, 218);
     ion-item{
         margin-top: 30vh;
@@ -9,24 +10,19 @@
 
 }
 
+
+
 .wrapper{
-    width: 95%;
     max-width: 600px;
     margin: auto;
 
-    // #next, #back{
-    //     margin-top: 1em;
-    //     width: 8em;
-    // }
-    // #next{
-    //     float: right;
-    // }
-    // #back{
-    //     float: left;
-    // }
-
     .wrap_content{
         margin-top: 1em;
+        background-color: white;
+        padding: 1em;
+        .btn-next{
+            margin-bottom: 1em;
+        }
         p{
             color: rgb(61, 61, 61);
             font-weight: normal;
@@ -186,11 +182,14 @@
         }
     }
     .p2{
-        .back{
-            float: left;
+        .back-next{
+            margin-top: 1em;
+            margin-bottom: 1em;
+            grid-template-columns:  1fr 1fr;
+            display: grid;
         }
-        .next{
-            float: right;
+        ion-button{
+            display: block;
         }
         .hide{
             display: none;

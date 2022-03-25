@@ -195,15 +195,20 @@ export class DbapiService  {
   }
   
   /* return null : done laravel */
-  addNewRH(RH_Details : RentalHouseDetails):Observable<any>{
+  addNewRH(RH_Details : any):Observable<any>{
     return new Observable(observer=>{
-      axios.post(
-        `${this.SERVER_NAME}/rrps/${RH_Details.Owner_ID}/`,
-        {},
-        this.axiosConfig
-      )
-      .then(res=>observer.next())
-      .catch(res=>console.log(res))
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrps/${RH_Details.Owner_ID}/`,
+          RH_Details,
+          this.axiosConfig
+        )
+        .then(res=>{
+          console.log(res)
+          observer.next()
+        })
+        .catch(err=>console.log(err))
+      })
     })
     return this.httpClient.post<RentalHouseDetails>(`${this.SERVER_NAME}/addNewRH.php`, RH_Details );
   }

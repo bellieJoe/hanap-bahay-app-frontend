@@ -36,7 +36,8 @@ export class CcPage {
     Owner_ID : null,
     Contact_Number : null,
     RRP_Settings: null,
-    Photo_Documents:null
+    Photo_Documents:null,
+    Business_Registration_No: null
   }
 
  

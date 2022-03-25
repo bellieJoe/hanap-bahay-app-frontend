@@ -30,7 +30,8 @@ export class BhsettingsPage{
     Owner_ID : null,
     Contact_Number : null,
     RRP_Settings: null,
-    Photo_Documents: null
+    Photo_Documents: null,
+    Business_Registration_No: null
   }
   RH_Owner_Name : string
 
