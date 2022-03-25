@@ -96,7 +96,9 @@ export class SubscriptionPage{
     await alert.onDidDismiss();
     if(choice === "okay"){
       this.dbapi.unboardTenants_rrpid(rrpid).subscribe(()=>{
+        console.log("tenants undoarded");
         this.dbapi.deleteRHData_rrpid(rrpid).subscribe(()=>{
+          console.log("RRP deleted")
           this.presentToast("Rental house successfully deleted")
           this.ionViewDidEnter()
         })

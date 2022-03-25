@@ -846,7 +846,7 @@ export class DbapiService  {
           {rrpid},
           this.axiosConfig
         )
-        .then(res=>observer.next)
+        .then(res=>observer.next())
         .catch(err=>console.log(err))
       })
     })
