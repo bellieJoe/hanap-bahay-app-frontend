@@ -2,6 +2,10 @@
 
 <ion-content>
 
+  <ion-item button [routerLink]="['/boardinghouse/dashboard']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
+    <ion-icon slot="start" name="apps"></ion-icon>
+    <ion-label>Dashboard</ion-label>
+  </ion-item>
   <ion-item button [routerLink]="['/boardinghouse/announcements']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
     <ion-icon slot="start" name="megaphone"></ion-icon>
     <ion-label>Announcements</ion-label>
