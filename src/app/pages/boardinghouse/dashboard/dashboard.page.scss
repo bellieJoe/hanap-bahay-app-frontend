@@ -1,0 +1,101 @@
+
+
+.wrapper{
+    max-width: 600px;
+    margin: 0em auto;
+    .information-container{
+        background-color: white;
+        padding: 2em 1em;
+        h1{
+            font-size: medium;
+            padding: 0em;
+            margin: .5em 0em;
+            i{
+                margin-right: 1em;
+                width: 1em;
+            }
+        }
+        .h1PropertyName{
+            font-weight: bold ;
+        }
+    }
+    .action-scroll{
+        max-width: 600px;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        transition: .4s ;
+        box-shadow: 0px 0px 10px 3px rgb(216, 216, 216);
+        .action-container{
+            background-color: white;
+            padding: 1em 0em;
+            width: max-content;
+            .action{
+                width: 10em;
+                margin: .5em;
+                padding: 1em .5em;
+                border-radius: .5em;
+                display: inline-block;
+                border: 1px solid rgb(190, 190, 190);
+                &:hover{
+                    box-shadow: 0px 0px 10px 3px rgb(216, 216, 216);
+                }
+                h1{
+                    font-size: medium;
+                    text-align: center;
+                    margin: 3px 0em 0em 0em;
+                }
+                .icon{
+                    width: max-content;
+                    margin: 0em auto;
+                    i{
+                        font-size: xx-large;
+                    }
+                }
+            }
+        }
+    }
+    .btnLeft, .btnRight{
+        font-size: xx-large;
+        width: max-content;
+        background: white;
+        border-radius: 3px;
+        transition: .4s;
+        background-blend-mode: exclusion;
+        position: relative;
+        &:active{
+            color: var(--ion-color-primary);
+        }
+        &:hover{
+            color: var(--ion-color-medium);
+        }
+    }
+    .btnRight{
+        float: right;
+    }
+    /* .button-group{
+        width: 100vw;
+        max-width: 600px;
+        // grid-template-columns: 1fr 1fr;
+        // display: grid;
+        position: relative;
+        // background: transparent;
+        button{
+            font-size: xx-large;
+            width: max-content;
+            background: white;
+            border-radius: 3px;
+            transition: .4s;
+            background-blend-mode: exclusion;
+            &:active{
+                color: var(--ion-color-primary);
+            }
+            &:hover{
+                color: var(--ion-color-medium);
+            }
+        }
+        .btnRight{
+            justify-self: end;
+            float: right;
+        }
+    } */
+}

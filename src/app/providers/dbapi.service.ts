@@ -1644,6 +1644,19 @@ export class DbapiService  {
 
   }
 
+  /* this is the newly added api functions  */
+  countRentalTypes(rrpid:number): Observable<number> {
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/count-rrp-types/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
+  }
+  
+
 }
 
 

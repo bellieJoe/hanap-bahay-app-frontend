@@ -21,6 +21,7 @@ import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
 // import { WebSocketServer } from '@ionic-native/web-socket-server';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -37,6 +38,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     HttpClientModule, //bagong add ko lang oct 11
     IonicStorageModule.forRoot(), 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    FontAwesomeModule
   ],
   providers: [
     StatusBar,

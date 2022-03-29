@@ -36,7 +36,7 @@ const routes: Routes = [
   // },
   {
     path: '',
-    redirectTo: 'members',
+    redirectTo: 'dashboard',
     pathMatch: 'full'
   },
   {
@@ -79,6 +79,11 @@ const routes: Routes = [
     path: 'bhmsg',
     loadChildren: () => import('./bhmsg/bhmsg.module').then( m => m.BhmsgPageModule)
   },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+
   
 ];
 
