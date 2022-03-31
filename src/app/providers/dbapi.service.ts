@@ -22,7 +22,7 @@ export class DbapiService  {
 
   // new laravel server
   SERVER = "http://20.232.188.214"
-  SERVER_NAME = "http://20.232.188.214/"
+  SERVER_NAME = "http://20.232.188.214"
   CSRF_TOKEN : any = null
 
   axiosConfig = {
