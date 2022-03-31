@@ -1,14 +1,8 @@
 <ion-header>
-  <ion-toolbar mode="md">
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start" title="Leave">
-      <!-- <ion-icon slot="start" name="arrow-back"></ion-icon> -->
+  <ion-toolbar mode="md" color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" title="Leave" color="light">
       <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
-    <!-- <ion-buttons slot="end" >
-      <ion-button color="primary" (click)="presentPopover($event)" >
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
     <ion-title>Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -97,5 +91,13 @@
     <button class="btnRight" (click)="actionScrollRight()" id="btnRight">
       <i class="fa-solid fa-chevron-right"></i>
     </button>
+
+    <div class="conRentalPropertyTypes">
+      <h1>Rental House Types</h1>
+      <ion-button color="primary" expand="block" [routerLink]="['add-rrptype']" routerLinkActive="router-link-active" >
+        <ion-icon slot="start" name="add-circle"></ion-icon>
+        Add Type
+      </ion-button>
+    </div>
   </div>
 </ion-content>

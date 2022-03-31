@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, PopoverController } from '@ionic/angular'
+import { LoadingController, ModalController, PopoverController } from '@ionic/angular'
 import { Storage } from '@ionic/storage'
 import { BhmenuPage } from '../bhmenu/bhmenu.page';
 import { DbapiService } from 'src/app/providers/dbapi.service';
-import { RentalHouseDetails } from 'src/app/providers/policy';
+import { RentalHouseDetails, RentalHouseTypes } from 'src/app/providers/policy';
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { runInThisContext } from 'vm';
+import { AddRRPTypePage } from './add-rrptype/add-rrptype.page';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class DashboardPage implements OnInit{
     private popoverController: PopoverController,
     private dbapi: DbapiService,
     private storage: Storage,
-    private loading: LoadingController
+    private loading: LoadingController,
+    private modal: ModalController
   ) { }
 
   // states
@@ -28,6 +30,7 @@ export class DashboardPage implements OnInit{
   tenantCount: number = 0
   RRPTypesCount: number = 0
   actionScrollPosition: number = 0
+  RRPTypes: RentalHouseTypes[] = []
 
   icons: any = {
     faHome: faHome
@@ -136,5 +139,13 @@ export class DashboardPage implements OnInit{
     
 
   }
+
+  // async showAddRRPTypeModal(){
+  //   const modal = await this.modal.create({
+  //     component: AddRRPTypePage,
+  //     // cssClass: 
+  //   })
+  //   return await  modal.present()
+  // }
 
 }

@@ -1,7 +1,7 @@
 
 
 .wrapper{
-    max-width: 600px;
+    max-width: 800px;
     margin: 0em auto;
     .information-container{
         background-color: white;
@@ -20,11 +20,11 @@
         }
     }
     .action-scroll{
-        max-width: 600px;
+        max-width: 800px;
         overflow-x: hidden;
         scroll-behavior: smooth;
         transition: .4s ;
-        box-shadow: 0px 0px 10px 3px rgb(216, 216, 216);
+        // box-shadow: 0px 0px 10px 3px rgb(216, 216, 216);
         .action-container{
             background-color: white;
             padding: 1em 0em;
@@ -43,12 +43,14 @@
                     font-size: medium;
                     text-align: center;
                     margin: 3px 0em 0em 0em;
+                    font-weight: bold;
                 }
                 .icon{
                     width: max-content;
                     margin: 0em auto;
                     i{
                         font-size: xx-large;
+                        color: var(--ion-color-tertiary);
                     }
                 }
             }
@@ -72,30 +74,19 @@
     .btnRight{
         float: right;
     }
-    /* .button-group{
-        width: 100vw;
-        max-width: 600px;
-        // grid-template-columns: 1fr 1fr;
-        // display: grid;
-        position: relative;
-        // background: transparent;
-        button{
-            font-size: xx-large;
+
+    .conRentalPropertyTypes{
+        padding: 1em;
+        margin: 1em 0em;
+        background: white;
+        h1{
+            font-size: medium;
+            color: var(--ion-color-medium);
+        }
+        ion-button{
+            margin: 2em auto;
             width: max-content;
-            background: white;
-            border-radius: 3px;
-            transition: .4s;
-            background-blend-mode: exclusion;
-            &:active{
-                color: var(--ion-color-primary);
-            }
-            &:hover{
-                color: var(--ion-color-medium);
-            }
+            display: block;
         }
-        .btnRight{
-            justify-self: end;
-            float: right;
-        }
-    } */
+    }
 }

@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar mode="md">
+    <ion-title>Add Rental House Property Type</ion-title>
+    <ion-button slot="start" color="secondary"  fill="clear" [routerLink]="['/boardinghouse/dashboard']" routerLinkActive="router-link-active" >
+      <ion-icon  name="chevron-back"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <div class="wrapper">
+    <form class="formAddType">
+      <ng-container *ngIf="phase == 1">
+        <h5>Basic Information</h5>
+       <ion-item>
+         <ion-label position="floating">Select Type</ion-label>
+         <ion-input type="text" required></ion-input>
+       </ion-item>
+       <ion-item>
+         <ion-label position="floating">Capacity (slots)</ion-label>
+         <ion-input type="number" required></ion-input>
+       </ion-item>
+       <ion-item>
+         <ion-label position="floating">Basic Monthly Rent</ion-label>
+         <ion-input type="number" required></ion-input>
+       </ion-item>
+       <ion-item>
+         <ion-label position="floating">Description</ion-label>
+         <ion-input type="text" required maxlength="100"></ion-input>
+       </ion-item>
+       <ion-button class="btnNext" (click)="changePhase(2)" expand="block" color="tertiary" >
+        <ion-icon slot="end" name="chevron-forward"></ion-icon>
+         Biling Preferences
+       </ion-button>
+      </ng-container>
+
+      <ng-container *ngIf="phase==2">
+        <h5>Billing Preferences</h5>
+        <p>
+          Is there other monthly fees you want to 
+          include to this property type billing? ie. 
+          Electricity, Water Usage, Wifi.
+        </p>
+
+        <ion-item>
+          <ion-label position="floating">Fee Label</ion-label>
+          <ion-input type="text" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Amount (monthly)</ion-label>
+          <ion-input type="number" ></ion-input>
+        </ion-item>
+
+        <div class="buttons">
+          <ion-button class="btnBack" (click)="changePhase(1)" expand="block" color="medium" >
+            <ion-icon slot="start" name="chevron-back"></ion-icon>
+             Basic Information
+           </ion-button>
+          <ion-button class="btnNext" (click)="changePhase(2)" expand="block" color="tertiary" >
+            <ion-icon slot="end" name="chevron-forward"></ion-icon>
+             Review
+           </ion-button>
+        </div>
+        
+      </ng-container>
+    </form>
+
+    <div class="conFaqs">
+      <h6><i class="fa-solid fa-circle-question me-2"></i>Rental House Property Type FAQs</h6>
+      <div class="accordion " id="conFaqsAccordion" >
+        <div class="accordion-item">
+          <button class="accordion-button collapsed accordion-btn" type="button" data-bs-toggle="collapse" data-bs-target="#RPTInfo">
+            What is a Rental House Property Type?
+          </button>
+          <div id="RPTInfo" class="accordion-collapse collapse" data-bs-parent="#conFaqsAccordion">
+            <div class="accordion-body">
+              <p>
+                A Rental Property Type is our way of classifying Rental Properties, it can be bed space for rent, room for rent or any type you want as long as it describe the type of rental house service you offer.
+                Each Rental Property Type you add has its own Billing and Payment preferences that you have to set when you add anew one.
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="accordion-item">
+          <button class="accordion-button collapsed accordion-btn" type="button" data-bs-toggle="collapse" data-bs-target="#NoRHPT">
+            How many Rental House Property Type can you add in a Rental House Property?
+          </button>
+          <div id="NoRHPT" class="accordion-collapse collapse" data-bs-parent="">
+            <div class="accordion-body">
+              <p>
+                As of now you can add as many as you like as long as this Rental House Property Type is physically located on the Rental House you registered
+              </p>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+  
+
+
+  
+
+  
+
+  
+</ion-content>

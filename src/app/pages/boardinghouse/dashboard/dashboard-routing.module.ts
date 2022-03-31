@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardPage
+  },
+  {
+    path: 'add-rrptype',
+    loadChildren: () => import('./add-rrptype/add-rrptype.module').then( m => m.AddRRPTypePageModule)
   }
 ];
 

@@ -230,3 +230,15 @@ export class ImageProps{
     part : string
     description : string
 }
+
+export class RentalHouseTypes{
+    RRP_Type_ID: number
+    RRP_ID: number
+    Basic_Rent: number
+    RRP_Type: string
+    Capacity: string
+    Description: string
+    Miscellaneous: string
+    created_at: Date
+    updated_at: Date
+}
