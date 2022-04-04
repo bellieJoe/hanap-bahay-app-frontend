@@ -21,8 +21,8 @@ export class DbapiService  {
   // SERVER_NAME = `${this.SERVER}/php_scripts`
 
   // new laravel server
-  SERVER = "https://hanapbahay.eastus.cloudapp.azure.com"
-  SERVER_NAME = "https://hanapbahay.eastus.cloudapp.azure.com"
+  SERVER = "https://hanapbahay.online"
+  SERVER_NAME = "https://hanapbahay.online"
   CSRF_TOKEN : any = null
 
   axiosConfig = {
