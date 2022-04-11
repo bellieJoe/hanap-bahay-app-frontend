@@ -1655,6 +1655,26 @@ export class DbapiService  {
       .catch(err=>console.log(err))
     })
   }
+
+  addRRPType(RRPType : any) : Observable<any> {
+    return new Observable((observer) =>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrp-types/create`,
+          RRPType,
+          this.axiosConfig
+        )
+        .then(res => observer.next())
+        .catch(err => {
+          console.log(err)
+          observer.next()
+          alert(err.message)
+        })
+      })
+    })
+  }
+
+
   
 
 }

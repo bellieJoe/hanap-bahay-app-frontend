@@ -22,6 +22,7 @@ import { ImageCropperComponent, ImageCropperModule } from 'ngx-image-cropper';
 // import { WebSocketServer } from '@ionic-native/web-socket-server';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ValidatorModule } from './modules/validator/validator.module';
 
 
 
@@ -51,7 +52,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CallNumber,
     Clipboard,
     FileTransfer,
-    Camera
+    Camera,
+    ValidatorModule
   ],
   bootstrap: [AppComponent]
 })

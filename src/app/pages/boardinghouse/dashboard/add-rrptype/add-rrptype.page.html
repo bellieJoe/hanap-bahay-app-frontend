@@ -10,23 +10,42 @@
 <ion-content color="light">
   <div class="wrapper">
     <form class="formAddType">
-      <ng-container *ngIf="phase == 1">
+      <ng-container *ngIf="phase === 1">
         <h5>Basic Information</h5>
        <ion-item>
          <ion-label position="floating">Select Type</ion-label>
-         <ion-input type="text" required></ion-input>
+         <!-- <ion-input type="text" required list="types"></ion-input> -->
+         <ion-select multiple="false" placeholder="Select Type" [(ngModel)]="RRP_Type_Form.RRP_Type"  [ngModelOptions]="{standalone: true}" required>
+          <ion-select-option value="Bed Space">Bed Space</ion-select-option>
+          <ion-select-option value="Female Bed Space">Female Bed Space</ion-select-option>
+          <ion-select-option value="Male Bed Space">Male Bed Space</ion-select-option>
+          <ion-select-option value="Room for Rent">Room for Rent</ion-select-option>
+          <ion-select-option value="House for Rent">House for Rent</ion-select-option>
+        </ion-select>
        </ion-item>
+       <ion-text  *ngIf="errors.RRP_Type" color="danger">
+         <label>{{ errors.RRP_Type }}</label>
+       </ion-text>
+
        <ion-item>
          <ion-label position="floating">Capacity (slots)</ion-label>
-         <ion-input type="number" required></ion-input>
+         <ion-input type="number" required  [(ngModel)]="RRP_Type_Form.Capacity"  [ngModelOptions]="{standalone: true}"></ion-input>
        </ion-item>
+       <ion-text  *ngIf="errors.Capacity" color="danger">
+        <label>{{ errors.Capacity }}</label>
+      </ion-text>
+
        <ion-item>
          <ion-label position="floating">Basic Monthly Rent</ion-label>
-         <ion-input type="number" required></ion-input>
+         <ion-input type="number" required  [(ngModel)]="RRP_Type_Form.Basic_Rent"  [ngModelOptions]="{standalone: true}" (change)="RRP_Type_Form.computeTotalFee()"></ion-input>
        </ion-item>
+       <ion-text  *ngIf="errors.RRP_Type" color="danger">
+        <label>{{ errors.Basic_Rent }}</label>
+      </ion-text>
+
        <ion-item>
          <ion-label position="floating">Description</ion-label>
-         <ion-input type="text" required maxlength="100"></ion-input>
+         <ion-textarea  maxlength="100"  [(ngModel)]="RRP_Type_Form.Description"  [ngModelOptions]="{standalone: true}"></ion-textarea>
        </ion-item>
        <ion-button class="btnNext" (click)="changePhase(2)" expand="block" color="tertiary" >
         <ion-icon slot="end" name="chevron-forward"></ion-icon>
@@ -34,7 +53,7 @@
        </ion-button>
       </ng-container>
 
-      <ng-container *ngIf="phase==2">
+      <ng-container *ngIf="phase === 2">
         <h5>Billing Preferences</h5>
         <p>
           Is there other monthly fees you want to 
@@ -42,26 +61,124 @@
           Electricity, Water Usage, Wifi.
         </p>
 
-        <ion-item>
-          <ion-label position="floating">Fee Label</ion-label>
-          <ion-input type="text" ></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Amount (monthly)</ion-label>
-          <ion-input type="number" ></ion-input>
-        </ion-item>
+        <div>
+          <ion-item>
+            <ion-label position="floating">Fee Name</ion-label>
+            <ion-input type="text" [(ngModel)]="feeInput.FeeName" [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-text color="danger" >
+            <h6 class="mt-0">{{ errors.FeeName }}</h6>
+          </ion-text>
+        </div>
+        <div>
+          <ion-item>
+            <ion-label position="floating">Amount (monthly)</ion-label>
+            <ion-input type="number" [(ngModel)]="feeInput.FeeAmount" [ngModelOptions]="{standalone: true}"></ion-input>
+          </ion-item>
+          <ion-text color="danger" >
+            <h6 class="mt-0">{{ errors.FeeAmount }}</h6>
+          </ion-text>
+        </div>
+        <ion-button expand="block" class="btnAddFee" (click)="addFee()">
+          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+          Add Fee
+        </ion-button>
+
+        <div class="conFees">
+          <ion-item color="light" *ngFor="let fee of RRP_Type_Form.Miscellaneous">
+            <ion-label >{{ fee.FeeName }}</ion-label>
+            <ion-label >Php {{ fee.FeeAmount }}</ion-label>
+            <ion-button fill="clear" color="danger" (click)="removeFee(fee)">
+              Remove
+            </ion-button>
+          </ion-item>
+        </div>
+
+        <div class="conTotRent">
+          <div>
+            <h4>Total Rent: </h4>
+          </div>
+          <div class="conPrice">
+            <div class="price">Php {{ RRP_Type_Form.Total_Fee }}</div>
+            <div class="priceLabel">Total Rent + Other fees</div>
+          </div>
+        </div>
 
         <div class="buttons">
           <ion-button class="btnBack" (click)="changePhase(1)" expand="block" color="medium" >
             <ion-icon slot="start" name="chevron-back"></ion-icon>
              Basic Information
            </ion-button>
-          <ion-button class="btnNext" (click)="changePhase(2)" expand="block" color="tertiary" >
+          <ion-button class="btnNext" (click)="changePhase(3)" expand="block" color="tertiary" >
             <ion-icon slot="end" name="chevron-forward"></ion-icon>
              Review
            </ion-button>
         </div>
-        
+
+      </ng-container>
+
+      <ng-container *ngIf="phase === 3">
+        <h5>Review</h5>
+        <p>
+          Review your RRP Type Set up before continuing.
+        </p>
+
+        <ion-item>
+          <ion-label>
+            <h2 class="reviewItemTitle" >Rental House Type</h2>
+            <p>{{ RRP_Type_Form.RRP_Type }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2 class="reviewItemTitle" >Capacity</h2>
+            <p>{{ RRP_Type_Form.Capacity}}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <h2 class="reviewItemTitle" >Description</h2>
+            <p>{{ RRP_Type_Form.Description ? RRP_Type_Form.Description : 'No Description' }}</p>
+          </ion-label>
+        </ion-item>
+
+        <br>
+       <ion-item lines="none">
+         <ion-label class="rentBreakdownTitle">Rent Breakdown</ion-label>
+       </ion-item>
+       <ion-item>
+        <ion-label>
+          <h2 class="reviewItemTitle" >Basic Monthly Rent</h2>
+          <p>{{ RRP_Type_Form.Basic_Rent }}</p>
+        </ion-label>
+      </ion-item>
+       <ion-item *ngFor="let fee of RRP_Type_Form.Miscellaneous">
+        <ion-label>
+          <h2 class="reviewItemTitle" >{{ fee.FeeName }}</h2>
+          <p>{{ fee.FeeAmount }}</p>
+        </ion-label>
+      </ion-item>
+
+      <div class="conTotRent">
+        <div>
+          <h4>Total Rent: </h4>
+        </div>
+        <div class="conPrice">
+          <div class="price">Php {{ RRP_Type_Form.Total_Fee }}</div>
+          <div class="priceLabel">Total Rent + Other fees</div>
+        </div>
+      </div>
+
+        <div class="buttons">
+          <ion-button class="btnBack" (click)="changePhase(2)" expand="block" color="medium" >
+            <ion-icon slot="start" name="chevron-back"></ion-icon>
+             Billing Preferences
+           </ion-button>
+          <ion-button class="btnNext"  expand="block" color="primary" (click)="submit()">
+            <ion-icon slot="start" name="save-outline"></ion-icon>
+             Save
+           </ion-button>
+        </div>
       </ng-container>
     </form>
 

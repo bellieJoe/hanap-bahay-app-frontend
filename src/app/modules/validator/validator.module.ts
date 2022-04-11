@@ -193,6 +193,25 @@ export class ValidatorModule  {
       presence : { allowEmpty: false, message: '^Address is required'},
       length: { maximum: 100, message: '^Max length should be 100 characters' }
     },
+    FeeName: {
+      presence: { allowEmpty: false },
+      length: { maximum: 20 }
+    },
+    FeeAmount: {
+      presence: { allowEmpty: false },
+      numericality: { greaterThan : 0 }
+    },
+    RRP_Type: {
+      presence: { allowEmpty: false },
+    },
+    Basic_Rent: {
+      presence: { allowEmpty: false },
+    },
+    Capacity: {
+      presence: { allowEmpty: false },
+    }
+
+
   }
 
   async validateOnly(data: Object, cons: string[]){

@@ -13,7 +13,7 @@ import { AddRRPTypePage } from './add-rrptype.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AddRRPTypePageRoutingModule
+    AddRRPTypePageRoutingModule,
   ],
   declarations: [AddRRPTypePage]
 })
