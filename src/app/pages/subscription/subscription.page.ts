@@ -13,7 +13,7 @@ import { SubscribePage } from './subscribe/subscribe.page';
   templateUrl: './subscription.page.html',
   styleUrls: ['./subscription.page.scss'],
 })
-export class SubscriptionPage{
+export class SubscriptionPage implements OnInit{
 
   id : string
   name : string
@@ -30,6 +30,8 @@ export class SubscriptionPage{
     private router : Router,
     private toastController : ToastController
     ) { }
+
+    loading: boolean = true
 
     showRegisterForm(){
       this.router.navigate(['subscription/subscribe'])
@@ -101,7 +103,7 @@ export class SubscriptionPage{
         this.dbapi.deleteRHData_rrpid(rrpid).subscribe(()=>{
           console.log("RRP deleted")
           this.presentToast("Rental house successfully deleted")
-          this.ionViewDidEnter()
+          this.ngOnInit()
         })
       })
       console.log("Go on then delete it!")
@@ -119,7 +121,7 @@ export class SubscriptionPage{
     });
     await modal.present();
     await modal.onDidDismiss();
-    this.ionViewDidEnter()
+    this.ngOnInit()
   }
 
   loadProfileImage(){
@@ -137,7 +139,8 @@ export class SubscriptionPage{
   }
 
 
-  ionViewDidEnter(){
+  ngOnInit(){
+    this.loading = true
     this.userservice.getUserInfo("User_Type").then((val)=>{
       if(val === "property owner"){
         this.userservice.getUserInfo("User_ID").then((val)=>{
@@ -153,6 +156,7 @@ export class SubscriptionPage{
 
                   }
                 }
+                this.loading = false
               })
             })
             
