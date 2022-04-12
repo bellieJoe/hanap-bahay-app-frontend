@@ -93,7 +93,27 @@
     </button>
 
     <div class="conRentalPropertyTypes">
-      <h1>Rental House Types</h1>
+      <!-- <h1>Rental House Types</h1> -->
+      <ion-item color="dark">
+        <h1>Rental House Types</h1>
+      </ion-item>
+      <div *ngFor="let type of RRPTypes.data">
+        <ion-item class="RRPTypeItem">
+          <ion-label>
+            <p >{{ type.RRP_Type }}</p>
+            <h2  >{{ type.Capacity }} Capacity</h2>
+          </ion-label>
+          <ion-button  expand="block" fill="clear" >
+            Edit
+          </ion-button>
+          <ion-button  expand="block" fill="clear" >
+            View
+          </ion-button>
+          <ion-button  expand="block" fill="clear" color="danger">
+            Delete
+          </ion-button>
+        </ion-item>
+      </div>
       <ion-button color="primary" expand="block" [routerLink]="['add-rrptype']" routerLinkActive="router-link-active" >
         <ion-icon slot="start" name="add-circle"></ion-icon>
         Add Type

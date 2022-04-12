@@ -30,7 +30,19 @@ export class DashboardPage implements OnInit{
   tenantCount: number = 0
   RRPTypesCount: number = 0
   actionScrollPosition: number = 0
-  RRPTypes: RentalHouseTypes[] = []
+  RRPTypes: any = {
+    data: [],
+    dbapi: this.dbapi,
+    async init(rrpId:number){
+      await new Promise((resolve, reject) => {
+        this.dbapi.getRRPTypesByRRP_ID(rrpId).subscribe((res : any)=>{
+          console.log(res)
+          this.data = res
+          resolve(null)
+        })
+      })
+    }
+  }
 
   icons: any = {
     faHome: faHome
@@ -45,19 +57,31 @@ export class DashboardPage implements OnInit{
       mode: "ios"
     })
 
-    await loader.present()
+    try {
+      await loader.present()
 
-    await this.fetchRentalHouseInfo()
+      await this.fetchRentalHouseInfo()
 
-    await this.getTenantCount()
+      await this.getTenantCount()
 
-    await this.countRentalType()
+      await this.countRentalType()
 
-    // exit loader
-    this.isPreparing = false
-    await loader.dismiss()
+      await this.RRPTypes.init(this.rrpDetails.RRP_ID)
 
-    this.loadHTMLComponents()
+      // exit loader
+      this.isPreparing = false
+      await loader.dismiss()
+
+      this.loadHTMLComponents()
+
+    } catch (error) {
+
+      console.log(error)
+      await loader.dismiss()
+
+    }
+
+    
 
   }
 
