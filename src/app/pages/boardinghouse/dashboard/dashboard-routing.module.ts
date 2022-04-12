@@ -11,9 +11,14 @@ const routes: Routes = [
   {
     path: 'add-rrptype',
     loadChildren: () => import('./add-rrptype/add-rrptype.module').then( m => m.AddRRPTypePageModule)
-  },  {
+  },
+  {
     path: 'rrp-type-details',
     loadChildren: () => import('./rrp-type-details/rrp-type-details.module').then( m => m.RrpTypeDetailsPageModule)
+  },
+  {
+    path: 'edit-rrptype',
+    loadChildren: () => import('./edit-rrptype/edit-rrptype.module').then( m => m.EditRrptypePageModule)
   }
 
 ];

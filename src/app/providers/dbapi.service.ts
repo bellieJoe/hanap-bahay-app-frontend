@@ -1674,6 +1674,24 @@ export class DbapiService  {
     })
   }
 
+  updateRRP_Type(RRPType : any) : Observable<any> {
+    return new Observable((observer) =>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrp-types/update`,
+          RRPType,
+          this.axiosConfig
+        )
+        .then(res => observer.next())
+        .catch(err => {
+          console.log(err)
+          observer.next()
+          alert(err.message)
+        })
+      })
+    })
+  }
+
   getRRPTypesByRRP_ID(rrpId : number): Observable<any>{
     return new Observable(observer=>{
       axios.get(

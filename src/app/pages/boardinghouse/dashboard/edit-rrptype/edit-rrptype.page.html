@@ -1,13 +1,13 @@
 <ion-header>
-  <ion-toolbar mode="md">
-    <ion-title>Add Rental House Property Type</ion-title>
-    <ion-button slot="start" color="secondary"  fill="clear" [routerLink]="['/boardinghouse/dashboard']" routerLinkActive="router-link-active" >
-      <ion-icon  name="chevron-back"></ion-icon>
-    </ion-button>
+  <ion-toolbar mode="md" color="secondary">
+    <ion-buttons slot="start" [routerLink]="['/boardinghouse/dashboard']">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-buttons>
+    <ion-title>Edit RRP Type</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
+<ion-content>
   <div class="wrapper">
     <form class="formAddType">
       <ng-container *ngIf="phase === 1">
@@ -215,5 +215,4 @@
       </div>
     </div>
   </div>
-
 </ion-content>

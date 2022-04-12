@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ValidatorModule } from 'src/app/modules/validator/validator.module';
@@ -10,32 +11,68 @@ interface fee {
   clear?() : any
 }
 
-interface RRPTypeForm {
-  RRP_ID?: number,
-  RRP_Type: string,
-  Basic_Rent: number,
-  Capacity: number,
-  Description?: number,
-  Miscellaneous?: fee[],
-  Total_Fee?: number,
-  computeTotalFee(): any
-}
+// interface RRPTypeForm {
+//   RRP_ID?: number,
+//   RRP_Type: string,
+//   Basic_Rent: number,
+//   Capacity: number,
+//   Description?: number,
+//   Miscellaneous?: fee[],
+//   Total_Fee?: number,
+//   dbapi?: any,
+//   computeTotalFee(): any,
+//   init(): any
+// }
 
 @Component({
-  selector: 'app-add-rrptype',
-  templateUrl: './add-rrptype.page.html',
-  styleUrls: ['./add-rrptype.page.scss'],
+  selector: 'app-edit-rrptype',
+  templateUrl: './edit-rrptype.page.html',
+  styleUrls: ['./edit-rrptype.page.scss'],
 })
-export class AddRRPTypePage implements OnInit {
+
+export class EditRrptypePage implements OnInit {
 
   constructor(
-    private validator : ValidatorModule,
+    private activatedRoute : ActivatedRoute,
     private dbapi : DbapiService,
+    private validator : ValidatorModule,
     private loader : LoadingController,
     private storage: Storage,
   ) { }
-  
-  
+
+  RRP_Type_Form = {
+    RRP_ID: null,
+    RRP_Type_ID: null,
+    RRP_Type: null,
+    Basic_Rent: null,
+    Capacity: null,
+    Description: null,
+    Miscellaneous: [],
+    Total_Fee: 0,
+    dbapi: this.dbapi,
+    computeTotalFee(){
+      this.Total_Fee = this.Basic_Rent
+      this.Miscellaneous.map((val: fee, i)=>{
+        this.Total_Fee += val.FeeAmount
+      })
+    },
+    async init(id){
+      const rrpType : any = await new Promise((resolve, reject)=>{
+        this.dbapi.getRRPTypeById(id).subscribe(RRP_Type => {
+          resolve(RRP_Type)
+        })
+        
+      })
+      this.RRP_Type_ID = rrpType.RRP_Type_ID
+      this.RRP_ID = rrpType.RRP_ID
+      this.RRP_Type = rrpType.RRP_Type
+      this.Basic_Rent = rrpType.Basic_Rent
+      this.Capacity = rrpType.Capacity
+      this.Description = rrpType.Description
+      this.Miscellaneous = JSON.parse(rrpType.Miscellaneous)
+    }
+  }
+
   errors: any = {}
   phase: number = 1
   totalFee:  number = 0
@@ -48,27 +85,20 @@ export class AddRRPTypePage implements OnInit {
     }
   }
 
-  RRP_Type_Form: RRPTypeForm = {
-    RRP_ID: null,
-    RRP_Type: null,
-    Basic_Rent: null,
-    Capacity: null,
-    Description: null,
-    Miscellaneous: [],
-    Total_Fee: 0,
-    computeTotalFee(){
-      this.Total_Fee = this.Basic_Rent
-      this.Miscellaneous.map((val: fee, i)=>{
-        this.Total_Fee += val.FeeAmount
+ 
+
+  async ionViewDidEnter(){
+    const id = await new Promise((resolve, reject)=>{
+      this.activatedRoute.queryParams.subscribe(params => {
+        console.log(params.id)
+        resolve(params.id)
       })
-    }
-  }
-
-
-  ngOnInit() {
-    this.storage.get("RRP_ID").then(res=>{
-      this.RRP_Type_Form.RRP_ID = res
     })
+
+    await this.RRP_Type_Form.init(id)
+
+    this.RRP_Type_Form.computeTotalFee()
+
   }
 
   async addFee(){ 
@@ -114,7 +144,7 @@ export class AddRRPTypePage implements OnInit {
   async submit () {
     const loader = await this.loader.create({
       spinner: "lines",
-      message: "Adding RRP Type",
+      message: "Saving changes",
       mode: "ios"
     })
 
@@ -122,7 +152,7 @@ export class AddRRPTypePage implements OnInit {
       await loader.present()
       
 
-      const { RRP_Type, Basic_Rent, Capacity, Description, Miscellaneous, RRP_ID } = this.RRP_Type_Form
+      const { RRP_Type, Basic_Rent, Capacity, Description, Miscellaneous, RRP_Type_ID } = this.RRP_Type_Form
 
       const dataToValidate = {RRP_Type, Basic_Rent, Capacity }
 
@@ -141,11 +171,11 @@ export class AddRRPTypePage implements OnInit {
         Capacity, 
         Description, 
         Miscellaneous: JSON.stringify(Miscellaneous),
-        RRP_ID
+        RRP_Type_ID
       }
 
       await new Promise((resolve, reject)=> {
-        this.dbapi.addRRPType(data).subscribe(() => {
+        this.dbapi.updateRRP_Type(data).subscribe(() => {
           resolve(null)
         })
       })
@@ -158,6 +188,11 @@ export class AddRRPTypePage implements OnInit {
       console.log(error)
       loader.dismiss()
     }
+  }
+
+  
+
+  ngOnInit() {
   }
 
 }

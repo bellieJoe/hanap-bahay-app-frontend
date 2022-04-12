@@ -104,7 +104,7 @@
             <p >{{ type.RRP_Type }}</p>
             <h2  >{{ type.Capacity }} Capacity</h2>
           </ion-label>
-          <ion-button  expand="block" fill="clear" >
+          <ion-button  expand="block" fill="clear"  (click)="RRPTypes.navigate('/boardinghouse/dashboard/edit-rrptype', type.RRP_Type_ID)">
             Edit
           </ion-button>
           <ion-button  expand="block" fill="clear" (click)="RRPTypes.navigate('/boardinghouse/dashboard/rrp-type-details', type.RRP_Type_ID)">
