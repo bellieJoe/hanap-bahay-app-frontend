@@ -48,6 +48,7 @@ export class SubscriptionPage{
     manageRH(id : number, name : string){
       this.storage.set("RRP_ID", id).then((val)=>{
         this.storage.set("RRP_Name", name).then((val2)=>{
+          location.href = "/boardinghouse/dashboard"
         })
       })
       

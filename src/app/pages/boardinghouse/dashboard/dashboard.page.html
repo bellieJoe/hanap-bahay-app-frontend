@@ -8,12 +8,13 @@
 </ion-header>
 
 <ion-content color="light">
+  <ion-progress-bar type="indeterminate" *ngIf="isPreparing"></ion-progress-bar>
   <div class="wrapper" *ngIf="!isPreparing">
     <div class="information-container">
       <h1 class="h1PropertyName"><i class="fa-solid fa-house text-primary "></i>{{ rrpDetails.RRP_Name }}</h1>
       <h1 class="h1Address"><i class="fa-solid fa-location-dot text-primary"></i>{{ rrpDetails.RRP_Address }}</h1>
       <h1 class="h1ContactNumber"><i class="fa-solid fa-address-book text-primary"></i>+63{{ rrpDetails.Contact_Number }}</h1>
-      <h1 class="h1BusinessRegNo" *ngIf="rrpDetails.Business_Registration_No text-primary"><i class="fa-regular fa-hashtag"></i>{{ rrpDetails.Business_Registration_No }}</h1>
+      <h1 class="h1BusinessRegNo" *ngIf="rrpDetails.Business_Registration_No text-primary"><i class="fa-regular fa-hashtag text-primary"></i>{{ rrpDetails.Business_Registration_No }}</h1>
       <h1 class="h1Coordinates"><i class="fa-solid fa-map-location-dot text-primary"></i>{{ rrpDetails.RRP_X_Coordinates }}, {{ rrpDetails.RRP_Y_Coordinates }}</h1>
     </div>
 
@@ -106,7 +107,7 @@
           <ion-button  expand="block" fill="clear" >
             Edit
           </ion-button>
-          <ion-button  expand="block" fill="clear" >
+          <ion-button  expand="block" fill="clear" (click)="RRPTypes.navigate('/boardinghouse/dashboard/rrp-type-details', type.RRP_Type_ID)">
             View
           </ion-button>
           <ion-button  expand="block" fill="clear" color="danger">

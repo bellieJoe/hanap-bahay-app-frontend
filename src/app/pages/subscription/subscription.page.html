@@ -62,7 +62,7 @@
           <h1 class="rh-address">{{ i.RRP_Address }}</h1>
         </div>
         <div class="rh-item-action">
-          <ion-button  expand="block"  [routerLink]="['/boardinghouse']" (click)="manageRH(i.RRP_ID, i.RRP_Name)">
+          <ion-button  expand="block"  (click)="manageRH(i.RRP_ID, i.RRP_Name)">
             <ion-icon slot="start" name="home"></ion-icon>
             Manage
           </ion-button>

@@ -1689,6 +1689,21 @@ export class DbapiService  {
     })
   }
 
+  getRRPTypeById(id : number): Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/get-by-id/${id}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>{
+        alert(err.message)
+        observer.next()
+        console.log(err)
+      })
+    })
+  }
+
 
   
 

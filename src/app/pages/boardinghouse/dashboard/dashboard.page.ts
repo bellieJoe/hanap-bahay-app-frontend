@@ -7,6 +7,7 @@ import { RentalHouseDetails, RentalHouseTypes } from 'src/app/providers/policy';
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { runInThisContext } from 'vm';
 import { AddRRPTypePage } from './add-rrptype/add-rrptype.page';
+import { Router, ActivatedRoute } from '@angular/router'
 
 
 @Component({
@@ -14,14 +15,15 @@ import { AddRRPTypePage } from './add-rrptype/add-rrptype.page';
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
-export class DashboardPage implements OnInit{
+export class DashboardPage implements OnInit {
 
   constructor(
     private popoverController: PopoverController,
     private dbapi: DbapiService,
     private storage: Storage,
     private loading: LoadingController,
-    private modal: ModalController
+    private modal: ModalController,
+    private router : Router
   ) { }
 
   // states
@@ -30,9 +32,18 @@ export class DashboardPage implements OnInit{
   tenantCount: number = 0
   RRPTypesCount: number = 0
   actionScrollPosition: number = 0
+
   RRPTypes: any = {
     data: [],
     dbapi: this.dbapi,
+    router: this.router,
+    navigate(route: string, RRP_Type_ID: number){
+      this.router.navigate([route], {
+        queryParams: {
+          id : RRP_Type_ID
+        }
+      })
+    },
     async init(rrpId:number){
       await new Promise((resolve, reject) => {
         this.dbapi.getRRPTypesByRRP_ID(rrpId).subscribe((res : any)=>{
@@ -77,11 +88,16 @@ export class DashboardPage implements OnInit{
     } catch (error) {
 
       console.log(error)
-      await loader.dismiss()
+      // await loader.dismiss()
 
     }
 
     
+
+  }
+
+  test(){
+    // this.router.routerState.
 
   }
 
@@ -99,6 +115,7 @@ export class DashboardPage implements OnInit{
 
   async fetchRentalHouseInfo(){
     let rrpID = await this.storage.get('RRP_ID')
+    console.log(rrpID)
     this.rrpDetails = await new Promise((resolve, reject)=>{
       this.dbapi.getRHDetails_rrpid(rrpID).subscribe(rrpDetails=>{
         resolve(rrpDetails)
@@ -163,13 +180,4 @@ export class DashboardPage implements OnInit{
     
 
   }
-
-  // async showAddRRPTypeModal(){
-  //   const modal = await this.modal.create({
-  //     component: AddRRPTypePage,
-  //     // cssClass: 
-  //   })
-  //   return await  modal.present()
-  // }
-
 }
