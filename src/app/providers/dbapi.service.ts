@@ -411,7 +411,6 @@ export class DbapiService  {
       .then(res=>observer.next(res.data))
       .catch(err=>console.log(err))
     })
-    return this.httpClient.get<GetTenantList[]>(`${this.SERVER_NAME}/RH_Management/getTenantList_rrpid.php/?id=${id}` )
   }
 
   /* return tenant list : done laravel */

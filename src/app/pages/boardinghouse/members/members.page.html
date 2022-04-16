@@ -32,7 +32,8 @@
         </ion-avatar>
         <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
         <div>
-          <ion-label class="ion-text-wrap name">{{i.Firstname | titlecase}} {{(i.Middlename | titlecase) | slice:0:1}}. {{i.Lastname | titlecase}}</ion-label>
+          <ion-label class="ion-text-wrap name" *ngIf="i.Firstname && i.Lastname">{{i.Firstname | titlecase}} {{(i.Middlename | titlecase) | slice:0:1}}. {{i.Lastname | titlecase}}</ion-label>
+          <ion-label class="ion-text-wrap name">{{i.Email}}</ion-label>
           <ion-label class="ion-text-wrap since">Tenant since {{i.Date_Added | date : "longDate"}}</ion-label>
         </div>
         <ion-icon slot="end" name="chevron-back"></ion-icon>

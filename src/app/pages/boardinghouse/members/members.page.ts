@@ -174,7 +174,6 @@ export class MembersPage {
     this.userservice.getUserInfo("RRP_ID").then((val)=>{
       this.RRP_ID = parseInt(val)
       this.dbapi.getTenantList_rrpid(parseInt(val)).subscribe((list : GetTenantList[])=>{
-        // console.log(list)
         if(list.length == 0){
           this.memberListComplete = null
         }else{
@@ -184,6 +183,7 @@ export class MembersPage {
               this.memberListComplete[i].Firstname = info[0].Firstname
               this.memberListComplete[i].Middlename = info[0].Middlename
               this.memberListComplete[i].Lastname = info[0].Lastname
+              this.memberListComplete[i].Email = info[0].Email
             })
           })
         this.loadProfileImages()
