@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlertController, IonApp, MenuController, Platform } from '@ionic/angular';
+import { AlertController, IonApp, LoadingController, MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { UserserviceService } from './providers/userservice.service';
@@ -29,7 +29,8 @@ export class AppComponent implements OnInit{
     private storage : Storage,
     private dbapi : DbapiService,
     private router : Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loader: LoadingController
   ) {
 
     this.initializeApp();
@@ -80,9 +81,18 @@ export class AppComponent implements OnInit{
         },
         {
           text: "Yes",
-          handler: ()=>{
+          handler: async ()=>{
+            const loader = await this.loader.create({
+              spinner: "lines",
+              message: "Logging Out",
+              mode: "ios"
+            })
+
+            await loader.present()
+
             this.storage.clear().then(()=>{
               window.location.href = ""
+              loader.dismiss()
             })
           }
         }
@@ -90,6 +100,8 @@ export class AppComponent implements OnInit{
     });
   
     await alert.present();
+
+
     
   }
 

@@ -1,8 +1,8 @@
 <ion-header  class="ion-no-border" mode="md">
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+    <ion-button [routerLink]="['/landingpage']" expand="block" fill="clear" color="light" shape="round" slot="start">
+      <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+    </ion-button>
     <ion-title>
       Sign Up
     </ion-title>
@@ -10,6 +10,7 @@
 </ion-header>
 
 <ion-content mode="md">
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
   <br>
   <form *ngIf="phase == 1">
     <ion-item lines="none" aria-details="none" class="form-title">
@@ -112,7 +113,7 @@
           </ion-list-header>
           <ion-item>
             <ion-label>What type of user are you?</ion-label>
-            <ion-select  cancelText="cancel" okText="enter" interface="popover" [(ngModel)]="user_inputs.User_Type" [ngModelOptions]="{standalone: true}" tabindex="-1">
+            <ion-select  cancelText="cancel" okText="enter" [(ngModel)]="user_inputs.User_Type" [ngModelOptions]="{standalone: true}" tabindex="-1">
               <ion-select-option value="tenant">Tenant</ion-select-option>
               <ion-select-option value="property owner">Property Owner</ion-select-option>
             </ion-select>

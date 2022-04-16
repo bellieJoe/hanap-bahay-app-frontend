@@ -43,7 +43,7 @@
           <ion-icon slot="top" name = "trash"></ion-icon>
           Remove
         </ion-item-option>
-        <ion-item-option color="primary"  color="tertiary" (click)="message(i.User_ID)">
+        <ion-item-option color="primary"  color="tertiary" (click)="message(i.User_ID)" *ngIf="i.isUser">
           <ion-icon slot="top" name = "chatbox-ellipses"></ion-icon>
           Message
         </ion-item-option>

@@ -111,7 +111,7 @@ export class DbapiService  {
       this.authSanctum()
       .subscribe(()=>{
         axios.get(
-          `${this.SERVER_NAME}/users/${username}`,
+          `${this.SERVER_NAME}/users/get-user-by-username/${username}`,
           this.axiosConfig
         )
         .then((res)=>{
@@ -143,8 +143,17 @@ export class DbapiService  {
     return this.httpClient.get<CreateUserPolicy[]>(`${this.SERVER_NAME}/searchUser_username.php/?username=${username}` )
   }
 
-  // preceded
   checkUsername(username:string):Observable<any>{
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/users/username/check-username/${username}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch(err => {
+        alert(err.message)
+      })
+    })
     return this.httpClient.post<any>(`${this.SERVER_NAME}/checkUsername.php`, {Username : username})
   }
 
@@ -159,7 +168,9 @@ export class DbapiService  {
           this.axiosConfig
         )
         .then((res)=>observer.next(res))
-        .catch(err=>console.log(err))
+        .catch((err:AxiosError)=>{
+          console.log(err.response)
+        })
       })
     })
     let params = {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address}

@@ -164,9 +164,14 @@ export class MembersPage {
   }
 
   visitProfile(a:number){
-    this.storage.set("vst_prof", a).then(()=>{
-      this.router.navigate(['/profileview'])
+    this.memberListComplete.map((val, i) => {
+      if(val.User_ID == a && val.isUser){
+        this.storage.set("vst_prof", a).then(()=>{
+          this.router.navigate(['/profileview'])
+        })
+      }
     })
+    
   }
 
   ionViewDidEnter(){
@@ -180,10 +185,18 @@ export class MembersPage {
           this.memberListComplete = list
           this.memberListComplete.map((val,i)=>{
             this.dbapi.getTenantListInfo_uid(this.memberListComplete[i].User_ID).subscribe(info=>{
-              this.memberListComplete[i].Firstname = info[0].Firstname
-              this.memberListComplete[i].Middlename = info[0].Middlename
-              this.memberListComplete[i].Lastname = info[0].Lastname
               this.memberListComplete[i].Email = info[0].Email
+              if(info[0].Firstname && info[0].Middlename && info[0].Lastname){
+                this.memberListComplete[i].Firstname = info[0].Firstname
+                this.memberListComplete[i].Middlename = info[0].Middlename
+                this.memberListComplete[i].Lastname = info[0].Lastname
+                this.memberListComplete[i].isUser = true
+              }
+              else {
+                this.memberListComplete[i].isUser = false
+              }
+              
+
             })
           })
         this.loadProfileImages()

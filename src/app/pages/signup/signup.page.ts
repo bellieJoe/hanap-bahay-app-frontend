@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChildren, ViewChild } from '@angular/core';
 import { NavigationExtras, Router, RouterLink } from '@angular/router';
-import { AlertController, DomController, IonicModule, IonInput, IonLabel, IonSlides, LoadingController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, DomController, IonicModule, IonInput, IonLabel, IonSlides, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { AsyncSubject } from 'rxjs';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { activeUser, CreateUserPolicy, UserCredentials, UserProfile, UserUniqueInputs } from 'src/app/providers/policy';
@@ -35,7 +35,8 @@ export class SignupPage  {
     private alertController: AlertController,
     private t : TitleCasePipe,
     private loadingController: LoadingController,
-    private validator: ValidatorModule
+    private validator: ValidatorModule,
+    private toast: ToastController
     ) { }
 
   //slides
@@ -46,6 +47,7 @@ export class SignupPage  {
     speed: 400,
     loop: false,
   };
+  loading: boolean =  false
 
   //password hiding
   showPassword1  = false;
@@ -207,11 +209,30 @@ export class SignupPage  {
     return a
   }
 
-  resend(){
-    this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe()
+  async resend(){
+    this.loading = true
+    this.Verification_Code = this.generateCode()
+    await new Promise((resolve, reject) => {
+      this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe(()=>{
+        resolve(null)
+      })
+    })
+
+    this.loading = false
+
+    const toast = await this.toast.create({
+      animated: true,
+      duration: 3000,
+      message: "Verification Code successfully sent",
+      mode: "md"
+    })
+
+    await toast.present()
+
   }
 
   async createAcc(){
+    this.loading = true
     let validationResult : any = await this.validateInputs(3)
     this.errors = validationResult.error ? validationResult.error : {}
     if(validationResult.success){
@@ -219,7 +240,11 @@ export class SignupPage  {
       this.Verification_Code = this.generateCode()
       this.dbapi.sendCode(this.user_inputs.Email, this.Verification_Code, `${this.t.transform(this.user_inputs.Firstname)} ${this.t.transform(this.user_inputs.Lastname)}`).subscribe(()=>{
         this.phase = 2
+        this.loading = false
       })
+    }
+    else {
+      this.loading = false
     }
   }
 
@@ -248,88 +273,6 @@ export class SignupPage  {
     }
   }
 
-  // generateNewUser(){
-  //   // validates the users inputs
-  //   if(this.user_inputs.Firstname != null && this.user_inputs.Username != null &&
-  //     this.user_inputs.Password != null && this.user_inputs.Lastname != null &&
-  //     this.user_inputs.Middlename != null && this.user_inputs.Birthdate != null && this.user_inputs.Email != null &&
-  //     this.user_inputs.Address != null && this.user_inputs.Contact_Number != null && 
-  //     this.user_inputs.User_Type != null){
-  //       // console.log(this.user_inputs.Contact_Number.toString().length)
-  //       if(this.user_inputs.Contact_Number.toString().length == 10){
-          
-  //         this.dbapi.createUserPolicy(this.user_inputs).subscribe(()=>{
-  //           setTimeout(()=>{
-  //             this.loadingController.dismiss()
-  //           }, 1000)
-  //           // console.log("Creating  User Success");
-  //           this.dbapi.searchUser(this.user_inputs.Username).subscribe((policy: CreateUserPolicy[])=>{
-              
-
-  //             // console.log(policy[0])
-  
-  //             //creating the profile of the user
-  //             this.profile.User_ID = policy[0].User_ID
-  //             // console.log(this.profile)
-  //             this.dbapi.creteUserProfile_id(this.profile).subscribe(()=>{
-  //               // console.log("Profile Successfully Created")
-  //             })
-  
-  //             //sets the info for active user to the offline storage or ionic storage
-  //             this.userservice.addUserInfo("User_ID", policy[0].User_ID)
-  //             this.userservice.addUserInfo("Username", policy[0].Username)
-  //             this.userservice.addUserInfo("User_Type", policy[0].User_Type)
-  //             // console.log("Eto yung laman ng storage pagka-update",this.storage.get("User_Type"))
-              
-  //             //checks the type of user
-
-  //             // this.loadingController.dismiss()
-  //             if(policy[0].User_Type == 'tenant'){
-  //               // console.log('You are a Tenant')
-  //               this.router.navigate(['/map'])
-  //             }
-  //             else if(policy[0].User_Type == "property owner"){
-  //               console.log('You are a Property Owner')
-  //               // dito naman ako gagawa ng subscription nd user
-  //               this.dbapi.addRHSubscription(policy[0]).subscribe(()=>{
-  //                 // console.log("subscribtion success")
-  //               })
-  //               this.router.navigate(['/subscription'])
-  //             }
-  //             else if(policy[0].User_Type == "admin"){
-  //               // console.log('You are an Admin')
-  //               this.router.navigate(['/admininterface/reports'])
-  //             }
-  //             else{}
-  //           })// dito natapos yung pagcreate ng account
-  
-            
-  
-  //           this.user_inputs.Firstname = null 
-  //           this.user_inputs.Username = null 
-  //           this.user_inputs.Password = null 
-  //           this.user_inputs.Lastname = null 
-  //           this.user_inputs.Middlename = null 
-  //           this.user_inputs.Birthdate = null 
-  //           this.user_inputs.Email = null 
-  //           this.user_inputs.Address = null 
-  //           this.user_inputs.Contact_Number = null 
-  //           this.user_inputs.User_Type = null
-  //           this.password_retype = null
-  //           this.Info_ok =  false
-  //           this.Verification_Code = null
-  //           this.codeInput = null
-  //           this.dismiss()
-  //         })
-  //       }else{
-  //         this.presentAlert("Contact length must me 10 digits", "Alert")
-  //       }  
-  //   }
-  //   else{
-  //     // console.log('Error: Signup Form Incomplete')
-  //     document.getElementById('form_inc_warning').style.display = "flex"
-  //   }
-  // }
 
   generateNewUser(){
     console.log(this.user_inputs)
