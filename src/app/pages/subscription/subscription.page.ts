@@ -13,7 +13,7 @@ import { SubscribePage } from './subscribe/subscribe.page';
   templateUrl: './subscription.page.html',
   styleUrls: ['./subscription.page.scss'],
 })
-export class SubscriptionPage implements OnInit{
+export class SubscriptionPage {
 
   id : string
   name : string
@@ -103,7 +103,7 @@ export class SubscriptionPage implements OnInit{
         this.dbapi.deleteRHData_rrpid(rrpid).subscribe(()=>{
           console.log("RRP deleted")
           this.presentToast("Rental house successfully deleted")
-          this.ngOnInit()
+          this.ionViewDidEnter()
         })
       })
       console.log("Go on then delete it!")
@@ -121,7 +121,7 @@ export class SubscriptionPage implements OnInit{
     });
     await modal.present();
     await modal.onDidDismiss();
-    this.ngOnInit()
+    this.ionViewDidEnter()
   }
 
   loadProfileImage(){
@@ -139,13 +139,14 @@ export class SubscriptionPage implements OnInit{
   }
 
 
-  ngOnInit(){
+  ionViewDidEnter(){
     this.loading = true
     this.userservice.getUserInfo("User_Type").then((val)=>{
       if(val === "property owner"){
         this.userservice.getUserInfo("User_ID").then((val)=>{
           this.dbapi.getOwnersRH_id(parseInt(val)).subscribe((policy : RentalHouseDetails[])=>{
             this.yourHouses = policy
+            this.loading = false
             this.yourHouses.map((val,i)=>{
               this.yourHouses[i].RRP_Settings= JSON.parse(val.RRP_Settings)
               this.dbapi.countTenant_rrpid(val.RRP_ID).subscribe((count)=>{
@@ -156,7 +157,7 @@ export class SubscriptionPage implements OnInit{
 
                   }
                 }
-                this.loading = false
+                
               })
             })
             

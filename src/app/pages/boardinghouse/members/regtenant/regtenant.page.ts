@@ -96,10 +96,10 @@ export class RegtenantPage implements OnInit {
           this.dbapi.regTenantMail(this.Email, udets[0].Email, Owner_Name, Receiver_Name).subscribe()
           this.presentToast("ok")
           this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
-            this.dbapi.addTenant_rrpid(dets.User_List_ID, this.RRP_ID, this.datepipe.transform(new Date(), "yyyy-MM-dd"), this.datepipe.transform(new Date(), "HH:mm:ss")).subscribe(()=>{
-              this.presentToast("The tenant you registered was added to your Rental house")
-              this.router.navigate(['/boardinghouse/members'])
-            })
+            // this.dbapi.addTenant_rrpid(dets.User_List_ID, this.RRP_ID, this.datepipe.transform(new Date(), "yyyy-MM-dd"), this.datepipe.transform(new Date(), "HH:mm:ss")).subscribe(()=>{
+            //   this.presentToast("The tenant you registered was added to your Rental house")
+            //   this.router.navigate(['/boardinghouse/members'])
+            // })
             // console.log(dets.User_List_ID)
           })
         })

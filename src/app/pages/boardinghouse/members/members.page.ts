@@ -42,12 +42,29 @@ export class MembersPage {
     this.presentModal()
   }
 
-  showAddRoom(){// not needed
-    this.addRoomModal();
-  }
+  async showAddTenant(){ // not needed
+    const RRP_ID = await this.storage.get("RRP_ID")
 
-  showAddTenant(){ // not needed
-    this.addTenantModal();
+    const typeCount = await new Promise((resolve, reject)=>{
+      this.dbapi.countRentalTypes(RRP_ID).subscribe(count=>{
+        resolve(count)
+      })
+    })
+
+    if(typeCount > 0){
+      await this.addTenantModal();
+    }
+    else{
+      const alert = await this.alert.create({
+        message: "You hav'nt set up your RRP Types yet. RRP Type is needed to know where your tenant belong.",
+        animated: true,
+        header: "Notice",
+        mode: "md",
+        buttons: ["Ok"],
+        translucent: true
+      })
+      await alert.present()
+    }
   }
 
   async removeTenant(a:number, f:string, l:string){
@@ -114,29 +131,13 @@ export class MembersPage {
     return await modal.present();
   }
 
-  async addRoomModal() {
-    const modal = await this.modalController.create({
-      component: AddroomPage,
-      cssClass: 'modal-member'
-    });
-    return await modal.present();
-  }
-
   async addTenantModal() {
     const modal = await this.modalController.create({
       component: AddtenantPage,
-      cssClass: 'modal-addtenant'
+      cssClass: 'modal-addtenant',
+      backdropDismiss: false
     })
   
-    // this.dbapi.getRHDetails_rrpid(this.RRP_ID).subscribe(rdets=>{
-    //   this.dbapi.countTenant_rrpid(this.RRP_ID).subscribe(count=>{
-    //     if(rdets.RRP_Capacity > count){
-    //      modal.present();
-    //     }else{
-    //       this.presentAlert("Alert", "You have reached the maximum number of Tenants for your Rental House")
-    //     }
-    //   })
-    // })
     modal.present();
     await modal.onDidDismiss().then(()=>{
       this.ionViewDidEnter()

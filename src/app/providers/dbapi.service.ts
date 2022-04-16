@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 //import { UserInfo } from 'os';
 import { observable, Observable } from 'rxjs';
 import { AnnouncementDetails, ChecklistDetails, ComplaintsDetails, ContactDetails, ConversationDetails, CreateUserPolicy,GetTenantList,image,ImageProps,Messages,NotificationDetails,PaymentDetails,RatingsDetails,RentalHouseDetails,ReservationDetails,ReservationUpdates,SearchTenantList,SubscriptionData,UserDetails,UserProfile,UserUniqueInputs } from  '../providers/policy';
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { on } from 'process';
 
 @Injectable({
@@ -428,20 +428,23 @@ export class DbapiService  {
   }
 
   /* return null : done laravel */
-  addTenant_rrpid(id:number, rrpid:number, date:string, time: string):Observable<any>{
+  addTenant_rrpid(Email: string, rrpid:number, date:string, time: string, RRP_Type_ID: number):Observable<any>{
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
         axios.post(
           `${this.SERVER_NAME}/tenants/add-tenant`,
-          {id, rrpid, date, time},
+          {Email, rrpid, date, time, RRP_Type_ID},
           this.axiosConfig
         )
         .then(res=>observer.next())
-        .catch(err=>console.log(err))
+        .catch((err: AxiosError)=>{
+          alert(err.message)
+          console.log(err.response)
+        })
       })
     })
-    return this.httpClient.get<Date>(`${this.SERVER_NAME}/RH_Management/addTenant_rrpid.php/?rrpid=${rrpid}&id=${id}&date=${date}&time=${time}` )
+
   }
 
   /* return number : done laravel */
@@ -1721,9 +1724,6 @@ export class DbapiService  {
       })
     })
   }
-
-
-  
 
 }
 

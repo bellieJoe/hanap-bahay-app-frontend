@@ -1,62 +1,29 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-button (click)="closeAddTenant()" fill='clear' slot='end' color="danger">
-      close
+  <ion-toolbar mode="md" color="secondary">
+    <ion-button color="light" expand="block" fill="clear"  slot="end" (click)="closeAddTenant()">
+      <ion-icon slot="icon-only" name="close"></ion-icon>
     </ion-button>
     <ion-title>Add Tenant</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar showCancelButton="focus" (ionChange)="search_Tenant()" enterkeyhint = "search" animated inputmode="search" mode="ios" [(ngModel)]="userSearchIn" [ngModelOptions]="{standalone: true}"  (ionCancel)="canceled()"></ion-searchbar>
-  <ion-list>
-    <ion-item (click)="register()" button class="regtent" lines="none">
-      <ion-label color="primary">Not yet registered?</ion-label>
-    </ion-item>
-    <ion-item *ngFor="let i of searchResults">
-      <ion-avatar slot="start" *ngIf="i.image_src">
-        <img [src] = "i.image_src"/>
-      </ion-avatar>
-      <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
-      <ion-label>{{i.Firstname | titlecase}} {{i.Middlename |  titlecase}}. {{i.Lastname | titlecase}}</ion-label>
-      <ion-button expand="block" fill="clear" shape="round" slot="end" (click)="addTenant(i.User_ID,i.Firstname,i.Lastname)" class="addTenant" title="add to Rental House">
-        <ion-icon slot="icon-only" name="person-add"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-list>
-
-  <h3 *ngIf="hasResult" class="nores">Opps, No results</h3>
-
-<div *ngIf="isSkeletonOn">
-  <ion-list>
+  <div class="wrapper">
     <ion-item>
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-        </p>
-      </ion-label>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" [(ngModel)]="Add_Tenant_Form.data.Email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-avatar slot="start">
-        <ion-skeleton-text animated></ion-skeleton-text>
-      </ion-avatar>
-      <ion-label>
-        <h3>
-          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-        </h3>
-        <p>
-          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
-        </p>
-      </ion-label>
+      <ion-label>Select RRP Type</ion-label>
+      <ion-select  multiple="false" [(ngModel)]="Add_Tenant_Form.data.RRP_Type_ID">
+        <ion-select-option *ngFor="let type of RRP_Types" value="{{ type.RRP_Type_ID }}">{{ type.RRP_Type }}</ion-select-option>
+      </ion-select>
     </ion-item>
-  </ion-list>
-</div>
+    <ion-button  expand="block" (click)="Add_Tenant_Form.submit()">
+      <ion-icon slot="start" name="person-add"></ion-icon>
+      Add Tenant
+    </ion-button>
+  </div>
 
 </ion-content>
 
