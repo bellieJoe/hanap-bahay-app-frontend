@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import mysql from "mysql"
 import { DbapiService } from './dbapi.service';
 
 @Injectable({
@@ -11,10 +10,5 @@ export class MysqlService {
     private dbapi : DbapiService
   ) { }
 
-  con = mysql.createConnection(this.dbapi)
 
-  connect(){
-    console.log(mysql)
-    this.con.connect()
-  }
 }

@@ -153,14 +153,6 @@ export class AddtenantPage {
       this.Add_Tenant_Form.data.RRP_Name = RRP_Name
     })
 
-    await this.RRP_Types.map(
-      async(val, i) => {
-        console.log(val)
-      }
-    )
-
-    
-
     if(location.pathname != "/boardinghouse/members"){
       this.router.navigate([''])
     }

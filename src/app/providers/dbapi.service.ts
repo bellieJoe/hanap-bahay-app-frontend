@@ -1751,6 +1751,20 @@ export class DbapiService  {
     })
   }
 
+  getRRPTypeAvailability($RRP_Type_ID:number): Observable<string> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/get-availability/${$RRP_Type_ID}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err: AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
 }
 
 

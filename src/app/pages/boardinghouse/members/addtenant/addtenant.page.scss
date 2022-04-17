@@ -6,6 +6,9 @@ ion-content {
             width: fit-content;
             margin: 1em 0em 0em auto;
         }
+        .capacity-full-warn{
+            color: var(--ion-color-danger);
+        }
     }
 }
 

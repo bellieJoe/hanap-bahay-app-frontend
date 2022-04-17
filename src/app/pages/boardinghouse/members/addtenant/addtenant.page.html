@@ -16,7 +16,7 @@
     <ion-item>
       <ion-label>Select RRP Type</ion-label>
       <ion-select  multiple="false" [(ngModel)]="Add_Tenant_Form.data.RRP_Type_ID">
-        <ion-select-option *ngFor="let type of RRP_Types" value="{{ type.RRP_Type_ID }}">{{ type.RRP_Type }}</ion-select-option>
+        <ion-select-option *ngFor="let type of RRP_Types" value="{{ type.RRP_Type_ID }}" color="danger" disabled>{{ type.RRP_Type }} <span *ngIf="type.Tenant_Count >= type.Capacity" class="capacity-full-warn">(Full)</span></ion-select-option>
       </ion-select>
     </ion-item>
     <ion-button  expand="block" (click)="Add_Tenant_Form.submit()">
