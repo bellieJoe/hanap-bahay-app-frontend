@@ -177,20 +177,6 @@ export class SignupPage  {
     // this.createAcc()
   }
 
-  // async validateUniqueInputs(col : string)  {
-  //   let disticntion = await new Promise((resolve, reject) => {
-  //     this.errors[col] = "Validating..."
-  //     this.dbapi.checkUserDistinct(col, this.user_inputs["Username"]).subscribe(isDistinct => {
-  //       resolve(isDistinct)
-  //     })
-  //   })
-  //   if(!disticntion){
-  //     this.errors[col] = `${col} is taken`
-  //   }else{
-  //     this.errors[col] = null
-  //   }
-  // }
-
   async presentAlert(con:string, head:string) {
     const alert = await this.alertController.create({
       header: head,
@@ -261,7 +247,6 @@ export class SignupPage  {
 
     if(this.codeInput == this.Verification_Code){
       this.generateNewUser()
-      
     }else{
       this.codeInput = null
       setTimeout(()=>{

@@ -65,7 +65,8 @@ export class AddtenantPage {
 
       const User = await new Promise((resolve, reject) => {
         this.dbapi.checkIfRegistered_email(this.data.Email).subscribe(User => {
-          resolve(User[0])
+          console.log(User)
+          resolve(User)
         })
       })
 

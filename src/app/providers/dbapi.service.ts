@@ -60,8 +60,8 @@ export class DbapiService  {
           {withCredentials:true}
         )
         .then(()=>observer.next())
-        .catch(err=>{
-          console.log(err)
+        .catch((err: AxiosError)=>{
+          console.log(err.response)
           observer.error(err)
         })
       })
@@ -158,13 +158,23 @@ export class DbapiService  {
   }
 
   // done laravel
-  updateUserDetails_walkin(email:string, username:string, password:string,contact_number:string, birthdate:string, address:string):Observable<any>{
+  updateUserDetails_walkin(email:string, username:string, password:string,contact_number:string, birthdate:string, address:string, firstname:string, middlename:string, lastname:string):Observable<any>{
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
         axios.post(
           `${this.SERVER_NAME}/users/update-user-details-walkin`,
-          {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address},
+          {
+            Email: email,
+            Username: username,
+            Password: password,
+            Contact_Number: contact_number,
+            Birthdate: birthdate,
+            Address: address,
+            Firstname: firstname,
+            Middlename: middlename,
+            Lastname: lastname
+          },
           this.axiosConfig
         )
         .then((res)=>observer.next(res))
@@ -493,7 +503,7 @@ export class DbapiService  {
         `${this.SERVER_NAME}/users/email/check-registered-email?Email=${email}`,
         this.axiosConfig
       )
-      .then(res=>observer.next(res.data))
+      .then(res => observer.next(res.data))
       .catch(err=>console.log(err))
     })
     // return this.httpClient.post<any>(`${this.SERVER_NAME}/RH_Management/checkIfRegistered_email.php`, params )

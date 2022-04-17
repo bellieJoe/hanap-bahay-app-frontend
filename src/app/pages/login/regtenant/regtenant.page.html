@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content color="light">
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
   <div class="wrapper"> 
     <ion-card>
       <ng-container *ngIf="phase == 1">
@@ -79,6 +80,18 @@
           <ion-card-subtitle>Contact, Address and other Information</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
+          <ion-item>
+            <ion-label position="floating">Firstname</ion-label>
+            <ion-input type="text" [(ngModel)]="Firstname" placeholder="eg. Juan"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Middlename</ion-label>
+            <ion-input type="text" [(ngModel)]="Middlename" placeholder="eg. Miguel"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Lastname</ion-label>
+            <ion-input type="text" [(ngModel)]="Lastname" placeholder="eg. Dela Cruz"></ion-input>
+          </ion-item>
           <ion-item>
             <ion-label position="floating">Contact Number</ion-label>
             <ion-input type="tel" placeholder="XXXXXXXXXX" maxlength = "10" [(ngModel)]="Contact_Number">+63 </ion-input>
