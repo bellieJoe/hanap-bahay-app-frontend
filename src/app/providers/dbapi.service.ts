@@ -20,6 +20,12 @@ export class DbapiService  {
   // SERVER = 'http://localhost/hanap-bahay-app-dbapi'
   // SERVER_NAME = `${this.SERVER}/php_scripts`
 
+  MYSQL = {
+    host: "localhost",
+    user: "root",
+    password: ""
+  }
+
   // new laravel server
   SERVER = "http://localhost:8000"
   SERVER_NAME = "http://localhost:8000"

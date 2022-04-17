@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { DbapiService } from './providers/dbapi.service';
 import { Router } from '@angular/router';
+import { MysqlService } from './providers/mysql.service';
 
 
 
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit{
     private dbapi : DbapiService,
     private router : Router,
     private alertController: AlertController,
-    private loader: LoadingController
+    private loader: LoadingController,
+    private mysql: MysqlService
   ) {
 
     this.initializeApp();

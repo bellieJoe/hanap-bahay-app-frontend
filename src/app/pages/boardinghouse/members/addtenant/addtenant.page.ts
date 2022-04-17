@@ -99,25 +99,6 @@ export class AddtenantPage {
   }
 
   async testing() {
-    const alert = await this.alert.create({
-      message: "We detected that this email is inregistered. We will send an email to this email address to resume his/her registration.",
-      mode: "md",
-      header: "Notice",
-      buttons: ["Ok"]
-    })
-    await alert.present()
-
-    const loader = await this.loader.create({
-      spinner: "lines",
-      mode: "ios",
-      message: "Adding Tenant"
-    })
-
-    await loader.present()
-
-
-
-    
 
   }
 
@@ -171,6 +152,12 @@ export class AddtenantPage {
     this.userservice.getUserInfo("RRP_Name").then(RRP_Name => {
       this.Add_Tenant_Form.data.RRP_Name = RRP_Name
     })
+
+    await this.RRP_Types.map(
+      async(val, i) => {
+        console.log(val)
+      }
+    )
 
     
 
