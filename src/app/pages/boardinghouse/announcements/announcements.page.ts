@@ -20,6 +20,7 @@ export class AnnouncementsPage implements OnInit {
   announceDets : AnnouncementDetails[]
   announcement_count = 0
   segmentValue = 'all';
+  loading: boolean = false
   filter(a:any){
    this.segmentValue = a
   }
@@ -29,6 +30,7 @@ export class AnnouncementsPage implements OnInit {
   }
 
   async deleteAnnouncement(id : number){
+    
     const alert = await this.alertController.create({
       header: 'Alert',
       message: 'Are you sure you want to delete this announcement?',
@@ -40,16 +42,18 @@ export class AnnouncementsPage implements OnInit {
         {
         text : "Yes",
         handler: ()=>{
+          this.loading = true
           this.dbapi.deleteAnnouncement_aid(id).subscribe(()=>{
             this.ionViewDidEnter()
             this.presentToast("Announcement successfully deleted")
+            this.loading = false
           })
         }
       }
       
       ]});
 
-    alert.present()
+    await alert.present()
 
   }
  

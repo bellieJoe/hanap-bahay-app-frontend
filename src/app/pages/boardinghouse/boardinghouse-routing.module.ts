@@ -82,7 +82,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },  {
+    path: 'invoices',
+    loadChildren: () => import('./invoices/invoices.module').then( m => m.InvoicesPageModule)
   },
+
 
   
 ];

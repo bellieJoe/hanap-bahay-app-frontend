@@ -1,16 +1,16 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md" color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="ios">
-      <ion-label position='stacked' color="primary" class="name-label">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="name-label">{{BH_Name}}</ion-label>
       <ion-input disabled>Contacts</ion-input>
     </ion-item>
   </ion-toolbar>

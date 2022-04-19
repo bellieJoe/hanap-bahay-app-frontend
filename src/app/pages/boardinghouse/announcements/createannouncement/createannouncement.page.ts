@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { AnnouncementDetails } from 'src/app/providers/policy';
@@ -11,6 +11,15 @@ import { AnnouncementDetails } from 'src/app/providers/policy';
   styleUrls: ['./createannouncement.page.scss'],
 })
 export class CreateannouncementPage implements OnInit {
+
+  constructor(
+    public modalCtrl: ModalController,
+    public toastController: ToastController,
+    private dbapi : DbapiService,
+    private storage : Storage,
+    private datePipe : DatePipe,
+    private loader: LoadingController
+  ) { }
 
 
   announcementDets : AnnouncementDetails = {
@@ -27,7 +36,64 @@ export class CreateannouncementPage implements OnInit {
   close(){
     this.dismiss()
   }
-  postAnnouncement(){
+
+  async postAnnouncement(){
+    const loader = await this.loader.create({
+      spinner: "lines",
+      message: "Posting Announcement",
+      mode: "ios"
+    })
+
+    try {
+      await loader.present()
+
+      const RRP_ID = await this.storage.get("RRP_ID")
+
+      let today = new Date()
+      this.announcementDets.RRP_ID = RRP_ID
+      this.announcementDets.Date_Created = this.datePipe.transform(today, "yyyy/MM/dd")
+      this.announcementDets.Time_Created = this.datePipe.transform(today.getTime(), "hh:mm:ss")
+      this.announcementDets.Date_Time = this.datePipe.transform(today.getTime(), "yyyy:MM:dd:HH:mm:ss")
+
+      await new Promise((resolve, reject) => {
+        this.dbapi.getRHDetails_rrpid(RRP_ID).subscribe(rdet=>{
+          this.RHName = rdet.RRP_Name
+          resolve(null)
+        })
+      })
+
+      await new Promise((resolve, reject) => {
+        this.dbapi.createAnnouncement_rrpid(this.announcementDets).subscribe(()=>{
+          resolve(null)
+        })
+      })
+
+      await new Promise((resolve, reject) => {
+        this.dbapi.getTenantList_rrpid(RRP_ID).subscribe((dets)=>{
+          dets.map(
+            async (vale, i)=>{
+              await new Promise((resolve, reject) => {
+                this.dbapi.addNotification(vale.User_ID,this.datePipe.transform(today, "yyyy-MM-dd HH:mm:ss"),"Rental House Announcement", `${this.RHName} has new announcement`, "", null).subscribe(()=>{
+                  resolve(null)
+                })
+              })
+            }
+          )
+          resolve(null)
+        })
+      })
+
+      
+      await this.presentToast("You have created a new Announcement")
+      await loader.dismiss()
+      this.dismiss()
+
+    } catch (error) {
+      await loader.dismiss()
+    }
+    
+
+
     this.storage.get("RRP_ID").then((val)=>{
       let today = new Date()
       this.announcementDets.RRP_ID = val
@@ -39,7 +105,6 @@ export class CreateannouncementPage implements OnInit {
         this.RHName = rdet.RRP_Name
       })
       this.dbapi.createAnnouncement_rrpid(this.announcementDets).subscribe(()=>{
-
 
         // add notification here
         // this.dbapi.addNotification()
@@ -53,13 +118,7 @@ export class CreateannouncementPage implements OnInit {
       })
     })
   }
-  constructor(
-    public modalCtrl: ModalController,
-    public toastController: ToastController,
-    private dbapi : DbapiService,
-    private storage : Storage,
-    private datePipe : DatePipe
-  ) { }
+  
 
   dismiss() {
     this.modalCtrl.dismiss({

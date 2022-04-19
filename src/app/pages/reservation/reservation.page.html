@@ -1,12 +1,11 @@
 <ion-header >
-  <ion-toolbar mode="md">
+  <ion-toolbar mode="md" color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
     <ion-title>Inquiries</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-header >
   <ion-toolbar mode="md">
     <ion-segment  id="segment" mode="md" [(ngModel)]="segmentValue" scrollable swipe-gesture = "true">
@@ -44,7 +43,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content mode="md">
+<ion-content mode="md" color="light">
   <div class="wrapper">
     <ng-container *ngFor="let i of ReservationDets" >
       <ion-card  *ngIf="segmentValue == i.Status || segmentValue == 'all'">

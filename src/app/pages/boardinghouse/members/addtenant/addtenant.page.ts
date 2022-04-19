@@ -10,6 +10,7 @@ import axios, { AxiosError } from 'axios';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { SearchTenantList } from 'src/app/providers/policy';
 import { UserserviceService } from 'src/app/providers/userservice.service';
+import {validate} from "validate.js"
 
 
 @Component({
@@ -17,7 +18,7 @@ import { UserserviceService } from 'src/app/providers/userservice.service';
   templateUrl: './addtenant.page.html',
   styleUrls: ['./addtenant.page.scss'],
 })
-export class AddtenantPage {
+export class AddtenantPage implements OnInit{
 
   constructor(
     private modalController: ModalController,
@@ -37,8 +38,10 @@ export class AddtenantPage {
   searchResults = []
   url_image = `${this.dbapi.SERVER}/images/profile/`
   RRP_Types : any = []
+  days : number[] = []
 
   Add_Tenant_Form : any = {
+    validate: validate,
     loader: this.loader,
     dbapi: this.dbapi,
     alert: this.alert,
@@ -46,55 +49,82 @@ export class AddtenantPage {
     time: null,
     datePipe: this.datePipe,
     modalController: this.modalController,
+    Errors : [],
     data: {
       RRP_ID : null,
       RRP_Type_ID: null,
       Email: null,
       User_ID: null,
-      RRP_Name: null
+      RRP_Name: null,
+      Payment_Day: null
     },
     async submit(){
-      this.time = this.datePipe.transform(new Date(), "hh:mm:ss")
-
-      const alert = await this.alert.create({
-        message: `We detected that ${this.data.Email} is unregistered. We will send an email to this email address to resume his/her registration.`,
-        mode: "md",
-        header: "Notice",
-        buttons: ["Ok"]
-      })
-
-      const User = await new Promise((resolve, reject) => {
-        this.dbapi.checkIfRegistered_email(this.data.Email).subscribe(User => {
-          console.log(User)
-          resolve(User)
-        })
-      })
 
       const loader = await this.loader.create({
         spinner: "lines",
         mode: "ios",
         message: "Adding Tenant"
       })
-
-      if(!User){
-        await alert.present()
-
-        await alert.onDidDismiss()
-      }
       
-      await loader.present()
-      
-      await new Promise((resolve, reject) => {
-        this.dbapi.addTenant_rrpid(this.data.Email, this.data.RRP_ID, this.dateToday, this.time, this.data.RRP_Type_ID).subscribe(() => {
-          resolve(null)
+      try {
+        await this.validate.async(
+          this.data, 
+          {
+            Email : { 
+              presence: { allowEmpty : false }
+            },
+            RRP_Type_ID : {
+              presence: { 
+                allowEmpty : false,
+                message : "^RRP Type is required"
+              }
+            },
+            Payment_Day : {
+              presence : { allowEmpty : false }
+            }
+          }
+        )
+
+        this.time = this.datePipe.transform(new Date(), "hh:mm:ss")
+
+        const alert = await this.alert.create({
+          message: `We detected that ${this.data.Email} is unregistered. We will send an email to this email address to resume his/her registration.`,
+          mode: "md",
+          header: "Notice",
+          buttons: ["Ok"]
         })
-      })
 
-      await loader.dismiss()
+        const User = await new Promise((resolve, reject) => {
+          this.dbapi.checkIfRegistered_email(this.data.Email).subscribe(User => {
+            console.log(User)
+            resolve(User)
+          })
+        })
 
-      this.modalController.dismiss({
-        'dismissed': true
-      });
+        if(!User){
+          await alert.present()
+
+          await alert.onDidDismiss()
+        }
+        
+        await loader.present()
+        
+        await new Promise((resolve, reject) => {
+          this.dbapi.addTenant_rrpid(this.data.Email, this.data.RRP_ID, this.dateToday, this.time, this.data.RRP_Type_ID, this.data.Payment_Day).subscribe(() => {
+            resolve(null)
+          })
+        })
+
+        await loader.dismiss()
+
+        this.modalController.dismiss({
+          'dismissed': true
+        });
+
+      } catch (error) {
+        this.Errors = error
+        await loader.dismiss()
+      }
     }
   }
 
@@ -158,6 +188,13 @@ export class AddtenantPage {
     }
 
 
+  }
+
+
+  ngOnInit() {
+    for(let i =1; i < 29; i++){
+      this.days.push(i)
+    }
   }
 
 }

@@ -37,9 +37,10 @@ ion-content {
                 }
             }
             ion-button{
-                width: 95%;
-                margin-left: 2.5%;
-                margin-right: 2.5%;
+                width: max-content;
+                display: block;
+                margin: 0em 2.5% 0em auto;
+
             }
         }
         .add_announcement{

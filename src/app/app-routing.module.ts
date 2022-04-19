@@ -118,7 +118,11 @@ const routes: Routes = [
   {
     path: 'tagapangasiwa',
     loadChildren: () => import('./pages/tagapangasiwa/tagapangasiwa.module').then( m => m.TagapangasiwaPageModule)
+  },  {
+    path: 'invoice',
+    loadChildren: () => import('./pages/invoice/invoice.module').then( m => m.InvoicePageModule)
   },
+
 
 ];
 

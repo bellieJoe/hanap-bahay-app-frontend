@@ -1,6 +1,6 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { promise } from 'protractor';
 import { DbapiService } from 'src/app/providers/dbapi.service';
@@ -30,7 +30,8 @@ export class AddcontactPage{
     private toastController: ToastController,
     private alertController: AlertController,
     private datePipe : DatePipe,
-    private titleCase : TitleCasePipe
+    private titleCase : TitleCasePipe,
+    private loader: LoadingController
   ) { }
 
   async presentAlert(a:string, head:string) {
@@ -74,24 +75,47 @@ export class AddcontactPage{
     })
   }
 
-  addContact(){
+  async addContact(){
+    const loader = await this.loader.create({
+      spinner: "lines",
+      message: "Adding Contact",
+      mode: "ios"
+    })
+    
     if(this.isValid()){
-      this.storage.get("RRP_ID").then((val)=>{
-        this.contactInput.RRP_ID = val
-        this.dbapi.addContact(this.contactInput).subscribe(()=>{
-          this.presentToast("A new contact has been added to your contact list.")
-          this.sendNotification()
-          this.modalController.dismiss({
-            added : true
-          })
+      try {
+        await loader.present()
+  
+        const RRP_ID = await this.storage.get("RRP_ID")
+        this.contactInput.RRP_ID = RRP_ID
+  
+        await new Promise(
+          (resolve, reject) => {
+            this.dbapi.addContact(this.contactInput).subscribe(
+              () => {
+                resolve(null)
+              }
+            )
+          }
+        )
+  
+        await this.presentToast("A new contact has been added to your contact list.")
+  
+        this.sendNotification()
+  
+        await this.modalController.dismiss({
+          added : true
         })
-      })
+  
+        loader.dismiss()
+  
+      } catch (error) {
+        loader.dismiss()
+      }
     }
     else{
       this.presentAlert("The inputs are empty", "Alert")
     }
-    
-    
   }
 
   ionViewDidEnter(){

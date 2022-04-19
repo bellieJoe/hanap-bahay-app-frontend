@@ -13,7 +13,7 @@ ion-content{
         margin: auto;
         .complain_form{
             background-color: white;
-            border-radius: 1em;
+            // border-radius: 1em;
             border: 1px solid lightgrey;
             width: 90%;
             margin: 2em auto;
@@ -21,11 +21,11 @@ ion-content{
                 box-shadow: 0em 0em 10px lightgrey;
             }
             .form_header{
-                background-color:  rgb(209, 123, 12);
+                // background-color:  rgb(209, 123, 12);
                 border-top-left-radius: 1em;
                 border-top-right-radius: 1em;
                 padding: .5em 1em;
-                color: white;
+                // color: white;
                 h4{
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     font-weight: bold;
@@ -35,7 +35,7 @@ ion-content{
                 width: 90%;
                 margin: 2em auto;
                 span{
-                    color:  rgb(209, 123, 12);
+                    color:  var(--ion-color-tertiary);
                 }
             }
             .el3{

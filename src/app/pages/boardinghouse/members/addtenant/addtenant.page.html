@@ -11,14 +11,26 @@
   <div class="wrapper">
     <ion-item>
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" [(ngModel)]="Add_Tenant_Form.data.Email"></ion-input>
+      <ion-input type="email" [(ngModel)]="Add_Tenant_Form.data.Email" clear-input="true" ></ion-input>
     </ion-item>
+    <ion-label color="danger" *ngIf="Add_Tenant_Form.Errors.Email">{{ Add_Tenant_Form.Errors.Email }}</ion-label>
+
     <ion-item>
       <ion-label>Select RRP Type</ion-label>
       <ion-select  multiple="false" [(ngModel)]="Add_Tenant_Form.data.RRP_Type_ID">
-        <ion-select-option *ngFor="let type of RRP_Types" value="{{ type.RRP_Type_ID }}" color="danger" disabled>{{ type.RRP_Type }} <span *ngIf="type.Tenant_Count >= type.Capacity" class="capacity-full-warn">(Full)</span></ion-select-option>
+        <ion-select-option *ngFor="let type of RRP_Types" value="{{ type.RRP_Type_ID }}" color="danger" disabled="false">{{ type.RRP_Type }} <span *ngIf="type.Tenant_Count >= type.Capacity" class="capacity-full-warn">(Full)</span></ion-select-option>
       </ion-select>
     </ion-item>
+    <ion-label color="danger" *ngIf="Add_Tenant_Form.Errors.RRP_Type_ID">{{ Add_Tenant_Form.Errors.RRP_Type_ID }}</ion-label>
+
+    <ion-item>
+      <ion-label>Day of Payment</ion-label>
+      <ion-select  multiple="false" [(ngModel)]="Add_Tenant_Form.data.Payment_Day">
+        <ion-select-option *ngFor="let i of days" value="{{ i }}" color="danger">{{ i }} </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label color="danger" *ngIf="Add_Tenant_Form.Errors.Payment_Day">{{ Add_Tenant_Form.Errors.Payment_Day }}</ion-label>
+    
     <ion-button  expand="block" (click)="Add_Tenant_Form.submit()">
       <ion-icon slot="start" name="person-add"></ion-icon>
       Add Tenant

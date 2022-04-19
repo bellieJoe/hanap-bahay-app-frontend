@@ -209,6 +209,9 @@ export class ValidatorModule  {
     },
     Capacity: {
       presence: { allowEmpty: false },
+    },
+    Payment_Day: {
+      presence: { allowEmpty: false },
     }
 
 

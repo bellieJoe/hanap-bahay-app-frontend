@@ -1,19 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button slot="end" (click)="createAnnouncement()" class="add_announcement">
+  <ion-toolbar color="secondary">
+    <ion-button slot="end" (click)="createAnnouncement()" class="add_announcement" >
       <ion-icon slot="start" name="megaphone"></ion-icon>
       Create Announcement
     </ion-button>
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
       <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="md">
-      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked'color="light" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
       <ion-input disabled>Announcements</ion-input>
     </ion-item>
   </ion-toolbar>
@@ -36,6 +36,7 @@
 </ion-header>
 
 <ion-content>
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
   <div>
     <h6 *ngIf="announcement_count == 0" class="no-ann">You havent created any announcement yet. Make sure to create an announcement so your Tenants are always updated.</h6>
     <ng-container *ngFor="let i of announceDets">

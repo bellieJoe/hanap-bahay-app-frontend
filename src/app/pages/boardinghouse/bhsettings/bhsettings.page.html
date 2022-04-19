@@ -1,21 +1,21 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+  <ion-toolbar color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
       <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="primary" (click)="presentPopover($event)" color="light">
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="md">
-      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
       <ion-input disabled>Rental House Settings</ion-input>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content mode="md">
 
   <div class="wrapper">
     <ion-card>
@@ -39,18 +39,18 @@
           <ion-icon slot="start" name="location-sharp"></ion-icon>      
           <ion-label><span>{{RH_Details.RRP_Address | titlecase}}</span></ion-label>
         </ion-item>
-        <ion-item lines='none'>
+        <!-- <ion-item lines='none'>
           <ion-icon slot="start" name="bed-sharp"></ion-icon>
           <ion-label>Capacity of <span >{{RH_Details.RRP_Capacity}}</span></ion-label>
-        </ion-item>
-        <ion-item lines='none'>
+        </ion-item> -->
+        <!-- <ion-item lines='none'>
           <ion-icon slot="start" name="woman"></ion-icon>
           <ion-label>{{RH_Details.RRP_Type}}</ion-label>
-        </ion-item>
-        <ion-item lines='none'>
+        </ion-item> -->
+        <!-- <ion-item lines='none'>
           <ion-icon slot="start" name="card"></ion-icon>
           <ion-label>Php {{RH_Details.RRP_Rent_Rate | number:'1.2-2'}} per Month</ion-label>
-        </ion-item>
+        </ion-item> -->
         <ion-item lines='none'>
           <ion-icon slot="start" name="call"></ion-icon>
           <ion-label>+63{{RH_Details.Contact_Number}}</ion-label>

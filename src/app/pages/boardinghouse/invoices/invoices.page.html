@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
+      <i class="fa-solid fa-door-open lg-text"></i>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="light" (click)="presentPopover($event)" >
+        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{RRP_Name}}</ion-label>
+      <ion-input disabled>Invoices</ion-input>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header class="header2" mode="md">
+
+  <ion-item lines="none">
+    <ion-select value="1" placeholder="Select Month" name="Month" [(ngModel)]="Filter_Invoice_Form.data.Month">
+      <ion-select-option value="1" >January</ion-select-option>
+      <ion-select-option value="2">February</ion-select-option>
+      <ion-select-option value="3">March</ion-select-option>
+      <ion-select-option value="4">April</ion-select-option>
+      <ion-select-option value="5">May</ion-select-option>
+      <ion-select-option value="6">June</ion-select-option>
+      <ion-select-option value="7">July</ion-select-option>
+      <ion-select-option value="8">August</ion-select-option>
+      <ion-select-option value="9">September</ion-select-option>
+      <ion-select-option value="10">October</ion-select-option>
+      <ion-select-option value="11">November</ion-select-option>
+      <ion-select-option value="12">December</ion-select-option>
+    </ion-select>
+    <ion-select  placeholder="Select Year" name="Year"  [(ngModel)]="Filter_Invoice_Form.data.Year">
+      <ion-select-option *ngFor="let i of Years" value="{{ i }}">{{ i }}</ion-select-option>
+    </ion-select>
+    <ion-button  expand="block" color="tertiary" size="default"  (click)="Filter_Invoice_Form.submit()">
+      Show
+    </ion-button>
+  </ion-item>
+
+</ion-header>
+
+<ion-content color="light">
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+  <div class="invoice-empty" *ngIf="Invoices.length <= 0">
+    <h5>No Invoices</h5>
+  </div>
+  <div class="invoice-list">
+    <ion-item *ngFor="let invoice of Invoices">
+      <ion-label>
+        <h5>{{ invoice.ID }}</h5>
+        <h5>{{ invoice.Fullname ? invoice.Fullname : invoice.Email }}</h5>
+        <h5 class="invoice-date">{{ invoice.created_at | date : 'mediumDate' }}</h5>
+      </ion-label>
+      <ion-label class="invoice-status" color="{{ invoice.Status == 'Unpaid' ? 'danger' : 'success' }}"><h5>{{ invoice.Status }}</h5></ion-label>
+      <ion-button expand="block" fill="clear" (click)="viewInvoice(invoice.ID)">
+        View
+      </ion-button>
+    </ion-item>
+  </div>
+</ion-content>

@@ -31,9 +31,13 @@
     <ion-icon slot="start" name="chatbubble-ellipses-sharp"></ion-icon>
     <ion-label>Messages <span style="font-size: 20px; color: var(--ion-color-secondary);"  *ngIf="HasNewMessage">•</span></ion-label>
   </ion-item>
-  <ion-item button [routerLink]="['/boardinghouse/paymentrecords']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
+  <!-- <ion-item button [routerLink]="['/boardinghouse/paymentrecords']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
     <ion-icon slot="start" name="folder"></ion-icon>
     <ion-label>Payment Records</ion-label>
+  </ion-item> -->
+  <ion-item button [routerLink]="['/boardinghouse/invoices']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
+    <ion-icon slot="start" name="receipt"></ion-icon>
+    <ion-label>Invoices</ion-label>
   </ion-item>
   <ion-item button [routerLink]="['/boardinghouse/tcomplaints']" routerLinkActive="router-link-active" lines ='none' (click)="dismiss($event)" mode="md">
     <ion-icon slot="start" name="sad"></ion-icon>

@@ -1,9 +1,12 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-title>Create new Contact</ion-title>
-    <ion-button  expand="block" slot="end" fill="clear" (click)="dismiss()">
-      close
-    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button  expand="block"  fill="clear" (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +19,7 @@
     </ion-item>
     <ion-item>
       <ion-label position='floating'>Contact Number (e.g. 09502340784)</ion-label>
-      <ion-input type="number" [(ngModel)]="contactInput.Contact_Number"></ion-input>
+      <ion-input type="tel" maxlength="10" [(ngModel)]="contactInput.Contact_Number">+63</ion-input>
     </ion-item>
     <ion-item>
       <ion-label position='floating'>Contact Purpose (e.g. maintenance, emergency)</ion-label>

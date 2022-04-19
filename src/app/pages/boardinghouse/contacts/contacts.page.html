@@ -1,11 +1,11 @@
 
 <ion-header>
-    <ion-toolbar>
-      <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+    <ion-toolbar color="secondary">
+      <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' color="light" slot="start">
         <i class="fa-solid fa-door-open lg-text"></i>
       </ion-button>
       <ion-buttons slot="end">
-        <ion-button color="primary" (click)="presentPopover($event)" >
+        <ion-button color="light" (click)="presentPopover($event)" >
           <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -13,14 +13,15 @@
           <ion-icon slot="start" name="call"></ion-icon>
           Add new Contact
       </ion-button>
-      <ion-item lines='none'>
-        <ion-label position='stacked' color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+      <ion-item lines='none' color="secondary">
+        <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
         <ion-input disabled>Contacts</ion-input>
       </ion-item>
     </ion-toolbar>
   </ion-header>
 
 <ion-content>
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
 
     <div class="wrapper">
       <ion-item-divider mode="md">

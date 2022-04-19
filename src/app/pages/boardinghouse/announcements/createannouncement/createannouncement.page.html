@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-title>Create Announcement</ion-title>
-    <ion-button slot="end" fill="clear" shape="round" (click)="close()">
-      close
+    <ion-button color="light" slot="end" fill="clear" shape="round" (click)="close()">
+      <ion-icon slot="icon-only" name="close"></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +11,7 @@
   <div class="wrapper">
     <ion-item>
       <ion-label>Tag</ion-label>
-      <ion-select  multiple="false" interface="popover" [(ngModel)]="announcementDets.Announcement_Tag" [ngModelOptions]="{standalone:true}">
+      <ion-select  multiple="false"  [(ngModel)]="announcementDets.Announcement_Tag" [ngModelOptions]="{standalone:true}">
         <ion-select-option value="normal">Normal</ion-select-option>
         <ion-select-option value="important">Important</ion-select-option>
       </ion-select>

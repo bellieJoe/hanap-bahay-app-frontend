@@ -1,15 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
+  <ion-toolbar color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
       <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="md">
-      <ion-label position='stacked'color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
       <ion-input disabled>Inquiries</ion-input>
     </ion-item>
   </ion-toolbar>

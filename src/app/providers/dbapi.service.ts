@@ -454,13 +454,13 @@ export class DbapiService  {
   }
 
   /* return null : done laravel */
-  addTenant_rrpid(Email: string, rrpid:number, date:string, time: string, RRP_Type_ID: number):Observable<any>{
+  addTenant_rrpid(Email: string, rrpid:number, date:string, time: string, RRP_Type_ID: number, Payment_Day: number):Observable<any>{
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
         axios.post(
           `${this.SERVER_NAME}/tenants/add-tenant`,
-          {Email, rrpid, date, time, RRP_Type_ID},
+          {Email, rrpid, date, time, RRP_Type_ID, Payment_Day},
           this.axiosConfig
         )
         .then(res=>observer.next())
@@ -613,7 +613,10 @@ export class DbapiService  {
           this.axiosConfig
         )
         .then(res=>observer.next())
-        .catch(err=>console.log(err))
+        .catch((err : AxiosError )=>{
+          alert(err.message)
+          console.log(err.response)
+        })
       })
     })
     return this.httpClient.post<ContactDetails>(`${this.SERVER_NAME}/RH_Management/Contacts/addContact.php`, detail )
@@ -671,6 +674,13 @@ export class DbapiService  {
           `${this.SERVER_NAME}/contacts/delete/${cid}/${rrpid}`,
           {},
           this.axiosConfig
+        )
+        .then(res => observer.next(res.data))
+        .catch(
+          (err: AxiosError) => {
+            alert(err.message)
+            console.log(err.response)
+          }
         )
       })
     })
@@ -1759,6 +1769,34 @@ export class DbapiService  {
       )
       .then(res => observer.next(res.data))
       .catch((err: AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  getInvoicesByRRP_ID(RRP_ID : number, Month : number, Year : number ) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-rrpid/${RRP_ID}?Month=${Month}&Year=${Year}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  getInvoiceByID(Invoice_ID : string) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-id/${Invoice_ID}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
         console.log(err.response)
         alert(err.message)
       })
