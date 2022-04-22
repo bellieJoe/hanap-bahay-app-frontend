@@ -54,7 +54,7 @@
         <h5>{{ invoice.Fullname ? invoice.Fullname : invoice.Email }}</h5>
         <h5 class="invoice-date">{{ invoice.created_at | date : 'mediumDate' }}</h5>
       </ion-label>
-      <ion-label class="invoice-status" color="{{ invoice.Status == 'Unpaid' ? 'danger' : 'success' }}"><h5>{{ invoice.Status }}</h5></ion-label>
+      <ion-label class="invoice-status" color="{{ invoice.Status == 'Unpaid' ? 'danger' : (invoice.Status == 'Incomplete' ? 'medium' : 'success') }}"><h5>{{ invoice.Status }}</h5></ion-label>
       <ion-button expand="block" fill="clear" (click)="viewInvoice(invoice.ID)">
         View
       </ion-button>

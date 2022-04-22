@@ -1803,6 +1803,25 @@ export class DbapiService  {
     })
   }
 
+  updateInvoicePayment(Bill_ID:number, Amount_Paid:number, Status:string) : Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/invoices/update-payment`,
+          {Bill_ID, Amount_Paid, Status},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(
+          (err:AxiosError) => {
+            console.log(err.response)
+            alert(err.message)
+          }
+        )
+      })
+    })
+  }
+
 }
 
 

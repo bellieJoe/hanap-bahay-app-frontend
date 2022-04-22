@@ -11,7 +11,11 @@
   <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
   <div class="invoice" *ngIf="!loading">
     <ion-item lines="none" color="primary">
-      <h4 *ngIf="RRP.RRP_Name" class="invoice-header">{{ RRP.RRP_Name }} Invoice</h4>
+      <h4 *ngIf="RRP.RRP_Name" class="invoice-header">{{ Invoice.RRP_Name }} Invoice</h4>
+    </ion-item>
+    <ion-item lines="none" color="primary">
+      <!-- <ion-label>In:</ion-label> -->
+      <ion-label>{{ Invoice.ID }}</ion-label>
     </ion-item>
     <ion-item lines="none" color="primary">
       <ion-label>Name:</ion-label>
@@ -28,7 +32,7 @@
     <ion-item lines="none">
       <ion-label>
         <h6>Total</h6>
-        <h3 class="invoice-total">{{ Invoice.Total | currency:'PHP' }}</h3>
+        <h3 class="invoice-total">{{ Invoice.Total | currency:'Php ' }}</h3>
       </ion-label>
     </ion-item>
     <ion-item lines="none" class="item-header">
@@ -37,18 +41,28 @@
     </ion-item>
     <ion-item lines="none">
       <ion-label>Basic Rent</ion-label>
-      <ion-label class="amount">{{ Invoice.Basic_Rent | currency:'PHP' }}</ion-label>
+      <ion-label class="amount">{{ Invoice.Basic_Rent | currency:'Php ' }}</ion-label>
     </ion-item>
     <ion-item lines="none" *ngFor="let i of Invoice.Miscellaneous">
       <ion-label>{{ i.FeeName }}</ion-label>
-      <ion-label class="amount">{{ i.FeeAmount | currency:'PHP' }}</ion-label>
+      <ion-label class="amount">{{ i.FeeAmount | currency:'Php ' }}</ion-label>
     </ion-item>
+    <br><br>
+    <ion-item lines="none" class="item-payment">
+      <ion-label>Amount Paid</ion-label>
+      <ion-label class="amount-paid amount">{{ Invoice.Amount_Paid | currency:'Php ' }}</ion-label>
+    </ion-item>
+
+    <ion-button expand="block" *ngIf="Invoice.canUpdate" (click)="updatePayment()">
+      <ion-icon slot="start" name="card"></ion-icon>
+      Update Payment
+    </ion-button>
   </div>
   
 </ion-content>
 
 <ion-footer  *ngIf="!loading">
-  <ion-toolbar mode="ios" color="{{ Invoice.Status == 'Unpaid' ? 'danger' : 'success' }}">
+  <ion-toolbar mode="ios" color="{{ Invoice.Status == 'Unpaid' ? 'danger' : (Invoice.Status == 'Incomplete' ? 'medium' : 'success') }}">
     <ion-title>{{ Invoice.Status }}</ion-title>
   </ion-toolbar>
 </ion-footer>

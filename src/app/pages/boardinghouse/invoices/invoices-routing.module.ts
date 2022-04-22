@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: InvoicesPage
+  },
+  {
+    path: 'update-payment',
+    loadChildren: () => import('./update-payment/update-payment.module').then( m => m.UpdatePaymentPageModule)
   }
 ];
 
