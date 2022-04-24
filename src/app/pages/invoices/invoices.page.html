@@ -1,21 +1,14 @@
-<ion-header>
+<ion-header mode="md">
   <ion-toolbar color="secondary">
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
-      <i class="fa-solid fa-door-open lg-text"></i>
-    </ion-button>
-    <ion-buttons slot="end">
-      <ion-button color="light" (click)="presentPopover($event)" >
-        <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <ion-menu-button ></ion-menu-button>
     </ion-buttons>
-    <ion-item lines='none' mode="md" color="secondary">
-      <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{RRP_Name}}</ion-label>
-      <ion-input disabled>Invoices</ion-input>
-    </ion-item>
+    <ion-title>Invoices</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-header class="header2" mode="md">
+
   <ion-item lines="none">
     <ion-select value="1" placeholder="Select Month" name="Month" [(ngModel)]="Filter_Invoice_Form.data.Month">
       <ion-select-option value="1" >January</ion-select-option>
@@ -38,7 +31,6 @@
       Show
     </ion-button>
   </ion-item>
-
 </ion-header>
 
 <ion-content color="light">

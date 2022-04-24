@@ -1789,6 +1789,20 @@ export class DbapiService  {
     })
   }
 
+  getInvoicesByUser_ID(User_ID : number, Month : number, Year : number ) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-user_id/${User_ID}?Month=${Month}&Year=${Year}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
   getInvoiceByID(Invoice_ID : string) : Observable<any> {
     return new Observable(observer => {
       axios.get(
@@ -1822,6 +1836,10 @@ export class DbapiService  {
     })
   }
 
+
 }
+
+
+
 
 
