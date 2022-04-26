@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Routes } from '@angular/router';
-import { AlertController, ModalController, NavController, NavParams } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavController, NavParams } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { link } from 'fs';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { CreateUserPolicy, UserCredentials } from 'src/app/providers/policy';
 import { UserserviceService } from 'src/app/providers/userservice.service';
@@ -29,7 +30,8 @@ export class LoginPage implements OnInit {
     private dbapi : DbapiService,
     private router : Router,
     private alert : AlertController,
-    private storage : Storage
+    private storage : Storage,
+    private loader: LoadingController
     ) { }
 
   dismiss() {
@@ -48,7 +50,17 @@ export class LoginPage implements OnInit {
   }
 
   async verifyLogin(){
+
+    const loader = await this.loader.create({
+      spinner: "lines",
+      message: "Signing In",
+      mode: "ios"
+    })
+
     try {
+
+      await loader.present()
+
       let policy =  await new Promise((resolve, reject)=>{
         this.dbapi.searchUser_username(this.uname).subscribe((policy: CreateUserPolicy[])=>{
           resolve(policy)
@@ -83,6 +95,8 @@ export class LoginPage implements OnInit {
         this.presentAlert("The username and password is incorrect")
         this.uname = ""
         this.pass = ""
+
+        loader.dismiss()
       }
 
       // await this.dbapi.searchUser_username(this.uname).subscribe((policy: CreateUserPolicy[]) => {
@@ -136,6 +150,8 @@ export class LoginPage implements OnInit {
     } catch (error) {
 
       console.log(error)
+
+      await this.loader.dismiss()
 
     }
   }

@@ -1,0 +1,14 @@
+.wrapper{
+    max-width: 800px;
+    margin: 0em auto;
+    .RRPDetailItem{
+        ion-label{
+            h2{
+                font-weight: bold;
+            }
+            p{
+                color: var(--ion-color-medium);
+            }
+        }
+    }
+}

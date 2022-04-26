@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar mode="md" color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" title="Leave" color="light">
+      <i class="fa-solid fa-door-open lg-text"></i>
+    </ion-button>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-progress-bar type="indeterminate" *ngIf="isPreparing"></ion-progress-bar>
+  <div class="wrapper" *ngIf="!isPreparing">
+    <div class="information-container">
+      <h1 class="h1PropertyName"><i class="fa-solid fa-house text-primary "></i>{{ rrpDetails.RRP_Name }}</h1>
+      <h1 class="h1Address"><i class="fa-solid fa-location-dot text-primary"></i>{{ rrpDetails.RRP_Address }}</h1>
+      <h1 class="h1ContactNumber"><i class="fa-solid fa-address-book text-primary"></i>+63{{ rrpDetails.Contact_Number }}</h1>
+      <h1 class="h1BusinessRegNo" *ngIf="rrpDetails.Business_Registration_No text-primary"><i class="fa-regular fa-hashtag text-primary"></i>{{ rrpDetails.Business_Registration_No }}</h1>
+      <h1 class="h1Coordinates"><i class="fa-solid fa-map-location-dot text-primary"></i>{{ rrpDetails.RRP_X_Coordinates }}, {{ rrpDetails.RRP_Y_Coordinates }}</h1>
+    </div>
+
+    <ion-item color="tertiary">
+      <ion-label slot="start">Tenants</ion-label>
+      <ion-label slot="end">{{ tenantCount }}</ion-label>
+    </ion-item>
+
+    <ion-item color="primary">
+      <ion-label slot="start">Rental Property Types <i class="fa-solid fa-circle-question" title="Types of Rental House included in this Rental Property eg. bed space, room for rent"></i></ion-label>
+      <ion-label slot="end">{{ RRPTypesCount }}</ion-label>
+    </ion-item>
+
+    <div class="action-scroll" id="conActions">
+      <div class="action-container">
+        <div class="action" [routerLink]="['/boardinghouse/members']" >
+          <div class="icon" >
+            <i class="fa-solid fa-users"  ></i>
+          </div>
+          <h1>Tenants</h1>
+        </div>
+        <div class="action" [routerLink]="['/boardinghouse/announcements']" >
+          <div class="icon">
+            <i class="fa-solid fa-bullhorn"></i>
+          </div>
+          <h1>Announcements</h1>
+        </div>
+        <div class="action"  [routerLink]="['/boardinghouse/home']" >
+          <div class="icon">
+            <i class="fa-solid fa-house-laptop"></i>
+          </div>
+          <h1>Profile</h1>
+        </div>
+        <div class="action"  [routerLink]="['/boardinghouse/contacts']" >
+          <div class="icon">
+            <i class="fa-solid fa-address-book"></i>
+          </div>
+          <h1>Contacts</h1>
+        </div>
+        <div class="action" [routerLink]="['/boardinghouse/bhreservations']" >
+          <div class="icon">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <h1>Inquiries</h1>
+        </div>
+        <div class="action" [routerLink]="['/boardinghouse/bhmsg']" >
+          <div class="icon">
+            <i class="fa-solid fa-comment-dots"></i>
+          </div>
+          <h1>Messages</h1>
+        </div>
+        <div class="action">
+          <div class="icon">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+          <h1>Bills & Payments</h1>
+        </div>
+        <div class="action" [routerLink]="['/boardinghouse/tcomplaints']" >
+          <div class="icon">
+            <i class="fa-solid fa-face-frown-open"></i>
+          </div>
+          <h1>Complaints</h1>
+        </div>
+        <div class="action" [routerLink]="['/boardinghouse/bhsettings']" >
+          <div class="icon">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          <h1>Settings</h1>
+        </div>
+      </div>
+    </div>
+    <button class="btnLeft" (click)="actionScrollLeft()" id="btnLeft">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="btnRight" (click)="actionScrollRight()" id="btnRight">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <div class="conRentalPropertyTypes">
+      <!-- <h1>Rental House Types</h1> -->
+      <ion-item color="dark">
+        <h1>Rental House Types</h1>
+      </ion-item>
+      <div *ngFor="let type of RRPTypes.data">
+        <ion-item class="RRPTypeItem">
+          <ion-label>
+            <p >{{ type.RRP_Type }}</p>
+            <h2  >{{ type.Capacity }} Capacity</h2>
+          </ion-label>
+          <ion-button  expand="block" fill="clear"  (click)="RRPTypes.navigate('/boardinghouse/dashboard/edit-rrptype', type.RRP_Type_ID)">
+            Edit
+          </ion-button>
+          <ion-button  expand="block" fill="clear" (click)="RRPTypes.navigate('/boardinghouse/dashboard/rrp-type-details', type.RRP_Type_ID)">
+            View
+          </ion-button>
+          <ion-button  expand="block" fill="clear" color="danger">
+            Delete
+          </ion-button>
+        </ion-item>
+      </div>
+      <ion-button color="primary" expand="block" [routerLink]="['add-rrptype']" routerLinkActive="router-link-active" >
+        <ion-icon slot="start" name="add-circle"></ion-icon>
+        Add Type
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

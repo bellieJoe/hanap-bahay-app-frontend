@@ -1,0 +1,109 @@
+
+
+.wrapper{
+    max-width: 800px;
+    margin: 0em auto;
+    .information-container{
+        background-color: white;
+        padding: 2em 1em;
+        h1{
+            font-size: medium;
+            padding: 0em;
+            margin: .5em 0em;
+            i{
+                margin-right: 1em;
+                width: 1em;
+            }
+        }
+        .h1PropertyName{
+            font-weight: bold ;
+        }
+    }
+    .action-scroll{
+        max-width: 800px;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        transition: .4s ;
+        // box-shadow: 0px 0px 10px 3px rgb(216, 216, 216);
+        .action-container{
+            background-color: white;
+            padding: 1em 0em;
+            width: max-content;
+            .action{
+                width: 10em;
+                margin: .5em;
+                padding: 1em .5em;
+                border-radius: .3em;
+                display: inline-block;
+                background-color: rgb(242, 247, 253);
+                // border: 1px solid rgb(190, 190, 190);
+                &:hover{
+                    box-shadow: 0px 0px 182px -24px rgba(158,158,158,1);
+                    -webkit-box-shadow: 0px 0px 182px -24px rgba(158,158,158,1);
+                    -moz-box-shadow: 0px 0px 182px -24px rgba(158,158,158,1);
+                    background-color: rgb(255, 255, 255);
+                    transition: .5s;
+                }
+                h1{
+                    font-size: medium;
+                    font-weight: normal;
+                    text-align: center;
+                    margin: 3px 0em 0em 0em;
+                }
+                .icon{
+                    width: max-content;
+                    margin: 0em auto;
+                    i{
+                        font-size: xx-large;
+                        color: var(--ion-color-tertiary);
+                    }
+                }
+            }
+        }
+    }
+    .btnLeft, .btnRight{
+        font-size: xx-large;
+        width: max-content;
+        background: transparent;
+        border-radius: 3px;
+        transition: .4s;
+        background-blend-mode: exclusion;
+        position: relative;
+        color: var(--ion-color-primary-tint);
+        &:active{
+            color: var(--ion-color-primary);
+        }
+        &:hover{
+            color: var(--ion-color-medium);
+        }
+    }
+    .btnRight{
+        float: right;
+    }
+
+    .conRentalPropertyTypes{
+        padding: 1em;
+        margin: 1em 0em;
+        background: white;
+        h1{
+            font-size: medium;
+            color: var(--ion-color-medium);
+        }
+        ion-button{
+            margin: 2em auto;
+            width: max-content;
+            display: block;
+        }
+    }
+
+    .RRPTypeItem {
+        ion-label{
+            p{
+                font-weight: bold;
+            }
+            h2{
+                color: var(--ion-color-medium);
+            }
+        }
+    }
+}

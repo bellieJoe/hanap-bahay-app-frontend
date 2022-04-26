@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { SubscribePageRoutingModule } from './subscribe-routing.module';
 
 import { SubscribePage } from './subscribe.page';
+import { ValidatorModule } from 'src/app/modules/validator/validator.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SubscribePageRoutingModule
+    SubscribePageRoutingModule,
+    ValidatorModule
   ],
   declarations: [SubscribePage]
 })

@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300&display=swap');
+ion-content{
+    .invoice{
+        max-width: 700px;
+        margin: 0em auto;
+        background-color: white;
+        padding-bottom: 1em;
+        .invoice-status {
+            margin-top: 1em;
+        }
+        .invoice-header{
+            font-weight: bold;
+        }
+        ion-item{
+            .invoice-total{
+                font-weight: bold;
+                font-family: 'Inconsolata', monospace;
+                font-size: xx-large;
+                color: var(--ion-color-medium);
+            }
+            .amount{
+                font-family: 'Inconsolata', monospace;
+            }
+        }
+        ion-item.item-header{
+            font-family: 'Inconsolata', monospace;
+            font-weight: bold;
+        }
+        ion-item.item-payment{
+            font-weight: bold;
+        }
+        ion-button{
+            width: fit-content;
+            margin: 1em 1em 1em auto;
+            display: block;
+        }
+    }
+
+}
+
+ion-footer{
+    max-width: 700px;
+    margin: 0em auto;
+}

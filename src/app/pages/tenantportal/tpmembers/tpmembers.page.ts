@@ -25,6 +25,7 @@ export class TpmembersPage implements OnInit {
   User_ID : number
   BH_Name : string
   url_image = `${this.dbapi.SERVER}/images/profile/`
+  loading: boolean = false
   // image_src : string
 
   async presentPopover(ev: any) {
@@ -53,9 +54,16 @@ export class TpmembersPage implements OnInit {
   }
 
   viewProf(a:number){
-    this.storage.set("vst_prof", a).then(()=>{
-      this.router.navigate(['/profileview'])
-    })
+    this.members.map(
+      (val, i) => {
+        if(val.User_ID == a && val.name != null){
+          this.storage.set("vst_prof", a).then(()=>{
+            this.router.navigate(['/profileview'])
+          })
+        }
+      }
+    )
+    
   }
 
   loadProfileImages(){
@@ -71,29 +79,86 @@ export class TpmembersPage implements OnInit {
     })
   }
 
-  ionViewDidEnter(){
-    this.storage.get("User_ID").then(uid=>{
-      this.User_ID = uid
-      this.isAuth(uid)
-      this.dbapi.getTenantDetails(uid).subscribe(dets=>{
-        this.dbapi.getRHDetails_rrpid(dets.RRP_ID).subscribe(rh=>{
-          this.BH_Name = rh.RRP_Name
-        })
-        this.dbapi.getTenantList_rrpid(dets.RRP_ID).subscribe(list=>{
-          // console.log(list)
-          this.members = list
-          this.loadProfileImages()
-          this.members.map((val,i)=>{
-            this.dbapi.getUserDetails_id(this.members[i].User_ID).subscribe(udets=>{
-              this.members[i].name = this.textPipe.transform(udets[0].Firstname + " " + udets[0].Lastname)
-            })
-          })
+  async ionViewDidEnter(){
+    try {
+      this.loading = true
+
+      const uid = await this.storage.get("User_ID")
+      
+      const dets : any = await new Promise(
+        (resolve, reject) => {
+          this.dbapi.getTenantDetails(uid).subscribe(
+            dets => {
+              resolve(dets)
+            }
+          )
+        }
+      )
+
+      const rh : any = await new Promise(
+        (resolve, reject) => {
+          this.dbapi.getRHDetails_rrpid(dets.RRP_ID).subscribe(
+            rh => {
+              resolve(rh)
+            }
+          )
+        }
+      )
+      this.BH_Name = rh.RRP_Name
+
+      const list : any = await new Promise(
+        (resolve, reject) => {
+          this.dbapi.getTenantList_rrpid(dets.RRP_ID).subscribe(
+            list => {
+              resolve(list)
+            }
+          )
+        }
+      )
+      this.members = list
+      this.loadProfileImages()
+
+      this.members.map((val,i)=>{
+        this.dbapi.getUserDetails_id(this.members[i].User_ID).subscribe(udets=>{
+          this.members[i].Email = udets[0].Email
+          if(udets[0].Firstname && udets[0].Lastname) {
+            this.members[i].name = this.textPipe.transform(udets[0].Firstname + " " + udets[0].Lastname)
+          }
+          else {
+            this.members[i].name = null
+          }
+          
         })
       })
-    })
-    this.storage.get("User_Type").then(type=>{
-      this.isTenant(type)
-    })
+      
+
+      this.loading = false
+    } catch (error) {
+      this.loading = false
+    }
+
+    // this.storage.get("User_ID").then(uid=>{
+    //   this.User_ID = uid
+    //   this.isAuth(uid)
+    //   this.dbapi.getTenantDetails(uid).subscribe(dets=>{
+    //     this.dbapi.getRHDetails_rrpid(dets.RRP_ID).subscribe(rh=>{
+    //       this.BH_Name = rh.RRP_Name
+    //     })
+    //     this.dbapi.getTenantList_rrpid(dets.RRP_ID).subscribe(list=>{
+    //       // console.log(list)
+    //       this.members = list
+    //       this.loadProfileImages()
+    //       this.members.map((val,i)=>{
+    //         this.dbapi.getUserDetails_id(this.members[i].User_ID).subscribe(udets=>{
+    //           this.members[i].name = this.textPipe.transform(udets[0].Firstname + " " + udets[0].Lastname)
+    //         })
+    //       })
+    //     })
+    //   })
+    // })
+    // this.storage.get("User_Type").then(type=>{
+    //   this.isTenant(type)
+    // })
   }
 
 }

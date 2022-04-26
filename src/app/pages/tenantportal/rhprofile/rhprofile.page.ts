@@ -272,7 +272,7 @@ export class RhprofilePage {
         if(image == null){
           this.profile_img = null
         }else{
-          this.profile_img = `http://192.168.43.65/HanapBahay/images/profile/${image.IMG_Filename}.png?` + new Date().getTime()
+          this.profile_img = `${this.dbapi.SERVER_NAME}/images/profile/${image.IMG_Filename}.png?` + new Date().getTime()
         }
       })
     })

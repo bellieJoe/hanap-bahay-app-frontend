@@ -42,12 +42,29 @@ export class MembersPage {
     this.presentModal()
   }
 
-  showAddRoom(){// not needed
-    this.addRoomModal();
-  }
+  async showAddTenant(){ // not needed
+    const RRP_ID = await this.storage.get("RRP_ID")
 
-  showAddTenant(){ // not needed
-    this.addTenantModal();
+    const typeCount = await new Promise((resolve, reject)=>{
+      this.dbapi.countRentalTypes(RRP_ID).subscribe(count=>{
+        resolve(count)
+      })
+    })
+
+    if(typeCount > 0){
+      await this.addTenantModal();
+    }
+    else{
+      const alert = await this.alert.create({
+        message: "You hav'nt set up your RRP Types yet. RRP Type is needed to know where your tenant belong.",
+        animated: true,
+        header: "Notice",
+        mode: "md",
+        buttons: ["Ok"],
+        translucent: true
+      })
+      await alert.present()
+    }
   }
 
   async removeTenant(a:number, f:string, l:string){
@@ -114,29 +131,13 @@ export class MembersPage {
     return await modal.present();
   }
 
-  async addRoomModal() {
-    const modal = await this.modalController.create({
-      component: AddroomPage,
-      cssClass: 'modal-member'
-    });
-    return await modal.present();
-  }
-
   async addTenantModal() {
     const modal = await this.modalController.create({
       component: AddtenantPage,
-      cssClass: 'modal-addtenant'
+      cssClass: 'modal-addtenant',
+      backdropDismiss: false
     })
   
-    // this.dbapi.getRHDetails_rrpid(this.RRP_ID).subscribe(rdets=>{
-    //   this.dbapi.countTenant_rrpid(this.RRP_ID).subscribe(count=>{
-    //     if(rdets.RRP_Capacity > count){
-    //      modal.present();
-    //     }else{
-    //       this.presentAlert("Alert", "You have reached the maximum number of Tenants for your Rental House")
-    //     }
-    //   })
-    // })
     modal.present();
     await modal.onDidDismiss().then(()=>{
       this.ionViewDidEnter()
@@ -163,9 +164,14 @@ export class MembersPage {
   }
 
   visitProfile(a:number){
-    this.storage.set("vst_prof", a).then(()=>{
-      this.router.navigate(['/profileview'])
+    this.memberListComplete.map((val, i) => {
+      if(val.User_ID == a && val.isUser){
+        this.storage.set("vst_prof", a).then(()=>{
+          this.router.navigate(['/profileview'])
+        })
+      }
     })
+    
   }
 
   ionViewDidEnter(){
@@ -173,16 +179,24 @@ export class MembersPage {
     this.userservice.getUserInfo("RRP_ID").then((val)=>{
       this.RRP_ID = parseInt(val)
       this.dbapi.getTenantList_rrpid(parseInt(val)).subscribe((list : GetTenantList[])=>{
-        // console.log(list)
         if(list.length == 0){
           this.memberListComplete = null
         }else{
           this.memberListComplete = list
           this.memberListComplete.map((val,i)=>{
             this.dbapi.getTenantListInfo_uid(this.memberListComplete[i].User_ID).subscribe(info=>{
-              this.memberListComplete[i].Firstname = info[0].Firstname
-              this.memberListComplete[i].Middlename = info[0].Middlename
-              this.memberListComplete[i].Lastname = info[0].Lastname
+              this.memberListComplete[i].Email = info[0].Email
+              if(info[0].Firstname && info[0].Middlename && info[0].Lastname){
+                this.memberListComplete[i].Firstname = info[0].Firstname
+                this.memberListComplete[i].Middlename = info[0].Middlename
+                this.memberListComplete[i].Lastname = info[0].Lastname
+                this.memberListComplete[i].isUser = true
+              }
+              else {
+                this.memberListComplete[i].isUser = false
+              }
+              
+
             })
           })
         this.loadProfileImages()

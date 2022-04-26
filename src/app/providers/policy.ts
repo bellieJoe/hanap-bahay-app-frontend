@@ -1,4 +1,5 @@
 import { Time } from '@angular/common'
+import { AnyAaaaRecord } from 'dns'
 
 //for all users
 export class CreateUserPolicy{ //for getting all the user info
@@ -54,6 +55,7 @@ export class RentalHouseDetails{
     Contact_Number : string
     RRP_Settings : any
     Photo_Documents : any
+    Business_Registration_No: string
 }
 
 // forProfile
@@ -227,4 +229,16 @@ export class ImageProps{
     title : string
     part : string
     description : string
+}
+
+export class RentalHouseTypes{
+    RRP_Type_ID: number
+    RRP_ID: number
+    Basic_Rent: number
+    RRP_Type: string
+    Capacity: string
+    Description: string
+    Miscellaneous: string
+    created_at: Date
+    updated_at: Date
 }

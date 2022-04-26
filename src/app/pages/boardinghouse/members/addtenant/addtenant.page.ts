@@ -1,12 +1,16 @@
 import { DatePipe, formatDate } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController, LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { rejects } from 'assert';
+import axios, { AxiosError } from 'axios';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { SearchTenantList } from 'src/app/providers/policy';
 import { UserserviceService } from 'src/app/providers/userservice.service';
+import {validate} from "validate.js"
 
 
 @Component({
@@ -14,24 +18,7 @@ import { UserserviceService } from 'src/app/providers/userservice.service';
   templateUrl: './addtenant.page.html',
   styleUrls: ['./addtenant.page.scss'],
 })
-export class AddtenantPage {
-
-  hasResult = false
-  isSkeletonOn = false
-  userSearchIn : string
-  searchInput : any
-  dateToday : string
-  time : string
-  searchResults = []
-  url_image = `${this.dbapi.SERVER}/images/profile/`
-
-  closeAddTenant(){
-    this.dismiss();
-  }
-
-  canceled(){
-    this.isSkeletonOn = false;
-  }
+export class AddtenantPage implements OnInit{
 
   constructor(
     private modalController: ModalController,
@@ -40,16 +27,123 @@ export class AddtenantPage {
     private toast : ToastController,
     private datePipe : DatePipe,
     private router : Router,
-    private storage : Storage
+    private storage : Storage,
+    private alert : AlertController,
+    private loader : LoadingController
     ) { }
 
-    async presentToast(cont : string) {
-      const toast = await this.toast.create({
-        message: cont,
-        duration: 2000
-      });
-      toast.present();
+
+  dateToday : string
+  time : string
+  searchResults = []
+  url_image = `${this.dbapi.SERVER}/images/profile/`
+  RRP_Types : any = []
+  days : number[] = []
+
+  Add_Tenant_Form : any = {
+    validate: validate,
+    loader: this.loader,
+    dbapi: this.dbapi,
+    alert: this.alert,
+    dateToday: this.datePipe.transform(new Date(), "yyyy/MM/dd"),
+    time: null,
+    datePipe: this.datePipe,
+    modalController: this.modalController,
+    Errors : [],
+    data: {
+      RRP_ID : null,
+      RRP_Type_ID: null,
+      Email: null,
+      User_ID: null,
+      RRP_Name: null,
+      Payment_Day: null
+    },
+    async submit(){
+
+      const loader = await this.loader.create({
+        spinner: "lines",
+        mode: "ios",
+        message: "Adding Tenant"
+      })
+      
+      try {
+        await this.validate.async(
+          this.data, 
+          {
+            Email : { 
+              presence: { allowEmpty : false }
+            },
+            RRP_Type_ID : {
+              presence: { 
+                allowEmpty : false,
+                message : "^RRP Type is required"
+              }
+            },
+            Payment_Day : {
+              presence : { allowEmpty : false }
+            }
+          }
+        )
+
+        this.time = this.datePipe.transform(new Date(), "hh:mm:ss")
+
+        const alert = await this.alert.create({
+          message: `We detected that ${this.data.Email} is unregistered. We will send an email to this email address to resume his/her registration.`,
+          mode: "md",
+          header: "Notice",
+          buttons: ["Ok"]
+        })
+
+        const User = await new Promise((resolve, reject) => {
+          this.dbapi.checkIfRegistered_email(this.data.Email).subscribe(User => {
+            console.log(User)
+            resolve(User)
+          })
+        })
+
+        if(!User){
+          await alert.present()
+
+          await alert.onDidDismiss()
+        }
+        
+        await loader.present()
+        
+        await new Promise((resolve, reject) => {
+          this.dbapi.addTenant_rrpid(this.data.Email, this.data.RRP_ID, this.dateToday, this.time, this.data.RRP_Type_ID, this.data.Payment_Day).subscribe(() => {
+            resolve(null)
+          })
+        })
+
+        await loader.dismiss()
+
+        this.modalController.dismiss({
+          'dismissed': true
+        });
+
+      } catch (error) {
+        this.Errors = error
+        await loader.dismiss()
+      }
     }
+  }
+
+  async testing() {
+
+  }
+
+  closeAddTenant(){
+    this.dismiss();
+  }
+
+
+  async presentToast(cont : string) {
+    const toast = await this.toast.create({
+      message: cont,
+      duration: 2000
+    });
+    toast.present();
+  }
 
   dismiss() {
     this.modalController.dismiss({
@@ -57,115 +151,49 @@ export class AddtenantPage {
     });
   }
 
-  addTenant(a : number, fname:string, lname:string){
-   var todays = new Date()
-   this.dateToday = this.datePipe.transform(todays, "yyyy/MM/dd")
-   this.time = this.datePipe.transform(todays, "hh:mm:ss")
-    this.userservice.getUserInfo("RRP_ID").then((val)=>{
-      this.dbapi.addTenant_rrpid(a, parseInt(val), this.dateToday, this.time ).subscribe(()=>{
-        this.dbapi.isBoarded(a, parseInt(val)).subscribe((res:any) =>{
-          if(!res){
-            this.dbapi.addBoarderRRP(a, parseInt(val)).subscribe()
-          }
-        })
-        
-        this.storage.get("RRP_Name").then(rrpname=>{
-          this.dbapi.addNotification(a,this.datePipe.transform(todays, "yyyy-MM-dd HH:mm:ss"), "New Tenant", `You have been added as a Tenant to ${rrpname}`,"/tpmembers",null).subscribe(()=>{
-            this.presentToast(fname.toUpperCase() +" "+lname.toUpperCase() +" has been added as you Tenant")
-            this.dismiss()
-          })
-        })
-      })
-    })
-
-  }
 
   register(){
     this.router.navigate(['/boardinghouse/members/regtenant'])
     this.modalController.dismiss()
   }
 
-  search_Tenant(){
-    if(this.userSearchIn === " "){
-      this.userSearchIn = null
-      this.searchResults = null
-    }else{
-      this.searchInput = this.userSearchIn.split(" ", 4)
-      if(this.searchInput.length == 1 ){
-        if(this.searchInput != ""){
-          this.isSkeletonOn = true
-          this.hasResult = false
-          this.dbapi.searchTenant_fistname(this.searchInput).subscribe((res : SearchTenantList[])=>{
-            this.searchResults = res
-            this.loadProfileImage()
-            // console.log(this.searchResults.length)
-            
-            if(this.searchResults.length == 0)
-            {
-              this.hasResult = true
-              this.isSkeletonOn = false
-            }
-            else{
-              this.hasResult = false
-              this.isSkeletonOn = false
-            }
-          })
-        }else{
-          this.searchResults = null
-        }
-      }else if(this.searchInput.length == 2 ){
-        // console.log(this.searchInput)
-        if(this.searchInput[1] != ""){
-          this.dbapi.searchTenant_2name(this.searchInput[0],this.searchInput[1]).subscribe((res : SearchTenantList[])=>{
-            // console.log(res)
-            this.searchResults = res
-            this.loadProfileImage()
-          })
-        }else{}
 
-      }else if(this.searchInput.length == 3 ){
-        // console.log(this.searchInput)
-        if(this.searchInput[2] != ""){
-          this.dbapi.searchTenant_3name(this.searchInput[0],this.searchInput[1],this.searchInput[2]).subscribe((res : SearchTenantList[])=>{
-            // console.log(res)
-            this.searchResults = res
-            this.loadProfileImage()
-          })
-        }else{}
 
-      }else if(this.searchInput.length == 4 ){
-        // console.log(this.searchInput)
-        if(this.searchInput[3] != ""){
-          this.dbapi.searchTenant_4name(this.searchInput[0],this.searchInput[1],this.searchInput[2], this.searchInput[3]).subscribe((res : SearchTenantList[])=>{
-            // console.log(res)
-            this.searchResults = res
-            this.loadProfileImage()
-          })
-        }else{}
-      }else {
-      }
-      // this.loadProfileImage()
-    }
-    
-  }
+  async ionViewDidEnter(){
+    const RRP_ID = await this.storage.get("RRP_ID")
 
-  loadProfileImage(){
-    // console.log(this.searchResults)
-    this.searchResults.map((val, i)=>{
-      this.dbapi.fetchImage(this.searchResults[i].User_ID, "user-profile").subscribe(image=>{
-        if(image){
-          this.searchResults[i].image_src = `${this.url_image}${image.IMG_Filename}.png?`+ new Date().getTime()
-        }else{
-          this.searchResults[i].image_src = null
-        }
+    this.Add_Tenant_Form.data.RRP_ID = RRP_ID
+
+    await new Promise((resolve, reject) => {
+      this.dbapi.getRRPTypesByRRP_ID(RRP_ID).subscribe(RRP_Types => {
+        this.RRP_Types = RRP_Types
+        console.log(this.RRP_Types)
+        resolve(null)
       })
     })
+
+    await new Promise((resolve, reject) => {
+      this.userservice.getUserInfo("User_ID").then(User_ID => {
+        this.Add_Tenant_Form.data.User_ID = User_ID
+        resolve(null)
+      })
+    })
+
+    this.userservice.getUserInfo("RRP_Name").then(RRP_Name => {
+      this.Add_Tenant_Form.data.RRP_Name = RRP_Name
+    })
+
+    if(location.pathname != "/boardinghouse/members"){
+      this.router.navigate([''])
+    }
+
+
   }
 
 
-  ionViewDidEnter(){
-    if(location.pathname != "/boardinghouse/members"){
-      this.router.navigate([''])
+  ngOnInit() {
+    for(let i =1; i < 29; i++){
+      this.days.push(i)
     }
   }
 

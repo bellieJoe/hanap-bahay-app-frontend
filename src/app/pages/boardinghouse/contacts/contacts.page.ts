@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
-import { IonItemOptions, IonItemSliding, ModalController, Platform, PopoverController, ToastController } from '@ionic/angular';
+import { IonItemOptions, IonItemSliding, LoadingController, ModalController, Platform, PopoverController, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { DbapiService } from 'src/app/providers/dbapi.service';
 import { ContactDetails } from 'src/app/providers/policy';
@@ -24,7 +24,8 @@ export class ContactsPage {
     private dbapi : DbapiService,
     private toastController: ToastController,
     private platform : Platform,
-    private call : CallNumber
+    private call : CallNumber,
+    private loader: LoadingController
 
     ) { }
 
@@ -32,6 +33,7 @@ export class ContactsPage {
   rhContacts : ContactDetails[]
   RRP_ID : number
   isInWeb : boolean
+  loading : boolean = false
 
   checkPlatform(){
     if(this.platform.is("desktop") || this.platform.is("mobileweb")){
@@ -41,14 +43,35 @@ export class ContactsPage {
     }
   }
 
-  deleteContact(a:number){
-    this.storage.get("RRP_ID").then((id)=>{
-      this.dbapi.deleteContact_cid(a , id).subscribe((details : ContactDetails[])=>{
-        this.rhContacts = details
-        this.presentToast("A contact has been successfully deleted.")
-        console.log(details)
-      })
+  async deleteContact(a:number){
+    const loader = await this.loader.create({
+      spinner: "lines",
+      message: "Deleting Contact",
+      mode: "ios"
     })
+    try{
+      await loader.present()
+
+      const RRP_ID = await this.storage.get("RRP_ID")
+
+      const details : ContactDetails[] = await new Promise(
+        (resolve, reject) => {
+          this.dbapi.deleteContact_cid(a , RRP_ID).subscribe((details : ContactDetails[])=>{
+            console.log("dedleted")
+            resolve(details)
+          })
+        }
+      )
+
+      this.rhContacts = details
+      this.presentToast("A contact has been successfully deleted.")
+      await loader.dismiss()
+    } 
+    catch(error) {
+    
+      await loader.dismiss()
+    }
+    
   }
 
   async presentToast(a : string) {
@@ -56,7 +79,8 @@ export class ContactsPage {
       message: a,
       duration: 2000
     });
-    toast.present();
+    
+    await toast.present();
   }
 
   async edit(a:number) {
@@ -108,26 +132,30 @@ export class ContactsPage {
   
   }
 
+  async ionViewDidEnter(){
+    try {
+      this.loading = true
+      this.checkPlatform()
+      const User_ID = await this.storage.get("User_ID")
 
-  ionViewDidEnter(){
-    this.checkPlatform()
-    this.storage.get("User_ID").then((val)=>{
-      this.storage.get("User_Type").then((val1)=>{
-        this.storage.get("RRP_ID").then((id)=>{
-          if(val != null && val1 == "property owner" && id != null){
-            this.RRP_ID = id
-            this.getContacts()
-          }else{
-            this.router.navigate(['/blank'])
-          }
-        })
-      })
-    })
+      const User_Type = await this.storage.get("User_Type")
 
+      const RRP_ID  = await this.storage.get("RRP_ID")
+      
+      if(User_ID != null && User_Type == "property owner" && RRP_ID != null){
+        this.RRP_ID = RRP_ID
+        this.getContacts()
+      }else{
+        this.router.navigate(['/blank'])
+      }
 
+      const RRP_Name = await this.storage.get("RRP_Name")
+      this.BH_Name = RRP_Name
 
-    this.storage.get("RRP_Name").then((val)=>{
-      this.BH_Name = val
-    })
+      this.loading = false
+    } catch (error) {
+      this.loading = false
+    }
+    
   }
 }

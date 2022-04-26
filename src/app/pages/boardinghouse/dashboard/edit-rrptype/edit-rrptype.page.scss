@@ -1,0 +1,112 @@
+.wrapper {
+    max-width: 1200px;
+    margin: 0em auto;
+}
+
+.formAddType, .conFaqs{
+    // max-width: 700px;
+    margin: 0em auto 1em auto;
+}
+
+.conFaqs{
+    border-radius: calc(.25rem - 1px);
+    background-color: var(--ion-color-primary);
+    margin: 3em auto;
+    width: 90%;
+
+    // border: 1px solid var(--ion-color-primary-shade);
+    h6{
+        padding: 1em;
+        color: white;
+        margin: 0em;
+    }
+}
+
+.formAddType{
+    border-radius: calc(.25rem - 1px);
+    margin-top: 1em;
+    background-color: white;
+    padding: 2em 1em;
+    h5{
+        margin: 0px;
+        color: var(--ion-color-primary);
+    }
+    .btnNext{
+        width: max-content;
+        display: block;
+        margin: 1em 0em 0em auto;
+    }
+    .btnAddFee{
+        width: max-content;
+        margin: 1em 0em 0em auto;
+    }
+    .conFees{
+        margin: 1em 0em;
+    }
+    .conTotRent{
+        // box-shadow: 0px 0px 10px  rgb(215, 215, 215);
+        // -webkit-box-shadow: 0px 0px 182px -24px rgba(158,158,158,1);
+        // -moz-box-shadow: 0px 0px 182px -24px rgba(158,158,158,1);
+        padding: 1em;
+        background-color: white;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-radius: .3em;
+        border: 1px solid rgb(211, 211, 211);
+        div{
+            h4{
+                font-weight: 600;
+            }
+        }
+        div.conPrice{
+            width: max-content;
+            justify-self: end;
+            color: var(--ion-color-medium);
+            .price{
+                text-align: right;
+                font-weight: bold;
+                font-size: large;
+            }
+            .priceLabel{
+                font-size: small;
+            }
+        }
+    }
+    .buttons{
+        margin: 2em 0em;
+        height: 1px;
+        .btnBack, .btnNext{
+            width: max-content;
+            display: initial;
+            margin: initial;
+        }
+        .btnBack{
+            float: left;
+        }
+        .btnNext{
+            float: right;
+        }
+    }
+}
+.reviewItemTitle, .rentBreakdownTitle{
+    font-weight: bold;
+}
+
+
+@media only screen and (min-width: 800px) {
+    .formAddType{
+        width: 95%;
+        // margin: em 0em;
+    }
+    .conFaqs{
+        margin-top: 1em;
+        p, button{
+            font-size: small;
+        }
+    }
+    .wrapper{
+        grid-template-columns: 70% 30%;
+        display: grid;
+        align-items: flex-start;
+    }
+}

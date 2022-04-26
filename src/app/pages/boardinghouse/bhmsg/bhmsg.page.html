@@ -1,7 +1,7 @@
 <ion-header  >
-  <ion-toolbar>
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
-      <ion-icon slot="start" name="arrow-back"></ion-icon>
+  <ion-toolbar color="secondary">
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
+      <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
     <ion-searchbar
     (ionChange)="search()"
@@ -13,7 +13,7 @@
     [(ngModel)]="searchInput"
     ></ion-searchbar>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="primary" (click)="presentPopover($event)"  color="light">
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>

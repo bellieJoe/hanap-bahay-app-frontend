@@ -1,19 +1,19 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md" color="secondary">
     <ion-button slot="end" (click)="showAddTenant()" class="add_tenant">
       <ion-icon slot="start" name="person-add"></ion-icon>
       Add Tenant
     </ion-button>
-    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='none' slot="start">
-      <ion-icon slot="start" name="arrow-back"></ion-icon>
+    <ion-button [routerLink]="['/subscription']" routerLinkActive="router-link-active" fill='clear' slot="start" color="light">
+      <i class="fa-solid fa-door-open lg-text"></i>
     </ion-button>
     <ion-buttons slot="end" >
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="md">
-      <ion-label position='stacked' color="primary" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="BH_Name" mode="md">{{BH_Name}}</ion-label>
       <ion-input disabled>Tenants</ion-input>
     </ion-item>
   </ion-toolbar>
@@ -32,7 +32,8 @@
         </ion-avatar>
         <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
         <div>
-          <ion-label class="ion-text-wrap name">{{i.Firstname | titlecase}} {{(i.Middlename | titlecase) | slice:0:1}}. {{i.Lastname | titlecase}}</ion-label>
+          <ion-label class="ion-text-wrap name" *ngIf="i.Firstname && i.Lastname">{{i.Firstname | titlecase}} {{(i.Middlename | titlecase) | slice:0:1}}. {{i.Lastname | titlecase}}</ion-label>
+          <ion-label class="ion-text-wrap name">{{i.Email}}</ion-label>
           <ion-label class="ion-text-wrap since">Tenant since {{i.Date_Added | date : "longDate"}}</ion-label>
         </div>
         <ion-icon slot="end" name="chevron-back"></ion-icon>
@@ -42,7 +43,7 @@
           <ion-icon slot="top" name = "trash"></ion-icon>
           Remove
         </ion-item-option>
-        <ion-item-option color="primary"  color="tertiary" (click)="message(i.User_ID)">
+        <ion-item-option color="primary"  color="tertiary" (click)="message(i.User_ID)" *ngIf="i.isUser">
           <ion-icon slot="top" name = "chatbox-ellipses"></ion-icon>
           Message
         </ion-item-option>

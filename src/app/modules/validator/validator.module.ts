@@ -19,6 +19,10 @@ export class ValidatorModule  {
     private dbapi: DbapiService,
   ){
   }
+
+  presence: any = {
+    allowEmpty: false
+  }
   initCustomvalidators() {
     validate.validators.isUserUsernameDistinct = (value) => {
       return new validate.Promise((resolve, reject)=> {
@@ -87,6 +91,7 @@ export class ValidatorModule  {
       }
     },
     Contact_Number : {
+      presence: true,
       numericality : {
         onlyInteger : true
       },
@@ -178,10 +183,41 @@ export class ValidatorModule  {
       inclusion: {
         within: [ "tenant", "property owner" ]
       }
+    },
+    // rental house consraints
+    RRP_Name: {
+      presence: { allowEmpty: false, message: '^Name is required' },
+      length: { maximum : 50, message: '^Name should be less than 50 characters' }
+    },
+    RRP_Address: {
+      presence : { allowEmpty: false, message: '^Address is required'},
+      length: { maximum: 100, message: '^Max length should be 100 characters' }
+    },
+    FeeName: {
+      presence: { allowEmpty: false },
+      length: { maximum: 20 }
+    },
+    FeeAmount: {
+      presence: { allowEmpty: false },
+      numericality: { greaterThan : 0 }
+    },
+    RRP_Type: {
+      presence: { allowEmpty: false },
+    },
+    Basic_Rent: {
+      presence: { allowEmpty: false },
+    },
+    Capacity: {
+      presence: { allowEmpty: false },
+    },
+    Payment_Day: {
+      presence: { allowEmpty: false },
     }
+
+
   }
 
-  async validateOnly(data, cons){
+  async validateOnly(data: Object, cons: string[]){
     this.initCustomvalidators()
    
     try {

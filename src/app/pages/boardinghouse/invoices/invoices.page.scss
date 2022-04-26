@@ -1,0 +1,32 @@
+.header2{
+    background-color: white;
+    ion-item{
+        margin: auto;
+        max-width: fit-content;
+        ion-button{
+            margin-left:  1em;
+        }
+    }
+}
+
+ion-content {
+    .invoice-empty{
+        color: var(--ion-color-medium);
+        h5{
+            text-align: center;
+            margin-top: 1em;
+        }
+    }
+    .invoice-list{
+        max-width: 700px;
+        margin: 0em auto;
+        ion-item{
+            .invoice-status{
+                text-align: center;
+            }
+            .invoice-date{
+                color: var(--ion-color-medium);
+            }
+        }
+    }
+}

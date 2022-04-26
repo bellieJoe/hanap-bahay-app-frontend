@@ -1,16 +1,16 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md" color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="ios">
-      <ion-label position='stacked' color="primary" class="name-label">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" color="secondary">
+      <ion-label position='stacked' color="light" class="name-label">{{BH_Name}}</ion-label>
       <ion-input disabled>Co-Tenants</ion-input>
     </ion-item>
   </ion-toolbar>
@@ -18,7 +18,7 @@
 
 
 <ion-content>
-
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
   <div class="wrapper">
     <ion-item button = "true"    detail = 'false' *ngFor="let i of members" (click)="viewProf(i.User_ID)">
       <ion-avatar slot="start" *ngIf="i.image_src">
@@ -26,7 +26,7 @@
       </ion-avatar>
       <ion-icon slot="start" name="person" *ngIf="!i.image_src"></ion-icon>
       <div>
-        <ion-label color="primary">{{i.name}} {{i.User_ID == User_ID ? '(You)' : ''}}</ion-label>
+        <ion-label color="primary"><span *ngIf="i.name">{{i.name}}</span><span *ngIf="!i.name">{{ i.Email }}</span> {{i.User_ID == User_ID ? '(You)' : ''}}</ion-label>
         <ion-label class="date-added">Joined on {{i.Date_Added | date:"longDate"}}</ion-label>
       </div>
     </ion-item>

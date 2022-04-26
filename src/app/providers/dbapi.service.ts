@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 //import { UserInfo } from 'os';
 import { observable, Observable } from 'rxjs';
 import { AnnouncementDetails, ChecklistDetails, ComplaintsDetails, ContactDetails, ConversationDetails, CreateUserPolicy,GetTenantList,image,ImageProps,Messages,NotificationDetails,PaymentDetails,RatingsDetails,RentalHouseDetails,ReservationDetails,ReservationUpdates,SearchTenantList,SubscriptionData,UserDetails,UserProfile,UserUniqueInputs } from  '../providers/policy';
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { on } from 'process';
 
 @Injectable({
@@ -19,6 +19,12 @@ export class DbapiService  {
  // Development servers
   // SERVER = 'http://localhost/hanap-bahay-app-dbapi'
   // SERVER_NAME = `${this.SERVER}/php_scripts`
+
+  MYSQL = {
+    host: "localhost",
+    user: "root",
+    password: ""
+  }
 
   // new laravel server
   SERVER = "https://hanapbahay.online"
@@ -60,8 +66,8 @@ export class DbapiService  {
           {withCredentials:true}
         )
         .then(()=>observer.next())
-        .catch(err=>{
-          console.log(err)
+        .catch((err: AxiosError)=>{
+          console.log(err.response)
           observer.error(err)
         })
       })
@@ -111,7 +117,7 @@ export class DbapiService  {
       this.authSanctum()
       .subscribe(()=>{
         axios.get(
-          `${this.SERVER_NAME}/users/${username}`,
+          `${this.SERVER_NAME}/users/get-user-by-username/${username}`,
           this.axiosConfig
         )
         .then((res)=>{
@@ -143,23 +149,44 @@ export class DbapiService  {
     return this.httpClient.get<CreateUserPolicy[]>(`${this.SERVER_NAME}/searchUser_username.php/?username=${username}` )
   }
 
-  // preceded
   checkUsername(username:string):Observable<any>{
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/users/username/check-username/${username}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch(err => {
+        alert(err.message)
+      })
+    })
     return this.httpClient.post<any>(`${this.SERVER_NAME}/checkUsername.php`, {Username : username})
   }
 
   // done laravel
-  updateUserDetails_walkin(email:string, username:string, password:string,contact_number:string, birthdate:string, address:string):Observable<any>{
+  updateUserDetails_walkin(email:string, username:string, password:string,contact_number:string, birthdate:string, address:string, firstname:string, middlename:string, lastname:string):Observable<any>{
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
         axios.post(
           `${this.SERVER_NAME}/users/update-user-details-walkin`,
-          {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address},
+          {
+            Email: email,
+            Username: username,
+            Password: password,
+            Contact_Number: contact_number,
+            Birthdate: birthdate,
+            Address: address,
+            Firstname: firstname,
+            Middlename: middlename,
+            Lastname: lastname
+          },
           this.axiosConfig
         )
         .then((res)=>observer.next(res))
-        .catch(err=>console.log(err))
+        .catch((err:AxiosError)=>{
+          console.log(err.response)
+        })
       })
     })
     let params = {Email:email,Username:username,Password:password,Contact_Number:contact_number,Birthdate:birthdate,Address:address}
@@ -195,15 +222,19 @@ export class DbapiService  {
   }
   
   /* return null : done laravel */
-  addNewRH(RH_Details : RentalHouseDetails):Observable<any>{
+  addNewRH(RH_Details : any):Observable<any>{
     return new Observable(observer=>{
-      axios.post(
-        `${this.SERVER_NAME}/rrps/${RH_Details.Owner_ID}/`,
-        {},
-        this.axiosConfig
-      )
-      .then(res=>observer.next())
-      .catch(res=>console.log(res))
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrps/${RH_Details.Owner_ID}/`,
+          RH_Details,
+          this.axiosConfig
+        )
+        .then(res=>{
+          observer.next()
+        })
+        .catch(err=>console.log(err))
+      })
     })
     return this.httpClient.post<RentalHouseDetails>(`${this.SERVER_NAME}/addNewRH.php`, RH_Details );
   }
@@ -407,7 +438,6 @@ export class DbapiService  {
       .then(res=>observer.next(res.data))
       .catch(err=>console.log(err))
     })
-    return this.httpClient.get<GetTenantList[]>(`${this.SERVER_NAME}/RH_Management/getTenantList_rrpid.php/?id=${id}` )
   }
 
   /* return tenant list : done laravel */
@@ -424,20 +454,23 @@ export class DbapiService  {
   }
 
   /* return null : done laravel */
-  addTenant_rrpid(id:number, rrpid:number, date:string, time: string):Observable<any>{
+  addTenant_rrpid(Email: string, rrpid:number, date:string, time: string, RRP_Type_ID: number, Payment_Day: number):Observable<any>{
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
         axios.post(
           `${this.SERVER_NAME}/tenants/add-tenant`,
-          {id, rrpid, date, time},
+          {Email, rrpid, date, time, RRP_Type_ID, Payment_Day},
           this.axiosConfig
         )
         .then(res=>observer.next())
-        .catch(err=>console.log(err))
+        .catch((err: AxiosError)=>{
+          alert(err.message)
+          console.log(err.response)
+        })
       })
     })
-    return this.httpClient.get<Date>(`${this.SERVER_NAME}/RH_Management/addTenant_rrpid.php/?rrpid=${rrpid}&id=${id}&date=${date}&time=${time}` )
+
   }
 
   /* return number : done laravel */
@@ -476,7 +509,7 @@ export class DbapiService  {
         `${this.SERVER_NAME}/users/email/check-registered-email?Email=${email}`,
         this.axiosConfig
       )
-      .then(res=>observer.next(res.data))
+      .then(res => observer.next(res.data))
       .catch(err=>console.log(err))
     })
     // return this.httpClient.post<any>(`${this.SERVER_NAME}/RH_Management/checkIfRegistered_email.php`, params )
@@ -580,7 +613,10 @@ export class DbapiService  {
           this.axiosConfig
         )
         .then(res=>observer.next())
-        .catch(err=>console.log(err))
+        .catch((err : AxiosError )=>{
+          alert(err.message)
+          console.log(err.response)
+        })
       })
     })
     return this.httpClient.post<ContactDetails>(`${this.SERVER_NAME}/RH_Management/Contacts/addContact.php`, detail )
@@ -638,6 +674,13 @@ export class DbapiService  {
           `${this.SERVER_NAME}/contacts/delete/${cid}/${rrpid}`,
           {},
           this.axiosConfig
+        )
+        .then(res => observer.next(res.data))
+        .catch(
+          (err: AxiosError) => {
+            alert(err.message)
+            console.log(err.response)
+          }
         )
       })
     })
@@ -846,7 +889,7 @@ export class DbapiService  {
           {rrpid},
           this.axiosConfig
         )
-        .then(res=>observer.next)
+        .then(res=>observer.next())
         .catch(err=>console.log(err))
       })
     })
@@ -1640,6 +1683,163 @@ export class DbapiService  {
 
   }
 
+  /* this is the newly added api functions  */
+  countRentalTypes(rrpid:number): Observable<number> {
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/count-rrp-types/${rrpid}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>console.log(err))
+    })
+  }
+
+  addRRPType(RRPType : any) : Observable<any> {
+    return new Observable((observer) =>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrp-types/create`,
+          RRPType,
+          this.axiosConfig
+        )
+        .then(res => observer.next())
+        .catch(err => {
+          console.log(err)
+          observer.next()
+          alert(err.message)
+        })
+      })
+    })
+  }
+
+  updateRRP_Type(RRPType : any) : Observable<any> {
+    return new Observable((observer) =>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/rrp-types/update`,
+          RRPType,
+          this.axiosConfig
+        )
+        .then(res => observer.next())
+        .catch(err => {
+          console.log(err)
+          observer.next()
+          alert(err.message)
+        })
+      })
+    })
+  }
+
+  getRRPTypesByRRP_ID(rrpId : number): Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/get-by-rrpId/${rrpId}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>{
+        console.log(err)
+        observer.next()
+        alert(err.message)
+      })
+    })
+  }
+
+  getRRPTypeById(id : number): Observable<any>{
+    return new Observable(observer=>{
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/get-by-id/${id}`,
+        this.axiosConfig
+      )
+      .then(res=>observer.next(res.data))
+      .catch(err=>{
+        alert(err.message)
+        observer.next()
+        console.log(err)
+      })
+    })
+  }
+
+  getRRPTypeAvailability($RRP_Type_ID:number): Observable<string> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/rrp-types/get-availability/${$RRP_Type_ID}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err: AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  getInvoicesByRRP_ID(RRP_ID : number, Month : number, Year : number ) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-rrpid/${RRP_ID}?Month=${Month}&Year=${Year}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  getInvoicesByUser_ID(User_ID : number, Month : number, Year : number ) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-user_id/${User_ID}?Month=${Month}&Year=${Year}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  getInvoiceByID(Invoice_ID : string) : Observable<any> {
+    return new Observable(observer => {
+      axios.get(
+        `${this.SERVER_NAME}/invoices/get-by-id/${Invoice_ID}`,
+        this.axiosConfig
+      )
+      .then(res => observer.next(res.data))
+      .catch((err : AxiosError) => {
+        console.log(err.response)
+        alert(err.message)
+      })
+    })
+  }
+
+  updateInvoicePayment(Bill_ID:number, Amount_Paid:number, Status:string) : Observable<any>{
+    return new Observable(observer=>{
+      this.authSanctum().subscribe(()=>{
+        axios.post(
+          `${this.SERVER_NAME}/invoices/update-payment`,
+          {Bill_ID, Amount_Paid, Status},
+          this.axiosConfig
+        )
+        .then(res=>observer.next())
+        .catch(
+          (err:AxiosError) => {
+            console.log(err.response)
+            alert(err.message)
+          }
+        )
+      })
+    })
+  }
+
+
 }
+
+
+
 
 

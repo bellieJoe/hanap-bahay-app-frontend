@@ -1,15 +1,15 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="md" color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button color="primary" (click)="presentPopover($event)" >
+      <ion-button color="light" (click)="presentPopover($event)" >
         <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-item lines='none' mode="ios" class="name-item">
-      <ion-label position='stacked' class="name-label" color="primary">{{BH_Name}}</ion-label>
+    <ion-item lines='none' mode="md" class="name-item" color="secondary">
+      <ion-label position='stacked' class="name-label" color="light">{{BH_Name}}</ion-label>
       <ion-input disabled>Complaints</ion-input>
     </ion-item>
   </ion-toolbar>

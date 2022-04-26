@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar mode="md" color="secondary">
+    <ion-button  expand="block" fill="clear" slot="start" color="light" [routerLink]="['/boardinghouse/dashboard']">
+      <ion-icon slot="icon-only" name="arrow-back" ></ion-icon>
+    </ion-button>
+    <ion-title>RRP Type Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  <div class="wrapper" *ngIf="loading == false">
+    <ion-item class="RRPDetailItem">
+      <ion-label>
+        <h2>RRP Type</h2>
+        <p>{{ RRP_Type.data.RRP_Type }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem">
+      <ion-label>
+        <h2>Desciption</h2>
+        <p>{{ RRP_Type.data.Description ? RRP_Type.data.Description : 'No Description' }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem">
+      <ion-label>
+        <h2>Capacity</h2>
+        <p>{{ RRP_Type.data.Capacity }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem" lines="none">
+      <ion-label><h2>Rent Breakdown</h2></ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem">
+      <ion-label>
+        <h2>Basic Monthly Rent</h2>
+        <p>Php {{ RRP_Type.data.Basic_Rent }}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem" *ngFor="let misc of RRP_Type.data.Miscellaneous">
+      <ion-label>
+        <h2>{{ misc.FeeName }}</h2>
+        <p>Php {{ misc.FeeAmount}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item class="RRPDetailItem" >
+      <ion-label>
+        <h2>Total Rent</h2>
+        <p>Php {{ RRP_Type.totalRent }}</p>
+      </ion-label>
+    </ion-item>
+  </div>
+</ion-content>

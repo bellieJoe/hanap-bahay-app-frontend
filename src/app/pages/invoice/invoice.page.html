@@ -1,0 +1,68 @@
+<ion-header mode="md" shadow="none">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Invoice</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" mode="md">
+  <ion-progress-bar type="indeterminate" *ngIf="loading"></ion-progress-bar>
+  <div class="invoice" *ngIf="!loading">
+    <ion-item lines="none" color="primary">
+      <h4 *ngIf="RRP.RRP_Name" class="invoice-header">{{ Invoice.RRP_Name }} Invoice</h4>
+    </ion-item>
+    <ion-item lines="none" color="primary">
+      <!-- <ion-label>In:</ion-label> -->
+      <ion-label>{{ Invoice.ID }}</ion-label>
+    </ion-item>
+    <ion-item lines="none" color="primary">
+      <ion-label>Name:</ion-label>
+      <ion-label>{{ Invoice.Fullname ? Invoice.Fullname : 'N/A' }}</ion-label>
+    </ion-item>
+    <ion-item lines="none" color="primary">
+      <ion-label>Email:</ion-label>
+      <ion-label>{{ Invoice.Email }}</ion-label>
+    </ion-item>
+    <ion-item lines="none" color="primary">
+      <ion-label>Issued On:</ion-label>
+      <ion-label>{{ Invoice.created_at | date: "mediumDate" }}</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        <h6>Total</h6>
+        <h3 class="invoice-total">{{ Invoice.Total | currency:'Php ' }}</h3>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" class="item-header">
+      <ion-label>Label</ion-label>
+      <ion-label>Amount</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Basic Rent</ion-label>
+      <ion-label class="amount">{{ Invoice.Basic_Rent | currency:'Php ' }}</ion-label>
+    </ion-item>
+    <ion-item lines="none" *ngFor="let i of Invoice.Miscellaneous">
+      <ion-label>{{ i.FeeName }}</ion-label>
+      <ion-label class="amount">{{ i.FeeAmount | currency:'Php ' }}</ion-label>
+    </ion-item>
+    <br><br>
+    <ion-item lines="none" class="item-payment">
+      <ion-label>Amount Paid</ion-label>
+      <ion-label class="amount-paid amount">{{ Invoice.Amount_Paid | currency:'Php ' }}</ion-label>
+    </ion-item>
+
+    <ion-button expand="block" *ngIf="Invoice.canUpdate" (click)="updatePayment()">
+      <ion-icon slot="start" name="card"></ion-icon>
+      Update Payment
+    </ion-button>
+  </div>
+  
+</ion-content>
+
+<ion-footer  *ngIf="!loading">
+  <ion-toolbar mode="ios" color="{{ Invoice.Status == 'Unpaid' ? 'danger' : (Invoice.Status == 'Incomplete' ? 'medium' : 'success') }}">
+    <ion-title>{{ Invoice.Status }}</ion-title>
+  </ion-toolbar>
+</ion-footer>

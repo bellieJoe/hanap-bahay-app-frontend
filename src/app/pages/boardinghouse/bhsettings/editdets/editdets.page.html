@@ -1,8 +1,10 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end">
-      close
-    </ion-button>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" expand="block" fill="clear" shape="round" slot="end" color="light">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Edit Details</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -18,7 +20,7 @@
       <ion-label  position="stacked">Address</ion-label>
       <ion-input type="text" [(ngModel)]="RH_Details.RRP_Address"  [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-    <ion-item >
+    <!-- <ion-item >
       <ion-label position="stacked">Capacity</ion-label>
       <ion-input type="number"  [(ngModel)]="RH_Details.RRP_Capacity"  [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
@@ -31,14 +33,14 @@
         <ion-select-option value="male bed space">Male Bed Space</ion-select-option>
         <ion-select-option value="room for rent">Room for Rent</ion-select-option>
       </ion-select>
-    </ion-item>
+    </ion-item> -->
     <ion-item >
       <ion-label position="stacked">Rent Rate</ion-label>
       <ion-input type="number"  [(ngModel)]="RH_Details.RRP_Rent_Rate"  [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="stacked">Contact Number</ion-label>
-      <ion-input type="number"  [(ngModel)]="RH_Details.Contact_Number"  [ngModelOptions]="{standalone: true}"></ion-input>
+      <ion-input type="number"  [(ngModel)]="RH_Details.Contact_Number"  [ngModelOptions]="{standalone: true}">+63</ion-input>
     </ion-item>
     <ion-item >
       <ion-label position="stacked">Description</ion-label>         

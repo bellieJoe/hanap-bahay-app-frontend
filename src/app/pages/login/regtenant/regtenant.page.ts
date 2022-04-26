@@ -22,6 +22,7 @@ export class RegtenantPage implements OnInit {
 
   ) { }
 
+  loading : boolean = false
   Email : string
   phase : number = 1
   Verification_Code : string 
@@ -31,6 +32,9 @@ export class RegtenantPage implements OnInit {
   RePassword :string
   Birthdate : string
   Contact_Number : string
+  Firstname: string
+  Middlename: string
+  Lastname: string
   Address : string
   profile : UserProfile = {
     User_ID : null,
@@ -64,55 +68,79 @@ export class RegtenantPage implements OnInit {
     this.phase--
   }
 
-  checkLoginInfo(){
+  async checkLoginInfo(){
+    this.loading = true
     this.Username = this.Username.trim()
     if(this.Username && this.Username.trim() != "" && this.Password && this.RePassword){
       this.dbapi.checkUsername(this.Username).subscribe(stat=>{
         console.log(stat)
         if(stat == "TAKEN"){
           this.presentAlert("The Username you entered is already taken", "Invalid Username")
+          this.loading = false
         }else if(stat == "NOT TAKEN"){
           if(this.Password == this.RePassword){
             this.phase = 4
+            this.loading = false
           }else{
             this.presentAlert("The passwords you entered do not match.", "Unmatched Password")
+            this.loading = false
           }
         }
       })
     }else{
       this.presentAlert("Please complete the form before proceeding", "Incomplete form")
+      this.loading = false
     }
   }
 
-  finish(){
+  async finish(){
+    this.loading = true
     if(this.Address){
       this.Address = this.Address.trim()
     }
     if(this.Contact_Number  && this.Birthdate && this.Address){
       if(this.Contact_Number.length == 10){
-        this.dbapi.updateUserDetails_walkin(this.Email,this.Username,this.Password,this.Contact_Number,this.Birthdate,this.Address).subscribe(()=>{
-          // console.log(how)
-          this.presentToast("Registration Finish")
-          this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
-            this.storage.set("User_ID", dets.User_List_ID).then(()=>{
-              this.storage.set("User_Type", "tenant").then(()=>{
-                this.profile.User_ID = dets.User_List_ID
-                this.dbapi.creteUserProfile_id(this.profile).subscribe(()=>{
-                  // console.log("Profile Successfully Created")
-                  location.href = "/profile"
-
-                })
-              })
+        try {
+          await new Promise((resolve, reject) => {
+            this.dbapi.updateUserDetails_walkin(this.Email,this.Username,this.Password,this.Contact_Number,this.Birthdate,this.Address, this.Firstname, this.Middlename, this.Lastname).subscribe(() => {
+              resolve(null)
             })
           })
-        })
+          
+          await this.presentToast("Registration Finish")
+
+          const dets : any = await new Promise((resolve, reject) => {
+            this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets => {
+              resolve(dets)
+            })
+          })
+
+          await this.storage.set("User_ID", dets.User_List_ID)
+
+          await this.storage.set("User_Type", "tenant")
+
+          this.profile.User_ID = dets.User_List_ID
+
+          await new Promise((resolve, reject) => {
+            this.dbapi.creteUserProfile_id(this.profile).subscribe(() => {
+              location.href = "/profile"
+              resolve(null)
+            })
+          })
+
+          this.loading = false
+          
+        } catch (error) {
+          this.loading = false
+        }
       }else{
         this.presentAlert("The Contact Number must ne 10 digits", "Contact Number")
+        this.loading = false
       }
     }else{
       this.presentAlert("Please complete thte form before clicking Finsh Button", "Incomplete Form")
+      this.loading = false
     }
-      
   }
 
   pass1 : string = "password"
@@ -167,13 +195,15 @@ export class RegtenantPage implements OnInit {
     await alert.present();
   }
 
-  verify(){
+  async verify(){
+    this.loading = true
     if(this.Verification_Code == this.codeInput){
-      this.presentToast("Your Account is verified")
+      await this.presentToast("Your Account is verified")
       this.phase = 3
     }else{
-      this.presentAlert("The Verification code you entered is incorrect", "Incorrect code")
+      await this.presentAlert("The Verification code you entered is incorrect", "Incorrect code")
     }
+    this.loading = false
   }
 
   generateCode(){
@@ -185,18 +215,29 @@ export class RegtenantPage implements OnInit {
     return a
   }
 
-  sendCode(){
-    this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
-      this.Verification_Code = this.generateCode()
-      this.dbapi.sendCode(this.Email, this.Verification_Code, `${dets.Firstname} ${dets.Lastname}`).subscribe()
+  async sendCode(){
+    await new Promise((resolve, reject) => {
+      this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
+        this.Verification_Code = this.generateCode()
+        this.dbapi.sendCode(this.Email, this.Verification_Code, `${dets.Firstname} ${dets.Lastname}`).subscribe(()=>{
+          resolve(null)
+        })
+      })
     })
   }
 
-  checkEmail(){
-    this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
+  async checkEmail(){
+    try {
+      this.loading = true
+      const dets : any = await new Promise((resolve, reject) => {
+        this.dbapi.checkIfRegistered_email(this.Email).subscribe(dets=>{
+          resolve(dets)
+        })
+      })
+
       if(dets){
         if(dets.Registered_By == "property owner"){
-          this.sendCode()
+          await this.sendCode()
           this.phase = 2
         }else{
           this.presentAlert("This Email is already registered." ,"Alert")
@@ -204,7 +245,13 @@ export class RegtenantPage implements OnInit {
       }else{
         this.alertNoEmail()
       }
-    })
+
+      this.loading = false
+      
+    } catch (error) {
+      this.loading = false
+    }
+    
   }
 
   ionViewDidEnter(){

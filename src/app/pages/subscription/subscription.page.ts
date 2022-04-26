@@ -13,7 +13,7 @@ import { SubscribePage } from './subscribe/subscribe.page';
   templateUrl: './subscription.page.html',
   styleUrls: ['./subscription.page.scss'],
 })
-export class SubscriptionPage{
+export class SubscriptionPage {
 
   id : string
   name : string
@@ -30,6 +30,8 @@ export class SubscriptionPage{
     private router : Router,
     private toastController : ToastController
     ) { }
+
+    loading: boolean = true
 
     showRegisterForm(){
       this.router.navigate(['subscription/subscribe'])
@@ -48,6 +50,7 @@ export class SubscriptionPage{
     manageRH(id : number, name : string){
       this.storage.set("RRP_ID", id).then((val)=>{
         this.storage.set("RRP_Name", name).then((val2)=>{
+          location.href = "/boardinghouse/dashboard"
         })
       })
       
@@ -96,7 +99,9 @@ export class SubscriptionPage{
     await alert.onDidDismiss();
     if(choice === "okay"){
       this.dbapi.unboardTenants_rrpid(rrpid).subscribe(()=>{
+        console.log("tenants undoarded");
         this.dbapi.deleteRHData_rrpid(rrpid).subscribe(()=>{
+          console.log("RRP deleted")
           this.presentToast("Rental house successfully deleted")
           this.ionViewDidEnter()
         })
@@ -135,11 +140,13 @@ export class SubscriptionPage{
 
 
   ionViewDidEnter(){
+    this.loading = true
     this.userservice.getUserInfo("User_Type").then((val)=>{
       if(val === "property owner"){
         this.userservice.getUserInfo("User_ID").then((val)=>{
           this.dbapi.getOwnersRH_id(parseInt(val)).subscribe((policy : RentalHouseDetails[])=>{
             this.yourHouses = policy
+            this.loading = false
             this.yourHouses.map((val,i)=>{
               this.yourHouses[i].RRP_Settings= JSON.parse(val.RRP_Settings)
               this.dbapi.countTenant_rrpid(val.RRP_ID).subscribe((count)=>{
@@ -150,6 +157,7 @@ export class SubscriptionPage{
 
                   }
                 }
+                
               })
             })
             

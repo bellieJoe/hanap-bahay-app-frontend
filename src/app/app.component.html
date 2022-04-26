@@ -63,6 +63,10 @@
                 <ion-icon name="home-sharp" slot="start"></ion-icon>
                 <ion-label>Tenant Portal</ion-label>
               </ion-item>
+              <ion-item button [routerLink]="['/invoices']"  mode="md" *ngIf="RRP_Name">
+                <ion-icon name="receipt" slot="start"></ion-icon>
+                <ion-label>Invoices</ion-label>
+              </ion-item>
               <ion-item button [routerLink]="['/reservation']"  mode="md">
                 <ion-icon name="book-sharp" slot="start"></ion-icon>
                 <ion-label>Your Inquiries</ion-label>
