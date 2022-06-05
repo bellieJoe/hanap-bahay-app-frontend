@@ -10,9 +10,6 @@ import { BhreservePage } from './bhreserve/bhreserve.page';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 
-
-
-
 @Component({
   selector: 'app-bhprofileview',
   templateUrl: './bhprofileview.page.html',
@@ -409,7 +406,7 @@ export class BhprofileviewPage {
         this.storage.get("r_to_vst").then((val1)=>{
           this.RH_Details.RRP_ID = val1
           this.dbapi.isListed(val,val1).subscribe((isTrue)=>{
-            if(isTrue){
+            if(isTrue.length > 0){
               this.isListed = true
             }else[
               this.isListed = false
@@ -418,7 +415,7 @@ export class BhprofileviewPage {
           if(val1 != null){//ckeck if basta 
             this.loadRHDets()
             this.dbapi.isBoarded(val,val1).subscribe((res)=>{
-              if(res === null){
+              if(res.length === 0){
                 this.isBeenBoarded  = false
               }else{
                 this.isBeenBoarded = true

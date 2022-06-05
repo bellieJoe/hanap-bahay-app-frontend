@@ -344,7 +344,9 @@ export class MapPage implements OnInit{
            else if(val.RRP_Type === "male bed space" && diff > 0){
              Icon = "male_bed_space.svg"
            }
-           else{}
+           else{
+            Icon = "house_for_rent.svg"
+           }
            this.RH_Details.push({
              icon : Icon,
              RRP_Name : val.RRP_Name,
@@ -399,7 +401,12 @@ export class MapPage implements OnInit{
             con.addListener("click", ()=>{
                   let link = "'/bhprofileview'"
                     let content = 
-                  `<strong><label>${con.title},</label></strong><br><label>${this.RH_Details[i].RRP_Type},</label><br><label>Available: ${this.RH_Details[i].RRP_Capacity - this.RH_Details[i].Tenant_Count} </label><br><button  expand='block'  shape='round' id='viewDets'">View Details</button>`+
+                  `<strong><label>${con.title},</label></strong><br>
+                  <!--
+                  <label>${this.RH_Details[i].RRP_Type},</label><br>
+                  <label>Available: ${this.RH_Details[i].RRP_Capacity - this.RH_Details[i].Tenant_Count} </label><br>
+                  -->
+                  <button  expand='block'  shape='round' id='viewDets'">View Details</button>`+
                   `<br><button id='getDir'>Get Directions</button>`
 
                   let coords = {lat: parseFloat(this.RH_Details[i].RRP_X_Coordinates.toString()), lng: parseFloat(this.RH_Details[i].RRP_Y_Coordinates.toString())}

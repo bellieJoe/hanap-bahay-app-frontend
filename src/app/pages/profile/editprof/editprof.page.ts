@@ -211,7 +211,7 @@ export class EditprofPage {
           Work_Address: this.user_profile_inputs.Work_Address,
           Highest_Education: this.user_profile_inputs.Highest_Education,
           School_Name: this.user_profile_inputs.School_Name,
-          School_address: this.user_profile_inputs.School_Address
+          School_Address: this.user_profile_inputs.School_Address
         }, _.pick(this.constraints, [ 'Occupation', 'Work_Address', 'Highest_Education', 'School_Name', "School_Address" ]))
 
         let user = await this.userservice.getUserInfo("User_ID")

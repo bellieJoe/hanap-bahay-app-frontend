@@ -55,12 +55,16 @@ export class ConversationPage{
     let date = new Date()
     let dateToday = this.datePipe.transform(date,"yyyy/MM/dd HH:mm:ss")
     let time = this.datePipe.transform(date,"HH:mm:ss")
-
-    if(this.ConversationDetails == undefined){
+    console.log(this.ConversationDetails);
+    
+    if(!this.ConversationDetails || this.ConversationDetails == undefined){
+      console.log(this.conTempDetails);
       if(this.conTempDetails.type == "tenant to rrp"){
         this.dbapi.newConvo(this.conTempDetails.uid, null, "tenant to rrp", this.conTempDetails.rrpid).subscribe(()=>{
           this.dbapi.checkConvExist(this.conTempDetails.uid, null, "tenant to rrp", this.conTempDetails.rrpid).subscribe(result=>{
             this.ConversationDetails = result
+            console.log(result);
+            
 
             this.send()
           })
@@ -69,7 +73,7 @@ export class ConversationPage{
         this.dbapi.newConvo(this.conTempDetails.uid, this.conTempDetails.uid_B, "user to user", null).subscribe(()=>{
           this.dbapi.checkConvExist(this.conTempDetails.uid, this.conTempDetails.uid_B, "user to user", null).subscribe(result=>{
             this.ConversationDetails = result
-
+            console.log(result);
             this.send()
           })
         })
@@ -85,18 +89,22 @@ export class ConversationPage{
           if(this.User_ID == this.ConversationDetails.Receiver_A){
             // this is atenant messaging the house
             this.dbapi.addMessage(Convo_ID,this.ConversationDetails.Receiver_A,this.message,dateToday,conview.scrollHeight).subscribe(()=>{
+              console.log(Convo_ID,this.ConversationDetails.Receiver_A,this.message,dateToday,conview.scrollHeight);
+              
               this.fetchMessages()  
               this.message = null
             })
           }else{
             // this is a house messaging a tenant
             this.dbapi.addMessage(Convo_ID,this.ConversationDetails.RRP_ID,this.message,dateToday,conview.scrollHeight).subscribe(()=>{
+              console.log(Convo_ID,this.ConversationDetails.Receiver_A,this.message,dateToday,conview.scrollHeight);
               this.fetchMessages()  
               this.message = null
             })
           }
         }else{
           this.dbapi.addMessage(Convo_ID,this.User_ID,this.message,dateToday,conview.scrollHeight).subscribe(()=>{
+            console.log(Convo_ID,this.ConversationDetails.Receiver_A,this.message,dateToday,conview.scrollHeight);
             this.fetchMessages()  
             this.message = null
           })
@@ -108,18 +116,17 @@ export class ConversationPage{
       }
     }
     
-    
-    
+  
   }
 
   fetchMessages(){
     setInterval(()=>{
       // console.log(this.router.url)
       if(this.router.url == "/message/conversation"){
-        this.dbapi.fetchMessages(this.ConversationDetails.Conversation_ID).subscribe((messages)=>{
+        this.dbapi.fetchMessages(this.ConversationDetails.Conversation_ID).subscribe((messages:any)=>{
           this.messages = messages
           this.messages.map((val,i)=>{
-            // console.log(val)
+            console.log(val)
             if(this.messages[i].Is_Read == 0 && this.messages[i].From_ID != this.viewer_id){
               this.dbapi.setMessageRead(this.messages[i].Message_ID).subscribe()
             }
@@ -204,9 +211,10 @@ export class ConversationPage{
           }else{
             // code here if not from convo list
             if(conv.type == "tenant to rrp"){
-              this.dbapi.checkConvExist(conv.uid, null, "tenant to rrp", conv.rrpid).subscribe(result=>{
-                if(result){
-                  this.ConversationDetails = result
+              this.dbapi.checkConvExist(conv.uid, null, "tenant to rrp", conv.rrpid).subscribe((result:any)=>{
+                if(result && result.length > 0){
+                  this.ConversationDetails = result[0]
+                  console.log(result)
                   this.fetchMessages()
                   if(this.User_ID == this.ConversationDetails.Receiver_A){
                     this.viewer_id = this.User_ID
@@ -240,10 +248,10 @@ export class ConversationPage{
               })
             }else if(conv.type == "user to user"){
              
-              this.dbapi.checkConvExist(conv.uid, conv.uid_B, "user to user", null).subscribe(result=>{
+              this.dbapi.checkConvExist(conv.uid, conv.uid_B, "user to user", null).subscribe((result:any)=>{
                 console.log(result)
-                if(result){
-                  this.ConversationDetails = result
+                if(result && result.length > 0){
+                  this.ConversationDetails = result[0]
                   this.fetchMessages()
                   this.viewer_id = this.User_ID
                   if(this.User_ID == this.ConversationDetails.Receiver_A){

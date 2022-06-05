@@ -27,8 +27,8 @@ export class DbapiService  {
   }
 
   // new laravel server
-  SERVER = "https://hanapbahay.online"
-  SERVER_NAME = "https://hanapbahay.online"
+  SERVER = "http://localhost:8000"
+  SERVER_NAME = "http://localhost:8000"
   CSRF_TOKEN : any = null
 
   axiosConfig = {
@@ -289,10 +289,12 @@ export class DbapiService  {
   }
 
   /* return null : done laravel */
-  updateUserProfile(profile : UserProfile, uniq : number): Observable<any>{
+  updateUserProfile(profile , uniq : number): Observable<any>{
+   
     return new Observable(observer=>{
       this.authSanctum()
       .subscribe(()=>{
+        profile.uniq = uniq
         axios.post(
           `${this.SERVER_NAME}/profiles/${profile.User_ID}/update`,
           profile,

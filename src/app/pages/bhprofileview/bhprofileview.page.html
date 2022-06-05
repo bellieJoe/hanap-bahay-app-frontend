@@ -1,9 +1,9 @@
 <ion-header >
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{RH_Details.RRP_Name}}</ion-title>
+    <ion-title color="light">{{RH_Details.RRP_Name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -33,10 +33,10 @@
       <ion-label>{{RH_Details.RRP_Name}}</ion-label>
     </ion-item>
    
-    <ion-item >
+    <!-- <ion-item >
       <ion-icon slot="start" [name]="RH_Details.Icon"></ion-icon>
       <ion-label>{{RH_Details.RRP_Type | titlecase}}</ion-label>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item (click)="visitProfile(RH_Details.Owner_ID)" style="cursor: pointer;">
       <ion-icon slot="start" name="person-circle"></ion-icon>
@@ -64,15 +64,15 @@
       <ion-label>{{RH_Details.RRP_Address | titlecase}}</ion-label>
     </ion-item>
     
-    <ion-item >
+    <!-- <ion-item >
       <ion-icon slot="start" name="bed"></ion-icon>
       <ion-label>Available spaces: {{RH_Availability}} </ion-label>
-    </ion-item>
+    </ion-item> -->
 
-    <ion-item >
+    <!-- <ion-item >
       <ion-icon slot="start" name="card"></ion-icon>
       <ion-label>Php {{RH_Details.RRP_Rent_Rate}} per month</ion-label>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item (click)="showDes()" lines="{{showicon == 'chevron-up' ? 'none' : ''}}">
       <ion-icon slot="start" name="information"></ion-icon>

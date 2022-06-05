@@ -45,11 +45,12 @@ export class ResviewPage {
             
             this.dbapi.getReservationDetails_reid(data.reid).subscribe(redets=>{
               console.log(redets)
+
               if(uid == redets.User_ID){
                 if(redets.Confirmation_Note == "undefined"){
                   redets.Confirmation_Note = ""
                 }else{
-                  redets.Confirmation_Note = redets.Confirmation_Note.trim()
+                  redets.Confirmation_Note = redets.Confirmation_Note ? redets.Confirmation_Note.trim() : null
                 }
                 this.Reservation_det = redets
                 this.dbapi.getRHDetails_rrpid(redets.RRP_ID).subscribe((res)=>{

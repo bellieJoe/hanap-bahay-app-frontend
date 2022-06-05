@@ -82,7 +82,6 @@ export class InvoicesPage implements OnInit {
       this.loading = true
 
       this.RRP_Name = await this.storage.get("RRP_Name")
-
       await this.Filter_Invoice_Form.submit()
 
       this.loading = false
